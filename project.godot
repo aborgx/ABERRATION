@@ -1,0 +1,29 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but it can also be edited via code.
+
+[application]
+
+config/name="ABERRATION"
+config/description="Run & Gun Splatter/Horror Arcade — Action Horror Game"
+config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="res://scenes/test/test_level.tscn"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/mode=0
+
+[layer_names]
+
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Environment"
+3d_physics/layer_3="Enemies"
+3d_physics/layer_4="EnemyProjectiles"
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
+textures/default_filters/anisotropic_filtering_level=4
+anti_aliasing/quality/msaa_3d=2

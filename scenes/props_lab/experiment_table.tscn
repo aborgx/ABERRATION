@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid://experiment_table]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="TableTopMesh"]
+size = Vector3(2, 0.06, 1)
+
+[sub_resource type="BoxMesh" id="LegMesh"]
+size = Vector3(0.06, 0.8, 0.06)
+
+[sub_resource type="BoxMesh" id="InstrumentMesh"]
+size = Vector3(0.25, 0.15, 0.2)
+
+[sub_resource type="CylinderMesh" id="CableMesh"]
+height = 0.5
+radius = 0.015
+
+[sub_resource type="StandardMaterial3D" id="TableTopMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.2
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="LegMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="InstrumentMat"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.1
+metallic = 0.0
+
+[sub_resource type="StandardMaterial3D" id="ScreenMat"]
+albedo_color = Color(0.1, 0.5, 0.8)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.1, 0.4, 0.7)
+emission_energy = 0.4
+
+[sub_resource type="StandardMaterial3D" id="CableMat"]
+albedo_color = Color(0.2, 0.2, 0.3)
+roughness = 0.5
+metallic = 0.3
+
+[node name="ExperimentTable" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExperimentTable"]
+shape = BoxShape3D {
+	size: Vector3(2, 0.86, 1)
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43, 0)
+
+[node name="TableTop" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("TableTopMesh")
+material_override = SubResource("TableTopMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
+
+[node name="LegFL" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("LegMesh")
+material_override = SubResource("LegMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.4, -0.4)
+
+[node name="LegFR" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("LegMesh")
+material_override = SubResource("LegMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.4, -0.4)
+
+[node name="LegBL" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("LegMesh")
+material_override = SubResource("LegMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.4, 0.4)
+
+[node name="LegBR" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("LegMesh")
+material_override = SubResource("LegMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.4, 0.4)
+
+[node name="Instrument1" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("InstrumentMesh")
+material_override = SubResource("InstrumentMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.95, -0.2)
+
+[node name="Instrument2" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("InstrumentMesh")
+material_override = SubResource("InstrumentMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.95, 0.1)
+
+[node name="Screen" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = BoxMesh { size: Vector3(0.15, 0.12, 0.02) }
+material_override = SubResource("ScreenMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.05, 0.1)
+
+[node name="Cable1" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("CableMesh")
+material_override = SubResource("CableMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0.2, 0, 0, 1, -0.3, 0.2, -0.5)
+
+[node name="Cable2" type="MeshInstance3D" parent="ExperimentTable"]
+mesh = SubResource("CableMesh")
+material_override = SubResource("CableMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0.2, 0, 0, 1, 0.3, 0.15, 0.5)

@@ -1,0 +1,16 @@
+AutoRemesher Report
+===================
+
+Input file: Mesh/zombie+character+3d+model.glb
+Output file: pipeline/clean/chr_player_lowpoly.obj
+Target quads: 22000
+Edge scaling: 1
+Sharp edge degrees: 90
+Smooth normal degrees: 0
+Adaptivity: 1
+
+Results:
+  Quads: 0
+  Non-quads: 0
+  Vertices: 0
+  Total time: 0.004 seconds

@@ -1,0 +1,17 @@
+# Godot
+.godot/
+*.import
+
+# Blender
+*.blend1
+*.blend2
+
+# Pipeline tools (large binaries, keep out of git)
+pipeline/tools/
+
+# API keys
+pipeline/.env
+
+# OS
+.DS_Store
+Thumbs.db

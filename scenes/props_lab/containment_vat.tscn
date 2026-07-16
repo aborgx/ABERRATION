@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid://containment_vat]
+
+[ext_resource type="Script" path="res://Bible/scripts/level/destructible_prop.gd" id="1_1"]
+
+[sub_resource type="CylinderMesh" id="VatOuterMesh"]
+height = 2.5
+radius = 0.8
+
+[sub_resource type="CylinderMesh" id="LiquidMesh"]
+height = 1.8
+radius = 0.7
+
+[sub_resource type="CylinderMesh" id="VatRimMesh"]
+height = 0.08
+radius = 0.85
+
+[sub_resource type="StandardMaterial3D" id="VatOuterMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.2
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="LiquidMat"]
+albedo_color = Color(0.0, 0.6, 0.3)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.0, 0.5, 0.2)
+emission_energy = 0.6
+transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+
+[sub_resource type="StandardMaterial3D" id="VatGlassMat"]
+albedo_color = Color(0.533, 0.533, 1.0, 0.15)
+roughness = 0.05
+metallic = 0.0
+transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+
+[sub_resource type="StandardMaterial3D" id="RimMat"]
+albedo_color = Color(0.165, 0.541, 0.541)
+roughness = 0.3
+metallic = 0.6
+
+[node name="ContainmentVat" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ContainmentVat"]
+shape = CylinderShape3D {
+	height: 2.5,
+	radius: 0.8
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="OuterGlass" type="MeshInstance3D" parent="ContainmentVat"]
+mesh = SubResource("VatOuterMesh")
+material_override = SubResource("VatGlassMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="Liquid" type="MeshInstance3D" parent="ContainmentVat"]
+mesh = SubResource("LiquidMesh")
+material_override = SubResource("LiquidMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+
+[node name="Rim" type="MeshInstance3D" parent="ContainmentVat"]
+mesh = SubResource("VatRimMesh")
+material_override = SubResource("RimMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="GlowRing" type="MeshInstance3D" parent="ContainmentVat"]
+mesh = CylinderMesh { height: 0.03, radius: 0.75 }
+material_override = StandardMaterial3D { albedo_color: Color(0.0, 0.6, 0.3), roughness: 0.0, metallic: 0.0, emission: Color(0.0, 0.5, 0.2), emission_energy: 0.8, transparency: BaseMaterial3D.TRANSPARENCY_ALPHA }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+
+[node name="LightOmni" type="OmniLight3D" parent="ContainmentVat"]
+light_color = Color(0.0, 0.6, 0.3)
+light_energy = 1.2
+light_indirect_energy = 0.8
+light_specular = 0.3
+light_shadow_enabled = true
+light_shadow_max_distance = 10.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid://lab_floor_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="FloorMesh"]
+size = Vector3(4, 0.1, 4)
+
+[sub_resource type="StandardMaterial3D" id="FloorMat"]
+albedo_color = Color(0.91, 0.91, 0.91)
+roughness = 0.3
+metallic = 0.4
+
+[node name="LabFloorModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LabFloorModule"]
+shape = BoxShape3D {
+	size: Vector3(4, 0.1, 4)
+}
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LabFloorModule"]
+mesh = SubResource("FloorMesh")
+material_override = SubResource("FloorMat")

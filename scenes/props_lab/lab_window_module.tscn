@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid://lab_window_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="WindowFrameMesh"]
+size = Vector3(2.2, 2.2, 0.3)
+
+[sub_resource type="BoxMesh" id="GlassMesh"]
+size = Vector3(2, 2, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="FrameMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.4
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="GlassMat"]
+albedo_color = Color(0.533, 0.533, 1.0, 0.25)
+roughness = 0.05
+metallic = 0.0
+transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+
+[node name="LabWindowModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LabWindowModule"]
+shape = BoxShape3D {
+	size: Vector3(2.2, 2.2, 0.3)
+}
+
+[node name="Frame" type="MeshInstance3D" parent="LabWindowModule"]
+mesh = SubResource("WindowFrameMesh")
+material_override = SubResource("FrameMat")
+
+[node name="Glass" type="MeshInstance3D" parent="LabWindowModule"]
+mesh = SubResource("GlassMesh")
+material_override = SubResource("GlassMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15)
+
+[node name="CrossBarH" type="MeshInstance3D" parent="LabWindowModule"]
+mesh = BoxMesh { size: Vector3(2.05, 0.04, 0.04) }
+material_override = SubResource("FrameMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15)
+
+[node name="CrossBarV" type="MeshInstance3D" parent="LabWindowModule"]
+mesh = BoxMesh { size: Vector3(0.04, 2.05, 0.04) }
+material_override = SubResource("FrameMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15)

@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid://lab_door_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="DoorFrameMesh"]
+size = Vector3(2.2, 3.2, 0.3)
+
+[sub_resource type="BoxMesh" id="OuterDoorMesh"]
+size = Vector3(2, 3, 0.08)
+
+[sub_resource type="BoxMesh" id="InnerDoorMesh"]
+size = Vector3(1.9, 2.9, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="FrameMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.4
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="OuterDoorMat"]
+albedo_color = Color(0.91, 0.91, 0.91)
+roughness = 0.6
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="InnerDoorMat"]
+albedo_color = Color(0.165, 0.541, 0.541)
+roughness = 0.5
+metallic = 0.3
+
+[node name="LabDoorModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LabDoorModule"]
+shape = BoxShape3D {
+	size: Vector3(2.2, 3.2, 0.3)
+}
+
+[node name="Frame" type="MeshInstance3D" parent="LabDoorModule"]
+mesh = SubResource("DoorFrameMesh")
+material_override = SubResource("FrameMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="OuterDoor" type="MeshInstance3D" parent="LabDoorModule"]
+mesh = SubResource("OuterDoorMesh")
+material_override = SubResource("OuterDoorMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15)
+
+[node name="InnerDoor" type="MeshInstance3D" parent="LabDoorModule"]
+mesh = SubResource("InnerDoorMesh")
+material_override = SubResource("InnerDoorMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.18)
+
+[node name="SealStrip" type="MeshInstance3D" parent="LabDoorModule"]
+mesh = BoxMesh { size: Vector3(2.3, 3.3, 0.02) }
+material_override = StandardMaterial3D { albedo_color: Color(0.533, 0.533, 1.0, 0.15), roughness: 0.1, metallic: 0.0, transparency: BaseMaterial3D.TRANSPARENCY_ALPHA }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01)
