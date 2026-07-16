@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid://chair_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="SeatMesh"]
+size = Vector3(0.45, 0.05, 0.45)
+
+[sub_resource type="BoxMesh" id="BackMesh"]
+size = Vector3(0.45, 0.5, 0.05)
+
+[sub_resource type="BoxMesh" id="LegMesh"]
+size = Vector3(0.04, 0.45, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="ChairMaterial"]
+albedo_color = Color(0.25, 0.22, 0.2)
+roughness = 0.7
+metallic = 0.1
+
+[node name="ChairProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Seat" type="MeshInstance3D" parent="ChairProp"]
+mesh = BoxMesh { size: Vector3(0.45, 0.05, 0.45) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.22, 0.2), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+
+[node name="Back" type="MeshInstance3D" parent="ChairProp"]
+mesh = BoxMesh { size: Vector3(0.45, 0.5, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.22, 0.2), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.2)
+
+[node name="Leg1" type="MeshInstance3D" parent="ChairProp"]
+mesh = BoxMesh { size: Vector3(0.04, 0.45, 0.04) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.22, 0.2), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.225, -0.2)
+
+[node name="Leg2" type="MeshInstance3D" parent="ChairProp"]
+mesh = BoxMesh { size: Vector3(0.04, 0.45, 0.04) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.22, 0.2), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.225, -0.2)
+
+[node name="Leg3" type="MeshInstance3D" parent="ChairProp"]
+mesh = BoxMesh { size: Vector3(0.04, 0.45, 0.04) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.22, 0.2), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.225, 0.2)
+
+[node name="Leg4" type="MeshInstance3D" parent="ChairProp"]
+mesh = BoxMesh { size: Vector3(0.04, 0.45, 0.04) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.22, 0.2), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.225, 0.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ChairProp"]
+shape = BoxShape3D { size: Vector3(0.45, 0.5, 0.45) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225, 0)

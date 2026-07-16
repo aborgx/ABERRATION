@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid://tank_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[ext_resource type="Script" path="res://scripts/level/destructible_prop.gd" id="1_2"]
+
+[sub_resource type="CylinderMesh" id="TankMesh"]
+height = 1.5
+radius = 0.5
+
+[sub_resource type="StandardMaterial3D" id="TankMaterial"]
+albedo_color = Color(0.3, 0.3, 0.32)
+roughness = 0.3
+metallic = 0.8
+
+[node name="TankProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TankProp"]
+mesh = CylinderMesh { height: 1.5, radius: 0.5 }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TankProp"]
+shape = CylinderShape3D { height: 1.5, radius: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)

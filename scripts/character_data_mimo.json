@@ -1,0 +1,83 @@
+{
+  "sprite_metadata": {
+    "dimensions": {"width": 256, "height": 512},
+    "grid_cells": {"cols": 1, "rows": 1},
+    "cell_size": {"width": 256, "height": 512}
+  },
+  "color_palette": {
+    "skin": {"base": "#c0b8b0", "shadow": "#908880", "highlight": "#d8d0c8"},
+    "eyes": {"glow": "#ffff00", "pupil": "#000000"},
+    "mouth": {"teeth": "#f0e8d8", "blood": "#8b0000"},
+    "claws": {"tip": "#5a1a1a", "base": "#3a2a2a"},
+    "clothing": {"jacket": "#5a7a9a", "shirt": "#e0e0e0", "pants": "#9a9a8a", "boots": "#6a5a4a"},
+    "blood": {"fresh": "#8b0000", "dried": "#5a0000"},
+    "outline": "#2a2a2a"
+  },
+  "proportions": {
+    "total_height_cells": 1.0,
+    "head_height_cells": 0.2,
+    "torso_height_cells": 0.3,
+    "leg_height_cells": 0.4,
+    "arm_length_cells": 0.3,
+    "claw_length_cells": 0.1,
+    "head_to_body_ratio": 0.25
+  },
+  "joint_positions_normalized": {
+    "head_center": {"x": 0.5, "y": 0.15},
+    "left_shoulder": {"x": 0.35, "y": 0.25},
+    "right_shoulder": {"x": 0.65, "y": 0.25},
+    "left_elbow": {"x": 0.25, "y": 0.35},
+    "right_elbow": {"x": 0.75, "y": 0.35},
+    "left_wrist": {"x": 0.2, "y": 0.3},
+    "right_wrist": {"x": 0.8, "y": 0.3},
+    "left_claw_tip": {"x": 0.15, "y": 0.25},
+    "right_claw_tip": {"x": 0.85, "y": 0.25},
+    "left_hip": {"x": 0.4, "y": 0.5},
+    "right_hip": {"x": 0.6, "y": 0.5},
+    "left_knee": {"x": 0.35, "y": 0.7},
+    "right_knee": {"x": 0.65, "y": 0.7},
+    "left_ankle": {"x": 0.3, "y": 0.85},
+    "right_ankle": {"x": 0.7, "y": 0.85}
+  },
+  "animation_states": {
+    "idle": {"frames": 1, "fps": 8},
+    "walk": {"frames": 0, "fps": 0},
+    "run": {"frames": 0, "fps": 0},
+    "attack_melee": {"frames": 0, "fps": 0},
+    "grab": {"frames": 0, "fps": 0},
+    "dash": {"frames": 0, "fps": 0},
+    "jump": {"frames": 0, "fps": 0},
+    "hurt": {"frames": 0, "fps": 0},
+    "death": {"frames": 0, "fps": 0}
+  },
+  "hitboxes_hurtboxes": {
+    "idle": [{"name": "body", "x": 0.2, "y": 0.1, "w": 0.6, "h": 0.8}],
+    "attack": [{"name": "claw", "x": 0.1, "y": 0.2, "w": 0.2, "h": 0.2}]
+  },
+  "vfx_attachment_points": {
+    "blood_trail": {"x": 0.5, "y": 0.3},
+    "claw_slash": {"x": 0.2, "y": 0.3},
+    "bite": {"x": 0.5, "y": 0.3},
+    "scream": {"x": 0.5, "y": 0.1}
+  },
+  "shader_parameters": {
+    "skin_subsurface": 0.3,
+    "eye_glow_intensity": 0.8,
+    "blood_fresnel": 0.2,
+    "claw_rim_light": 0.5
+  },
+  "rigging_hints": {
+    "bone_hierarchy": ["root", "spine", "neck", "head", "left_shoulder", "left_arm", "left_hand", "left_claw", "right_shoulder", "right_arm", "right_hand", "right_claw", "left_hip", "left_leg", "left_foot", "right_hip", "right_leg", "right_foot"],
+    "ik_targets": ["left_hand", "right_hand", "left_foot", "right_foot"]
+  },
+  "gameplay_params": {
+    "height_m": 1.8,
+    "mass_kg": 70,
+    "walk_speed": 1.0,
+    "run_speed": 2.0,
+    "dash_speed": 3.0,
+    "jump_height": 0.5,
+    "melee_range": 0.8,
+    "grab_range": 1.0
+  }
+}

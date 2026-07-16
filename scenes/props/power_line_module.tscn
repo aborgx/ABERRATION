@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid://power_line_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="CylinderMesh" id="PoleMesh"]
+height = 8.0
+radius = 0.1
+
+[sub_resource type="BoxMesh" id="CrossArmMesh"]
+size = Vector3(2.0, 0.1, 0.1)
+
+[sub_resource type="CylinderMesh" id="WireMesh"]
+height = 10.0
+radius = 0.02
+
+[sub_resource type="StandardMaterial3D" id="PoleMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="CrossArmMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="WireMaterial"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.2
+metallic = 0.8
+
+[node name="PowerLineModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Pole1" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = CylinderMesh { height: 8.0, radius: 0.1 }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0, 4.0, 0)
+
+[node name="Pole2" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = CylinderMesh { height: 8.0, radius: 0.1 }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0, 4.0, 0)
+
+[node name="CrossArm1" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = BoxMesh { size: Vector3(2.0, 0.1, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 0)
+
+[node name="CrossArm2" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = BoxMesh { size: Vector3(2.0, 0.1, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+
+[node name="Wire1" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = CylinderMesh { height: 10.0, radius: 0.02 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.0, -5.0)
+
+[node name="Wire2" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = CylinderMesh { height: 10.0, radius: 0.02 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, -5.0)
+
+[node name="Wire3" type="MeshInstance3D" parent="PowerLineModule"]
+mesh = CylinderMesh { height: 10.0, radius: 0.02 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.0, -5.0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PowerLineModule"]
+shape = CylinderShape3D { height: 8.0, radius: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0, 4.0, 0)

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid://sign_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="SignPostMesh"]
+size = Vector3(0.1, 2.5, 0.1)
+
+[sub_resource type="BoxMesh" id="SignFaceMesh"]
+size = Vector3(0.8, 0.6, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="PostMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="SignFaceMaterial"]
+albedo_color = Color(0.1, 0.1, 0.12)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.8, 0.8, 0.8)
+emission_energy = 0.3
+
+[node name="SignModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Post" type="MeshInstance3D" parent="SignModule"]
+mesh = BoxMesh { size: Vector3(0.1, 2.5, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="Face" type="MeshInstance3D" parent="SignModule"]
+mesh = BoxMesh { size: Vector3(0.8, 0.6, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.1, 0.1, 0.12), roughness: 0.1, metallic: 0.0, emission: Color(0.8, 0.8, 0.8), emission_energy: 0.3 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SignModule"]
+shape = BoxShape3D { size: Vector3(0.8, 2.5, 0.1) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)

@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid://sewer_grate_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="GrateFrameMesh"]
+size = Vector3(0.6, 0.05, 0.6)
+
+[sub_resource type="BoxMesh" id="GrateBarMesh"]
+size = Vector3(0.5, 0.03, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="GrateMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[node name="SewerGrateModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Frame" type="MeshInstance3D" parent="SewerGrateModule"]
+mesh = BoxMesh { size: Vector3(0.6, 0.05, 0.6) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+
+[node name="Bar1" type="MeshInstance3D" parent="SewerGrateModule"]
+mesh = BoxMesh { size: Vector3(0.5, 0.03, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -0.2)
+
+[node name="Bar2" type="MeshInstance3D" parent="SewerGrateModule"]
+mesh = BoxMesh { size: Vector3(0.5, 0.03, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -0.1)
+
+[node name="Bar3" type="MeshInstance3D" parent="SewerGrateModule"]
+mesh = BoxMesh { size: Vector3(0.5, 0.03, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0.1)
+
+[node name="Bar4" type="MeshInstance3D" parent="SewerGrateModule"]
+mesh = BoxMesh { size: Vector3(0.5, 0.03, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SewerGrateModule"]
+shape = BoxShape3D { size: Vector3(0.6, 0.05, 0.6) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)

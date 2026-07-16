@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid://locker_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="LockerMesh"]
+size = Vector3(0.4, 1.8, 0.5)
+
+[sub_resource type="BoxMesh" id="DoorMesh"]
+size = Vector3(0.38, 0.85, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="LockerMaterial"]
+albedo_color = Color(0.3, 0.28, 0.25)
+roughness = 0.6
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="DoorMaterial"]
+albedo_color = Color(0.28, 0.26, 0.23)
+roughness = 0.5
+metallic = 0.3
+
+[node name="LockerProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Body" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.4, 1.8, 0.5) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.28, 0.25), roughness: 0.6, metallic: 0.2 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="DoorTop" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.38, 0.85, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.28, 0.26, 0.23), roughness: 0.5, metallic: 0.3 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0.265)
+
+[node name="DoorBottom" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.38, 0.85, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.28, 0.26, 0.23), roughness: 0.5, metallic: 0.3 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0.265)
+
+[node name="HandleTop" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.1, 0.03, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.5, 0.5, 0.5), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 1.35, 0.265)
+
+[node name="HandleBottom" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.1, 0.03, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.5, 0.5, 0.5), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.45, 0.265)
+
+[node name="Vent1" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.2, 0.02, 0.2) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.8, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0.25)
+
+[node name="Vent2" type="MeshInstance3D" parent="LockerProp"]
+mesh = BoxMesh { size: Vector3(0.2, 0.02, 0.2) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.8, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LockerProp"]
+shape = BoxShape3D { size: Vector3(0.4, 1.8, 0.5) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

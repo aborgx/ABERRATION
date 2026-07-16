@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid://vending_machine_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="MachineMesh"]
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxMesh" id="ButtonMesh"]
+size = Vector3(0.05, 0.05, 0.03)
+
+[sub_resource type="StandardMaterial3D" id="MachineMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="ButtonMaterial"]
+albedo_color = Color(0.8, 0.2, 0.2)
+roughness = 0.2
+metallic = 0.8
+emission = Color(1.0, 0.2, 0.2)
+emission_energy = 0.5
+
+[sub_resource type="StandardMaterial3D" id="DisplayMaterial"]
+albedo_color = Color(0.05, 0.05, 0.1)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.3, 0.5, 0.8)
+emission_energy = 0.5
+
+[node name="VendingMachineProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Body" type="MeshInstance3D" parent="VendingMachineProp"]
+mesh = BoxMesh { size: Vector3(0.8, 1.8, 0.6) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.6 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Display" type="MeshInstance3D" parent="VendingMachineProp"]
+mesh = BoxMesh { size: Vector3(0.6, 0.8, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.05, 0.05, 0.1), roughness: 0.1, metallic: 0.0, emission: Color(0.2, 0.5, 0.8), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.325)
+
+[node name="Button1" type="MeshInstance3D" parent="VendingMachineProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.05, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.8, 0.2, 0.2), roughness: 0.2, metallic: 0.8, emission: Color(1.0, 0.2, 0.2), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.6, 0.325)
+
+[node name="Button2" type="MeshInstance3D" parent="VendingMachineProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.05, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.8, 0.2, 0.2), roughness: 0.2, metallic: 0.8, emission: Color(1.0, 0.2, 0.2), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.4, 0.325)
+
+[node name="Button3" type="MeshInstance3D" parent="VendingMachineProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.05, 0.03) }
+material_override = StandardMaterial3D { albedo_color: Color(0.8, 0.2, 0.2), roughness: 0.2, metallic: 0.8, emission: Color(1.0, 0.2, 0.2), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.2, 0.325)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VendingMachineProp"]
+shape = BoxShape3D { size: Vector3(0.8, 1.8, 0.6) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

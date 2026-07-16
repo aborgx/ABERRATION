@@ -1,0 +1,251 @@
+{
+  "sprite_metadata": {
+    "dimensions": {
+      "width": 1920,
+      "height": 1080
+    },
+    "grid_cells": {
+      "cols": 1,
+      "rows": 1
+    },
+    "cell_size": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "color_palette": {
+    "skin": {
+      "base": "#828385",
+      "shadow": "#434446",
+      "highlight": "#b9babe"
+    },
+    "eyes": {
+      "glow": "#fbf2a2",
+      "pupil": "#161617"
+    },
+    "mouth": {
+      "teeth": "#e5e0d8",
+      "blood": "#990b0d"
+    },
+    "claws": {
+      "tip": "#b21217",
+      "base": "#2b2223"
+    },
+    "clothing": {
+      "jacket": "#445d7c",
+      "shirt": "#cec9c4",
+      "pants": "#6c6e71",
+      "boots": "#6a5240"
+    },
+    "blood": {
+      "fresh": "#be151b",
+      "dried": "#5c0609"
+    },
+    "outline": "#111111"
+  },
+  "proportions": {
+    "total_height_cells": 100,
+    "head_height_cells": 22,
+    "torso_height_cells": 30,
+    "leg_height_cells": 40,
+    "arm_length_cells": 35,
+    "claw_length_cells": 12,
+    "head_to_body_ratio": 0.28
+  },
+  "joint_positions_normalized": {
+    "head_center": {
+      "x": 0.51,
+      "y": 0.18
+    },
+    "left_shoulder": {
+      "x": 0.57,
+      "y": 0.29
+    },
+    "right_shoulder": {
+      "x": 0.45,
+      "y": 0.29
+    },
+    "left_elbow": {
+      "x": 0.61,
+      "y": 0.38
+    },
+    "right_elbow": {
+      "x": 0.41,
+      "y": 0.38
+    },
+    "left_wrist": {
+      "x": 0.64,
+      "y": 0.32
+    },
+    "right_wrist": {
+      "x": 0.38,
+      "y": 0.32
+    },
+    "left_claw_tip": {
+      "x": 0.66,
+      "y": 0.21
+    },
+    "right_claw_tip": {
+      "x": 0.34,
+      "y": 0.21
+    },
+    "left_hip": {
+      "x": 0.53,
+      "y": 0.56
+    },
+    "right_hip": {
+      "x": 0.48,
+      "y": 0.56
+    },
+    "left_knee": {
+      "x": 0.56,
+      "y": 0.68
+    },
+    "right_knee": {
+      "x": 0.44,
+      "y": 0.68
+    },
+    "left_ankle": {
+      "x": 0.56,
+      "y": 0.81
+    },
+    "right_ankle": {
+      "x": 0.43,
+      "y": 0.81
+    }
+  },
+  "animation_states": {
+    "idle": {
+      "frames": 0,
+      "fps": 0
+    },
+    "walk": {
+      "frames": 0,
+      "fps": 0
+    },
+    "run": {
+      "frames": 0,
+      "fps": 0
+    },
+    "attack_melee": {
+      "frames": 0,
+      "fps": 0
+    },
+    "grab": {
+      "frames": 0,
+      "fps": 0
+    },
+    "dash": {
+      "frames": 0,
+      "fps": 0
+    },
+    "jump": {
+      "frames": 0,
+      "fps": 0
+    },
+    "hurt": {
+      "frames": 0,
+      "fps": 0
+    },
+    "death": {
+      "frames": 0,
+      "fps": 0
+    }
+  },
+  "hitboxes_hurtboxes": {
+    "idle": [
+      {
+        "name": "body",
+        "x": 0.42,
+        "y": 0.28,
+        "w": 0.18,
+        "h": 0.55
+      },
+      {
+        "name": "head",
+        "x": 0.46,
+        "y": 0.05,
+        "w": 0.1,
+        "h": 0.23
+      }
+    ],
+    "attack": [
+      {
+        "name": "claw_left",
+        "x": 0.61,
+        "y": 0.19,
+        "w": 0.08,
+        "h": 0.22
+      },
+      {
+        "name": "claw_right",
+        "x": 0.31,
+        "y": 0.19,
+        "w": 0.08,
+        "h": 0.22
+      }
+    ]
+  },
+  "vfx_attachment_points": {
+    "blood_trail": {
+      "x": 0.51,
+      "y": 0.35
+    },
+    "claw_slash": {
+      "x": 0.66,
+      "y": 0.21
+    },
+    "bite": {
+      "x": 0.51,
+      "y": 0.25
+    },
+    "scream": {
+      "x": 0.51,
+      "y": 0.25
+    }
+  },
+  "shader_parameters": {
+    "skin_subsurface": 0.15,
+    "eye_glow_intensity": 1.8,
+    "blood_fresnel": 0.65,
+    "claw_rim_light": 0.4
+  },
+  "rigging_hints": {
+    "bone_hierarchy": [
+      "root",
+      "spine",
+      "neck",
+      "head",
+      "left_shoulder",
+      "left_arm",
+      "left_hand",
+      "left_claw",
+      "right_shoulder",
+      "right_arm",
+      "right_hand",
+      "right_claw",
+      "left_hip",
+      "left_leg",
+      "left_foot",
+      "right_hip",
+      "right_leg",
+      "right_foot"
+    ],
+    "ik_targets": [
+      "left_hand",
+      "right_hand",
+      "left_foot",
+      "right_foot"
+    ]
+  },
+  "gameplay_params": {
+    "height_m": 1.95,
+    "mass_kg": 82.0,
+    "walk_speed": 2.2,
+    "run_speed": 6.2,
+    "dash_speed": 14.0,
+    "jump_height": 1.5,
+    "melee_range": 1.4,
+    "grab_range": 1.2
+  }
+}

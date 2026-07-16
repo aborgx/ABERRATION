@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid://transformer_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="TransformerBodyMesh"]
+size = Vector3(1.0, 1.5, 1.0)
+
+[sub_resource type="CylinderMesh" id="TransformerCoilMesh"]
+height = 1.2
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="TransformerBodyMaterial"]
+albedo_color = Color(0.3, 0.3, 0.32)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="TransformerCoilMaterial"]
+albedo_color = Color(0.5, 0.4, 0.2)
+roughness = 0.2
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="TransformerInsulatorMaterial"]
+albedo_color = Color(0.9, 0.85, 0.8)
+roughness = 0.1
+metallic = 0.0
+
+[node name="TransformerModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Body" type="MeshInstance3D" parent="TransformerModule"]
+mesh = BoxMesh { size: Vector3(1.0, 1.5, 1.0) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="Coil1" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 1.2, radius: 0.25 }
+material_override = StandardMaterial3D { albedo_color: Color(0.5, 0.4, 0.2), roughness: 0.2, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.75, 0.4)
+
+[node name="Coil2" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 1.2, radius: 0.25 }
+material_override = StandardMaterial3D { albedo_color: Color(0.5, 0.4, 0.2), roughness: 0.2, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.75, 0.4)
+
+[node name="Coil3" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 1.2, radius: 0.25 }
+material_override = StandardMaterial3D { albedo_color: Color(0.5, 0.4, 0.2), roughness: 0.2, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.75, -0.4)
+
+[node name="Coil4" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 1.2, radius: 0.25 }
+material_override = StandardMaterial3D { albedo_color: Color(0.5, 0.4, 0.2), roughness: 0.2, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.75, -0.4)
+
+[node name="Insulator1" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 0.2, radius: 0.15 }
+material_override = StandardMaterial3D { albedo_color: Color(0.9, 0.85, 0.8), roughness: 0.1, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.6, 0.4)
+
+[node name="Insulator2" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 0.2, radius: 0.15 }
+material_override = StandardMaterial3D { albedo_color: Color(0.9, 0.85, 0.8), roughness: 0.1, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 1.6, 0.4)
+
+[node name="Insulator3" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 0.2, radius: 0.15 }
+material_override = StandardMaterial3D { albedo_color: Color(0.9, 0.85, 0.8), roughness: 0.1, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 1.6, -0.4)
+
+[node name="Insulator4" type="MeshInstance3D" parent="TransformerModule"]
+mesh = CylinderMesh { height: 0.2, radius: 0.15 }
+material_override = StandardMaterial3D { albedo_color: Color(0.9, 0.85, 0.8), roughness: 0.1, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 1.6, -0.4)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TransformerModule"]
+shape = BoxShape3D { size: Vector3(1.0, 1.5, 1.0) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)

@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3 uid://desk_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="DeskTopMesh"]
+size = Vector3(1.2, 0.05, 0.7)
+
+[sub_resource type="BoxMesh" id="DeskLegMesh"]
+size = Vector3(0.05, 0.7, 0.05)
+
+[sub_resource type="BoxMesh" id="DrawerMesh"]
+size = Vector3(0.35, 0.15, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="DeskMaterial"]
+albedo_color = Color(0.35, 0.3, 0.25)
+roughness = 0.6
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="DrawerMaterial"]
+albedo_color = Color(0.3, 0.25, 0.22)
+roughness = 0.6
+metallic = 0.1
+
+[node name="DeskProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Top" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(1.2, 0.05, 0.7) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.725, 0)
+
+[node name="Leg1" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.35, -0.3)
+
+[node name="Leg2" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.35, -0.3)
+
+[node name="Leg3" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.35, 0.3)
+
+[node name="Leg4" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.35, 0.3)
+
+[node name="Drawer1" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(0.35, 0.15, 0.5) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.25, 0.22), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.2, 0.35)
+
+[node name="Drawer2" type="MeshInstance3D" parent="DeskProp"]
+mesh = BoxMesh { size: Vector3(0.35, 0.15, 0.5) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.25, 0.22), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.4, 0.35)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeskProp"]
+shape = BoxShape3D { size: Vector3(1.2, 0.75, 0.7) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)

@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid://street_light_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="CylinderMesh" id="PoleMesh"]
+height = 6.0
+radius = 0.08
+
+[sub_resource type="BoxMesh" id="ArmMesh"]
+size = Vector3(1.5, 0.05, 0.1)
+
+[sub_resource type="SphereMesh" id="LampShadeMesh"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="PoleMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="ArmMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="LampShadeMaterial"]
+albedo_color = Color(0.95, 0.9, 0.8)
+roughness = 0.2
+metallic = 0.0
+emission = Color(1.0, 0.95, 0.8)
+emission_energy = 0.8
+
+[node name="StreetLightModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Pole" type="MeshInstance3D" parent="StreetLightModule"]
+mesh = CylinderMesh { height: 6.0, radius: 0.08 }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+
+[node name="Arm" type="MeshInstance3D" parent="StreetLightModule"]
+mesh = BoxMesh { size: Vector3(1.5, 0.05, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 5.95, 0)
+
+[node name="Shade" type="MeshInstance3D" parent="StreetLightModule"]
+mesh = SphereMesh { radius: 0.25 }
+material_override = StandardMaterial3D { albedo_color: Color(0.95, 0.9, 0.8), roughness: 0.2, metallic: 0.0, emission: Color(1.0, 0.95, 0.8), emission_energy: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 5.95, 0)
+
+[node name="LightOmni" type="OmniLight3D" parent="StreetLightModule"]
+light_color = Color(1.0, 0.95, 0.8)
+light_energy = 2.0
+light_indirect_energy = 0.5
+light_specular = 0.5
+light_shadow_enabled = true
+light_shadow_max_distance = 15.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 5.95, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StreetLightModule"]
+shape = CylinderShape3D { height: 6.0, radius: 0.08 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)

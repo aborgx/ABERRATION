@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid://gas_pump_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="PumpBodyMesh"]
+size = Vector3(0.5, 1.5, 0.4)
+
+[sub_resource type="BoxMesh" id="DisplayMesh"]
+size = Vector3(0.3, 0.3, 0.05)
+
+[sub_resource type="BoxMesh" id="NozzleMesh"]
+size = Vector3(0.1, 0.5, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="PumpBodyMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="DisplayMaterial"]
+albedo_color = Color(0.05, 0.05, 0.1)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.2, 0.5, 0.8)
+emission_energy = 0.5
+
+[sub_resource type="StandardMaterial3D" id="NozzleMaterial"]
+albedo_color = Color(0.3, 0.3, 0.32)
+roughness = 0.3
+metallic = 0.8
+
+[node name="GasPumpModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Body" type="MeshInstance3D" parent="GasPumpModule"]
+mesh = BoxMesh { size: Vector3(0.5, 1.5, 0.4) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="Display" type="MeshInstance3D" parent="GasPumpModule"]
+mesh = BoxMesh { size: Vector3(0.3, 0.3, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.05, 0.05, 0.1), roughness: 0.1, metallic: 0.0, emission: Color(0.2, 0.5, 0.8), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.225)
+
+[node name="Nozzle" type="MeshInstance3D" parent="GasPumpModule"]
+mesh = BoxMesh { size: Vector3(0.1, 0.5, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.0, 0.2)
+
+[node name="Hose" type="MeshInstance3D" parent="GasPumpModule"]
+mesh = CylinderMesh { height: 1.0, radius: 0.02 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.0, 0.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GasPumpModule"]
+shape = BoxShape3D { size: Vector3(0.5, 1.5, 0.4) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)

@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid://billboard_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="BillboardFrameMesh"]
+size = Vector3(2.0, 1.5, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="BillboardFrameMaterial"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="BillboardFaceMaterial"]
+albedo_color = Color(0.1, 0.1, 0.12)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.8, 0.1, 0.1)
+emission_energy = 0.5
+
+[node name="BillboardModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Frame" type="MeshInstance3D" parent="BillboardModule"]
+mesh = BoxMesh { size: Vector3(2.0, 1.5, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="Face" type="MeshInstance3D" parent="BillboardModule"]
+mesh = BoxMesh { size: Vector3(1.9, 1.4, 0.02) }
+material_override = StandardMaterial3D { albedo_color: Color(0.1, 0.1, 0.12), roughness: 0.1, metallic: 0.0, emission: Color(0.8, 0.1, 0.1), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.05)
+
+[node name="Post1" type="MeshInstance3D" parent="BillboardModule"]
+mesh = BoxMesh { size: Vector3(0.1, 2.5, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0, 1.25, 0)
+
+[node name="Post2" type="MeshInstance3D" parent="BillboardModule"]
+mesh = BoxMesh { size: Vector3(0.1, 2.5, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.25, 0)
+
+[node name="LightOmni" type="OmniLight3D" parent="BillboardModule"]
+light_color = Color(0.8, 0.1, 0.1)
+light_energy = 0.8
+light_indirect_energy = 0.3
+light_specular = 0.3
+light_shadow_enabled = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BillboardModule"]
+shape = BoxShape3D { size: Vector3(2.0, 1.5, 0.1) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)

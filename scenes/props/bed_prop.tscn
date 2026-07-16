@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid://bed_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="BedFrameMesh"]
+size = Vector3(0.9, 0.1, 1.9)
+
+[sub_resource type="BoxMesh" id="MattressMesh"]
+size = Vector3(0.8, 0.15, 1.8)
+
+[sub_resource type="BoxMesh" id="PillowMesh"]
+size = Vector3(0.5, 0.1, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="FrameMaterial"]
+albedo_color = Color(0.25, 0.2, 0.18)
+roughness = 0.7
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="MattressMaterial"]
+albedo_color = Color(0.35, 0.3, 0.28)
+roughness = 0.8
+metallic = 0.0
+
+[sub_resource type="StandardMaterial3D" id="PillowMaterial"]
+albedo_color = Color(0.9, 0.88, 0.85)
+roughness = 0.9
+metallic = 0.0
+
+[node name="BedProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Frame" type="MeshInstance3D" parent="BedProp"]
+mesh = BoxMesh { size: Vector3(0.9, 0.1, 1.9) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.2, 0.18), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Mattress" type="MeshInstance3D" parent="BedProp"]
+mesh = BoxMesh { size: Vector3(0.8, 0.15, 1.8) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.28), roughness: 0.8, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+
+[node name="Pillow1" type="MeshInstance3D" parent="BedProp"]
+mesh = BoxMesh { size: Vector3(0.5, 0.1, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.9, 0.88, 0.85), roughness: 0.9, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.35, -0.8)
+
+[node name="Pillow2" type="MeshInstance3D" parent="BedProp"]
+mesh = BoxMesh { size: Vector3(0.5, 0.1, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.9, 0.88, 0.85), roughness: 0.9, metallic: 0.0 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.35, -0.8)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BedProp"]
+shape = BoxShape3D { size: Vector3(0.9, 0.25, 1.9) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0)

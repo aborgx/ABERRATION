@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid://computer_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="MonitorMesh"]
+size = Vector3(0.5, 0.35, 0.05)
+
+[sub_resource type="BoxMesh" id="MonitorStandMesh"]
+size = Vector3(0.15, 0.15, 0.15)
+
+[sub_resource type="BoxMesh" id="KeyboardMesh"]
+size = Vector3(0.4, 0.03, 0.15)
+
+[sub_resource type="BoxMesh" id="CaseMesh"]
+size = Vector3(0.2, 0.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="ComputerMaterial"]
+albedo_color = Color(0.15, 0.15, 0.18)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="ScreenMaterial"]
+albedo_color = Color(0.05, 0.05, 0.1)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.2, 0.3, 0.5)
+emission_energy = 0.5
+
+[node name="ComputerProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Case" type="MeshInstance3D" parent="ComputerProp"]
+mesh = BoxMesh { size: Vector3(0.2, 0.4, 0.4) }
+material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="Monitor" type="MeshInstance3D" parent="ComputerProp"]
+mesh = BoxMesh { size: Vector3(0.5, 0.35, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0.15)
+
+[node name="Screen" type="MeshInstance3D" parent="ComputerProp"]
+mesh = BoxMesh { size: Vector3(0.48, 0.3, 0.02) }
+material_override = StandardMaterial3D { albedo_color: Color(0.05, 0.05, 0.1), roughness: 0.1, metallic: 0.0, emission: Color(0.2, 0.3, 0.5), emission_energy: 0.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0.165)
+
+[node name="Stand" type="MeshInstance3D" parent="ComputerProp"]
+mesh = BoxMesh { size: Vector3(0.15, 0.15, 0.15) }
+material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.15)
+
+[node name="Keyboard" type="MeshInstance3D" parent="ComputerProp"]
+mesh = BoxMesh { size: Vector3(0.4, 0.03, 0.15) }
+material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0.15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ComputerProp"]
+shape = BoxShape3D { size: Vector3(0.5, 0.4, 0.4) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)

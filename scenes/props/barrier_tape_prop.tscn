@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid://barrier_tape_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="PostMesh"]
+size = Vector3(0.05, 1.0, 0.05)
+
+[sub_resource type="BoxMesh" id="TapeMesh"]
+size = Vector3(2.0, 0.05, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="PostMaterial"]
+albedo_color = Color(0.3, 0.3, 0.32)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="TapeMaterial"]
+albedo_color = Color(1.0, 0.8, 0.0)
+roughness = 0.2
+metallic = 0.0
+emission = Color(1.0, 0.8, 0.0)
+emission_energy = 0.3
+
+[node name="BarrierTapeProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Post1" type="MeshInstance3D" parent="BarrierTapeProp"]
+mesh = BoxMesh { size: Vector3(0.05, 1.0, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Post2" type="MeshInstance3D" parent="BarrierTapeProp"]
+mesh = BoxMesh { size: Vector3(0.05, 1.0, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0, 0.5, 0)
+
+[node name="Tape" type="MeshInstance3D" parent="BarrierTapeProp"]
+mesh = BoxMesh { size: Vector3(2.0, 0.05, 0.01) }
+material_override = StandardMaterial3D { albedo_color: Color(1.0, 0.8, 0.0), roughness: 0.2, metallic: 0.0, emission: Color(1.0, 0.8, 0.0), emission_energy: 0.3 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BarrierTapeProp"]
+shape = BoxShape3D { size: Vector3(2.0, 1.0, 0.1) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 0.5, 0)

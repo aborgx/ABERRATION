@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid://one_way_mirror_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="MirrorFrameMesh"]
+size = Vector3(1.2, 1.0, 0.1)
+
+[sub_resource type="BoxMesh" id="GlassMesh"]
+size = Vector3(1.15, 0.95, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="FrameMaterial"]
+albedo_color = Color(0.15, 0.15, 0.18)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="GlassMaterial"]
+albedo_color = Color(0.3, 0.4, 0.5)
+roughness = 0.05
+metallic = 0.0
+transparency = 0.4
+transparency_mode = 1
+
+[node name="OneWayMirrorProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Frame" type="MeshInstance3D" parent="OneWayMirrorProp"]
+mesh = BoxMesh { size: Vector3(1.2, 1.0, 0.1) }
+material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Glass" type="MeshInstance3D" parent="OneWayMirrorProp"]
+mesh = BoxMesh { size: Vector3(1.15, 0.95, 0.02) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.4, 0.5), roughness: 0.05, metallic: 0.0, transparency: 0.4, transparency_mode: 1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.04)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OneWayMirrorProp"]
+shape = BoxShape3D { size: Vector3(1.2, 1.0, 0.1) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

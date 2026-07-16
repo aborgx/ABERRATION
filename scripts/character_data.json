@@ -1,0 +1,1230 @@
+{
+  "sprite_metadata": {
+    "dimensions": {
+      "width": 1920,
+      "height": 1080
+    },
+    "grid_cells": {
+      "cols": 1,
+      "rows": 1
+    },
+    "cell_size": {
+      "width": 1920,
+      "height": 1080
+    },
+    "background_color": "#1a1814",
+    "has_transparency": false
+  },
+  "color_palette": {
+    "skin": {
+      "base": "#828385",
+      "shadow": "#434446",
+      "highlight": "#b9babe",
+      "subsurface": "#7a5858",
+      "veins": "#3e3e50"
+    },
+    "eyes": {
+      "glow_primary": "#fbf2a2",
+      "glow_secondary": "#d8a820",
+      "pupil": "#161617",
+      "sclera": "#1a1a1a",
+      "eyelid": "#3a3530"
+    },
+    "mouth": {
+      "teeth": "#e5e0d8",
+      "gums": "#8b2020",
+      "tongue": "#7a3030",
+      "blood_fresh": "#be151b",
+      "blood_dried": "#5c0609",
+      "saliva": "#b8b8a8"
+    },
+    "claws": {
+      "tip": "#b21217",
+      "base": "#2b2223",
+      "blood_stain": "#8b1a1a"
+    },
+    "clothing": {
+      "jacket_base": "#445d7c",
+      "jacket_shadow": "#3a4858",
+      "jacket_highlight": "#708090",
+      "shirt_base": "#cec9c4",
+      "shirt_tear": "#707070",
+      "pants_base": "#6c6e71",
+      "boots_base": "#6a5240",
+      "boots_wear": "#9a8060"
+    },
+    "blood_effects": {
+      "fresh": "#be151b",
+      "dried": "#5c0609",
+      "splatter": "#c82020",
+      "trail": "#8b1a1a",
+      "pool": "#6b1515"
+    },
+    "outline": "#111111",
+    "rim_light": "#f0c830"
+  },
+  "proportions": {
+    "total_height_cells": 100,
+    "head_height_cells": 22,
+    "torso_height_cells": 30,
+    "leg_height_cells": 40,
+    "arm_length_cells": 35,
+    "claw_length_cells": 12,
+    "head_to_body_ratio": 0.28,
+    "shoulder_width_cells": 28,
+    "hip_width_cells": 18,
+    "neck_length_cells": 8,
+    "eye_level_from_top": 0.18,
+    "mouth_level_from_top": 0.25,
+    "shoulder_y_from_top": 0.29,
+    "elbow_y_from_top": 0.38,
+    "wrist_y_from_top": 0.32,
+    "hip_y_from_top": 0.56,
+    "knee_y_from_top": 0.68,
+    "ankle_y_from_top": 0.81,
+    "claw_tip_x_offset": 0.15
+  },
+  "joint_positions_normalized": {
+    "head_center": {
+      "x": 0.51,
+      "y": 0.16
+    },
+    "neck": {
+      "x": 0.51,
+      "y": 0.18
+    },
+    "left_shoulder": {
+      "x": 0.46,
+      "y": 0.27
+    },
+    "right_shoulder": {
+      "x": 0.55,
+      "y": 0.27
+    },
+    "left_elbow": {
+      "x": 0.43,
+      "y": 0.36
+    },
+    "right_elbow": {
+      "x": 0.58,
+      "y": 0.36
+    },
+    "left_wrist": {
+      "x": 0.42,
+      "y": 0.31
+    },
+    "right_wrist": {
+      "x": 0.59,
+      "y": 0.31
+    },
+    "left_claw_base": {
+      "x": 0.41,
+      "y": 0.23
+    },
+    "right_claw_base": {
+      "x": 0.59,
+      "y": 0.23
+    },
+    "left_claw_tip": {
+      "x": 0.41,
+      "y": 0.23
+    },
+    "right_claw_tip": {
+      "x": 0.59,
+      "y": 0.23
+    },
+    "left_hip": {
+      "x": 0.47,
+      "y": 0.53
+    },
+    "right_hip": {
+      "x": 0.54,
+      "y": 0.53
+    },
+    "left_knee": {
+      "x": 0.46,
+      "y": 0.69
+    },
+    "right_knee": {
+      "x": 0.55,
+      "y": 0.69
+    },
+    "left_ankle": {
+      "x": 0.43,
+      "y": 0.83
+    },
+    "right_ankle": {
+      "x": 0.56,
+      "y": 0.83
+    },
+    "spine_top": {
+      "x": 0.51,
+      "y": 0.22
+    },
+    "spine_mid": {
+      "x": 0.51,
+      "y": 0.4
+    },
+    "spine_base": {
+      "x": 0.51,
+      "y": 0.56
+    },
+    "left_eye": {
+      "x": 0.47,
+      "y": 0.16
+    },
+    "right_eye": {
+      "x": 0.55,
+      "y": 0.16
+    },
+    "third_eye": {
+      "x": 0.51,
+      "y": 0.12
+    },
+    "mouth_center": {
+      "x": 0.51,
+      "y": 0.25
+    },
+    "mouth_left_corner": {
+      "x": 0.47,
+      "y": 0.25
+    },
+    "mouth_right_corner": {
+      "x": 0.55,
+      "y": 0.25
+    },
+    "jaw_hinge": {
+      "x": 0.51,
+      "y": 0.27
+    }
+  },
+  "silhouette_features": {
+    "key_silhouette_points": [
+      {
+        "name": "third_eye",
+        "x": 0.51,
+        "y": 0.12,
+        "description": "Third eye on forehead - primary identifier"
+      },
+      {
+        "name": "claw_tips",
+        "x": 0.5,
+        "y": 0.23,
+        "description": "Razor claws extending beyond hands"
+      },
+      {
+        "name": "jaw_corners",
+        "x": 0.5,
+        "y": 0.25,
+        "description": "Glasgow smile - extreme mouth width"
+      },
+      {
+        "name": "claw_extension",
+        "x": 0.41,
+        "y": 0.23,
+        "description": "Left claw extends beyond silhouette"
+      },
+      {
+        "name": "claw_extension_right",
+        "x": 0.59,
+        "y": 0.23,
+        "description": "Right claw extends beyond silhouette"
+      }
+    ],
+    "asymmetry_notes": "Claws extend asymmetrically; left claw tips higher (y=0.21) than right (y=0.23); shoulders slightly uneven",
+    "recognizable_from_distance": true
+  },
+  "animation_states": {
+    "idle": {
+      "frame_count": 8,
+      "duration_ms": 1000,
+      "loop": true,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Relaxed prowl stance, claws relaxed",
+          "joint_angles": {}
+        },
+        {
+          "frame": 4,
+          "description": "Breathing expansion, claws twitch",
+          "joint_angles": {}
+        }
+      ],
+      "secondary_motion": [
+        "claw_twitch",
+        "eye_pulse",
+        "breathing"
+      ],
+      "timing_notes": "Slow breathing cycle ~2s, claw twitch every 3-4s"
+    },
+    "prowl_walk": {
+      "frame_count": 8,
+      "duration_ms": 800,
+      "loop": true,
+      "stride_length": 0.8,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Contact - front paw down"
+        },
+        {
+          "frame": 2,
+          "description": "Passing - weight centered"
+        },
+        {
+          "frame": 4,
+          "description": "Contact - rear paw down"
+        },
+        {
+          "frame": 6,
+          "description": "Passing - weight centered"
+        }
+      ],
+      "footfall_frames": [
+        0,
+        4
+      ],
+      "body_bob_amplitude": 0.02,
+      "shoulder_sway_amplitude": 0.03
+    },
+    "sprint": {
+      "frame_count": 6,
+      "duration_ms": 500,
+      "loop": true,
+      "stride_length": 1.5,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Full extension, claws digging"
+        },
+        {
+          "frame": 3,
+          "description": "Recoil, spine compressed"
+        }
+      ],
+      "body_lean_angle": 0.35,
+      "arm_swing_amplitude": 0.4
+    },
+    "dash": {
+      "frame_count": 4,
+      "duration_ms": 200,
+      "startup_frames": 2,
+      "active_frames": 2,
+      "recovery_frames": 4,
+      "invincibility_frames": [
+        0,
+        4
+      ],
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Crouch, claws back"
+        },
+        {
+          "frame": 2,
+          "description": "Full extension, claws forward"
+        }
+      ],
+      "trail_emission_frames": [
+        1,
+        3
+      ]
+    },
+    "jump": {
+      "frame_count": 6,
+      "duration_ms": 600,
+      "anticipation_frames": 2,
+      "ascent_frames": 2,
+      "apex_frame": 3,
+      "descent_frames": 2,
+      "landing_frames": 2,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Crouch, claws dig"
+        },
+        {
+          "frame": 2,
+          "description": "Full extension"
+        },
+        {
+          "frame": 3,
+          "description": "Apex, claws ready"
+        },
+        {
+          "frame": 5,
+          "description": "Landing, absorb impact"
+        }
+      ],
+      "landing_impact_frames": 2
+    },
+    "wall_climb": {
+      "frame_count": 8,
+      "duration_ms": 1000,
+      "loop": true,
+      "vertical_speed": 2.5,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Left claw + right foot"
+        },
+        {
+          "frame": 4,
+          "description": "Right claw + left foot"
+        }
+      ],
+      "hand_foot_alternation": true
+    },
+    "melee_combo_1": {
+      "frame_count": 6,
+      "duration_ms": 400,
+      "active_frames": [
+        2,
+        4
+      ],
+      "hitbox_frames": [
+        2,
+        4
+      ],
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Windup, claw back"
+        },
+        {
+          "frame": 2,
+          "description": "Impact, claw forward"
+        },
+        {
+          "frame": 4,
+          "description": "Follow through"
+        }
+      ],
+      "follow_up_window": [
+        3,
+        5
+      ]
+    },
+    "melee_combo_2": {
+      "frame_count": 6,
+      "duration_ms": 400,
+      "active_frames": [
+        2,
+        4
+      ],
+      "hitbox_frames": [
+        2,
+        4
+      ],
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Windup, opposite claw"
+        },
+        {
+          "frame": 2,
+          "description": "Impact, cross slash"
+        },
+        {
+          "frame": 4,
+          "description": "Follow through"
+        }
+      ],
+      "follow_up_window": [
+        3,
+        5
+      ]
+    },
+    "melee_combo_3": {
+      "frame_count": 8,
+      "duration_ms": 500,
+      "active_frames": [
+        3,
+        5
+      ],
+      "hitbox_frames": [
+        3,
+        5
+      ],
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Windup, both claws"
+        },
+        {
+          "frame": 3,
+          "description": "Double slash impact"
+        },
+        {
+          "frame": 6,
+          "description": "Finisher pose"
+        }
+      ],
+      "finisher": true
+    },
+    "charged_swipe": {
+      "frame_count": 12,
+      "duration_ms": 800,
+      "charge_frames": 6,
+      "active_frames": [
+        7,
+        9
+      ],
+      "hitbox_frames": [
+        7,
+        9
+      ],
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Charge, claws glow"
+        },
+        {
+          "frame": 6,
+          "description": "Release, wide arc"
+        }
+      ]
+    },
+    "nail_launch": {
+      "frame_count": 8,
+      "duration_ms": 500,
+      "charge_levels": [
+        {
+          "level": 1,
+          "min_charge_frames": 0,
+          "projectiles": 1
+        },
+        {
+          "level": 2,
+          "min_charge_frames": 10,
+          "projectiles": 3
+        },
+        {
+          "level": 3,
+          "min_charge_frames": 20,
+          "projectiles": 1,
+          "explosive": true
+        }
+      ],
+      "fire_frame": 4,
+      "recoil_frames": 2
+    },
+    "scream": {
+      "frame_count": 10,
+      "duration_ms": 800,
+      "windup_frames": 3,
+      "release_frame": 4,
+      "aoe_frames": [
+        4,
+        7
+      ],
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Inhale, chest expands"
+        },
+        {
+          "frame": 4,
+          "description": "Release, jaw unhinged"
+        }
+      ],
+      "screen_shake_frames": [
+        4,
+        7
+      ]
+    },
+    "grab": {
+      "frame_count": 8,
+      "duration_ms": 600,
+      "startup_frames": 2,
+      "grab_frame": 3,
+      "hold_frames": 3,
+      "options": {
+        "smash": {
+          "frames": 4,
+          "damage_multiplier": 1.5
+        },
+        "throw": {
+          "frames": 4,
+          "velocity": 15.0
+        },
+        "bite": {
+          "frames": 6,
+          "heal_amount": 15
+        },
+        "release": {
+          "frames": 2
+        }
+      }
+    },
+    "wall_execution": {
+      "frame_count": 10,
+      "duration_ms": 800,
+      "startup_frames": 3,
+      "execution_frame": 5,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Grab, pull to wall"
+        },
+        {
+          "frame": 5,
+          "description": "Slam, claws through"
+        }
+      ]
+    },
+    "ground_slam": {
+      "frame_count": 10,
+      "duration_ms": 800,
+      "ascent_frames": 4,
+      "impact_frame": 5,
+      "shockwave_frames": [
+        5,
+        8
+      ],
+      "recovery_frames": 4
+    },
+    "hit_reaction": {
+      "light": {
+        "frames": 4,
+        "knockback": 0.5
+      },
+      "medium": {
+        "frames": 8,
+        "knockback": 1.5
+      },
+      "heavy": {
+        "frames": 12,
+        "knockback": 3.0
+      },
+      "launch": {
+        "frames": 16,
+        "knockback": 5.0
+      }
+    },
+    "death": {
+      "frame_count": 12,
+      "duration_ms": 1500,
+      "key_poses": [
+        {
+          "frame": 0,
+          "description": "Stagger back"
+        },
+        {
+          "frame": 4,
+          "description": "Fall to knees"
+        },
+        {
+          "frame": 8,
+          "description": "Collapse, claws retract"
+        },
+        {
+          "frame": 11,
+          "description": "Still, eyes dim"
+        }
+      ],
+      "ragdoll_trigger_frame": 10
+    },
+    "frenesia_transition": {
+      "levels": [
+        {
+          "level": "calm",
+          "threshold": 0,
+          "visual_changes": [
+            "eye_glow_intensity: 1.0",
+            "skin_saturation: 1.0",
+            "claw_rim_light: 0.4"
+          ]
+        },
+        {
+          "level": "agitated",
+          "threshold": 20,
+          "visual_changes": [
+            "eye_glow_intensity: 1.3",
+            "skin_saturation: 1.1",
+            "claw_rim_light: 0.6",
+            "blood_trail_emission: 0.3"
+          ]
+        },
+        {
+          "level": "furious",
+          "threshold": 40,
+          "visual_changes": [
+            "eye_glow_intensity: 1.6",
+            "skin_saturation: 1.2",
+            "claw_rim_light: 0.8",
+            "blood_trail_emission: 0.6",
+            "screen_vignette: 0.2"
+          ]
+        },
+        {
+          "level": "frenetic",
+          "threshold": 60,
+          "visual_changes": [
+            "eye_glow_intensity: 2.0",
+            "skin_saturation: 1.3",
+            "claw_rim_light: 1.0",
+            "blood_trail_emission: 1.0",
+            "screen_vignette: 0.4",
+            "chromatic_aberration: 0.1"
+          ]
+        },
+        {
+          "level": "overfrenesia",
+          "threshold": 80,
+          "visual_changes": [
+            "eye_glow_intensity: 3.0",
+            "skin_saturation: 1.5",
+            "claw_rim_light: 1.5",
+            "blood_trail_emission: 1.5",
+            "screen_vignette: 0.6",
+            "chromatic_aberration: 0.2",
+            "time_dilation: 0.9"
+          ]
+        }
+      ]
+    }
+  },
+  "hitboxes_hurtboxes": {
+    "body_hurtbox": {
+      "x": 0.42,
+      "y": 0.28,
+      "width": 0.18,
+      "height": 0.55
+    },
+    "head_hurtbox": {
+      "x": 0.46,
+      "y": 0.05,
+      "width": 0.1,
+      "height": 0.23
+    },
+    "claw_hitbox": {
+      "x": 0.61,
+      "y": 0.19,
+      "width": 0.08,
+      "height": 0.22,
+      "active_frames": [
+        2,
+        4
+      ]
+    },
+    "grab_range": {
+      "x": 0.45,
+      "y": 0.25,
+      "width": 0.1,
+      "height": 0.15
+    },
+    "bite_range": {
+      "x": 0.48,
+      "y": 0.22,
+      "width": 0.08,
+      "height": 0.08
+    },
+    "scream_aoe": {
+      "radius": 0.35,
+      "center_offset": {
+        "x": 0.51,
+        "y": 0.2
+      }
+    },
+    "ground_slam_aoe": {
+      "radius": 0.4,
+      "center_offset": {
+        "x": 0.51,
+        "y": 0.85
+      }
+    },
+    "dash_hitbox": {
+      "x": 0.35,
+      "y": 0.25,
+      "width": 0.3,
+      "height": 0.4,
+      "active_frames": [
+        1,
+        3
+      ]
+    },
+    "invincibility_zones": [
+      {
+        "name": "dash",
+        "frames": [
+          1,
+          3
+        ]
+      },
+      {
+        "name": "finisher",
+        "frames": [
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  "vfx_attachment_points": {
+    "blood_trail": [
+      {
+        "name": "left_claw",
+        "offset": {
+          "x": 0.41,
+          "y": 0.23
+        },
+        "emission_rate": 15.0
+      },
+      {
+        "name": "right_claw",
+        "offset": {
+          "x": 0.59,
+          "y": 0.23
+        },
+        "emission_rate": 15.0
+      },
+      {
+        "name": "mouth",
+        "offset": {
+          "x": 0.51,
+          "y": 0.25
+        },
+        "emission_rate": 8.0
+      }
+    ],
+    "frenesia_aura": {
+      "center": {
+        "x": 0.51,
+        "y": 0.35
+      },
+      "radius": 0.4,
+      "particle_types": [
+        "ember",
+        "blood_mist",
+        "distortion"
+      ]
+    },
+    "claw_slash": [
+      {
+        "name": "left_slash",
+        "origin": {
+          "x": 0.41,
+          "y": 0.23
+        },
+        "direction": "forward_right"
+      },
+      {
+        "name": "right_slash",
+        "origin": {
+          "x": 0.59,
+          "y": 0.23
+        },
+        "direction": "forward_left"
+      }
+    ],
+    "nail_launch": {
+      "origin": {
+        "x": 0.51,
+        "y": 0.32
+      },
+      "muzzle_flash": true
+    },
+    "scream": {
+      "origin": {
+        "x": 0.51,
+        "y": 0.25
+      },
+      "shockwave_origin": {
+        "x": 0.51,
+        "y": 0.25
+      }
+    },
+    "ground_slam": {
+      "impact_point": {
+        "x": 0.51,
+        "y": 0.85
+      },
+      "shockwave_radius": 0.4
+    },
+    "blood_splatter": {
+      "melee": {
+        "offset": {
+          "x": 0.51,
+          "y": 0.25
+        },
+        "direction": "forward"
+      },
+      "grab": {
+        "offset": {
+          "x": 0.51,
+          "y": 0.25
+        },
+        "direction": "up"
+      },
+      "bite": {
+        "offset": {
+          "x": 0.51,
+          "y": 0.25
+        },
+        "direction": "spray"
+      },
+      "finisher": {
+        "offset": {
+          "x": 0.51,
+          "y": 0.25
+        },
+        "direction": "explosion"
+      }
+    },
+    "frenesia_eye_glow": [
+      {
+        "eye": "left",
+        "offset": {
+          "x": 0.47,
+          "y": 0.16
+        }
+      },
+      {
+        "eye": "right",
+        "offset": {
+          "x": 0.55,
+          "y": 0.16
+        }
+      },
+      {
+        "eye": "third",
+        "offset": {
+          "x": 0.51,
+          "y": 0.12
+        }
+      }
+    ],
+    "claw_glow": [
+      {
+        "claw": "left",
+        "offset": {
+          "x": 0.41,
+          "y": 0.23
+        }
+      },
+      {
+        "claw": "right",
+        "offset": {
+          "x": 0.59,
+          "y": 0.23
+        }
+      }
+    ]
+  },
+  "shader_parameters": {
+    "outline_width": 0.02,
+    "outline_color": "#111111",
+    "rim_light_width": 0.05,
+    "rim_light_color": "#f0c830",
+    "rim_light_power": 1.8,
+    "fresnel_power": 2.5,
+    "subsurface_strength": 0.15,
+    "blood_accumulation_max": 0.8,
+    "frenesia_color_shift": {
+      "calm": {
+        "hue_shift": 0.0,
+        "saturation": 1.0,
+        "value": 1.0
+      },
+      "agitated": {
+        "hue_shift": 0.02,
+        "saturation": 1.1,
+        "value": 1.05
+      },
+      "furious": {
+        "hue_shift": 0.04,
+        "saturation": 1.2,
+        "value": 1.1
+      },
+      "frenetic": {
+        "hue_shift": 0.06,
+        "saturation": 1.3,
+        "value": 1.15
+      },
+      "overfrenesia": {
+        "hue_shift": 0.08,
+        "saturation": 1.5,
+        "value": 1.2
+      }
+    }
+  },
+  "material_properties": {
+    "skin": {
+      "type": "subsurface",
+      "subsurface_color": "#7a5858",
+      "subsurface_radius": [
+        0.02,
+        0.01,
+        0.005
+      ],
+      "roughness": 0.6,
+      "metallic": 0.0,
+      "specular": 0.3,
+      "normal_map_strength": 0.5
+    },
+    "claws": {
+      "type": "glossy",
+      "roughness": 0.1,
+      "metallic": 0.0,
+      "specular": 0.9,
+      "emission": "#b21217",
+      "emission_strength": 0.3
+    },
+    "teeth": {
+      "type": "enamel",
+      "roughness": 0.05,
+      "specular": 0.9
+    },
+    "eyes": {
+      "type": "emissive",
+      "emission": "#fbf2a2",
+      "emission_strength": 1.8,
+      "pupil_roughness": 0.0
+    },
+    "clothing": {
+      "jacket": {
+        "roughness": 0.7,
+        "fabric": true
+      },
+      "shirt": {
+        "roughness": 0.8,
+        "fabric": true
+      },
+      "pants": {
+        "roughness": 0.75,
+        "fabric": true
+      },
+      "boots": {
+        "roughness": 0.5,
+        "leather": true
+      }
+    },
+    "blood": {
+      "fresh": {
+        "type": "liquid",
+        "roughness": 0.1,
+        "specular": 0.9
+      },
+      "dried": {
+        "type": "matte",
+        "roughness": 0.9
+      }
+    }
+  },
+  "expression_morphs": {
+    "jaw_open": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.15
+    },
+    "mouth_wide": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.3
+    },
+    "teeth_exposed": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.5
+    },
+    "eye_glow_intensity": {
+      "min": 0.5,
+      "max": 3.0,
+      "default": 1.8
+    },
+    "third_eye_open": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0
+    },
+    "brow_ridge_tension": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.3
+    },
+    "claw_extend": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.5
+    },
+    "spine_arch": {
+      "min": -0.2,
+      "max": 0.3,
+      "default": 0.0
+    }
+  },
+  "clothing_physics": {
+    "jacket": {
+      "vertices": [
+        {
+          "name": "left_bottom",
+          "offset": {
+            "x": -0.08,
+            "y": 0.45
+          },
+          "stiffness": 0.3,
+          "damping": 0.5
+        },
+        {
+          "name": "right_bottom",
+          "offset": {
+            "x": 0.08,
+            "y": 0.45
+          },
+          "stiffness": 0.3,
+          "damping": 0.5
+        },
+        {
+          "name": "left_sleeve_end",
+          "offset": {
+            "x": -0.12,
+            "y": 0.3
+          },
+          "stiffness": 0.2,
+          "damping": 0.4
+        },
+        {
+          "name": "right_sleeve_end",
+          "offset": {
+            "x": 0.12,
+            "y": 0.3
+          },
+          "stiffness": 0.2,
+          "damping": 0.4
+        },
+        {
+          "name": "back_bottom",
+          "offset": {
+            "x": 0.0,
+            "y": 0.45
+          },
+          "stiffness": 0.4,
+          "damping": 0.6
+        }
+      ],
+      "tear_points": [
+        {
+          "name": "left_shoulder",
+          "threshold": 0.7
+        },
+        {
+          "name": "right_shoulder",
+          "threshold": 0.7
+        },
+        {
+          "name": "back_slash",
+          "threshold": 0.5
+        }
+      ]
+    },
+    "shirt": {
+      "vertices": [
+        {
+          "name": "left_hem",
+          "offset": {
+            "x": -0.06,
+            "y": 0.4
+          },
+          "stiffness": 0.2,
+          "damping": 0.4
+        },
+        {
+          "name": "right_hem",
+          "offset": {
+            "x": 0.06,
+            "y": 0.4
+          },
+          "stiffness": 0.2,
+          "damping": 0.4
+        }
+      ],
+      "tear_points": [
+        {
+          "name": "chest_slash",
+          "threshold": 0.6
+        },
+        {
+          "name": "back_tear",
+          "threshold": 0.5
+        }
+      ]
+    }
+  },
+  "rigging_hints": {
+    "bone_hierarchy": [
+      "root",
+      "spine_01",
+      "spine_02",
+      "spine_03",
+      "neck",
+      "head",
+      "third_eye",
+      "jaw",
+      "left_clavicle",
+      "left_upperarm",
+      "left_forearm",
+      "left_hand",
+      "left_claw_base",
+      "left_claw_tip",
+      "right_clavicle",
+      "right_upperarm",
+      "right_forearm",
+      "right_hand",
+      "right_claw_base",
+      "right_claw_tip",
+      "left_thigh",
+      "left_calf",
+      "left_foot",
+      "left_toes",
+      "right_thigh",
+      "right_calf",
+      "right_foot",
+      "right_toes"
+    ],
+    "ik_targets": [
+      {
+        "name": "left_hand",
+        "target": "left_claw_tip"
+      },
+      {
+        "name": "right_hand",
+        "target": "right_claw_tip"
+      },
+      {
+        "name": "left_foot",
+        "target": "left_ankle"
+      },
+      {
+        "name": "right_foot",
+        "target": "right_ankle"
+      }
+    ],
+    "twist_bones": [
+      "left_forearm",
+      "right_forearm",
+      "left_calf",
+      "right_calf"
+    ],
+    "scale_compensation": true
+  },
+  "gameplay_parameters": {
+    "height_meters": 1.95,
+    "mass_kg": 76.0,
+    "walk_speed": 1.6,
+    "run_speed": 4.1,
+    "dash_speed": 8.5,
+    "dash_distance": 5.0,
+    "jump_height": 1.0,
+    "wall_climb_speed": 2.5,
+    "melee_range": 1.1,
+    "grab_range": 1.1,
+    "bite_range": 0.8,
+    "nail_range": 20.0,
+    "scream_radius": 3.5,
+    "ground_slam_radius": 4.0,
+    "dash_iframes": 4,
+    "finisher_iframes": 6
+  }
+}

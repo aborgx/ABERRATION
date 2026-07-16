@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid://stairs_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="StepMesh"]
+size = Vector3(2, 0.2, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StepMaterial"]
+albedo_color = Color(0.3, 0.3, 0.32)
+roughness = 0.8
+metallic = 0.0
+
+[node name="StairsModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Step1" type="MeshInstance3D" parent="StairsModule"]
+mesh = BoxMesh { size: Vector3(2, 0.2, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="Step2" type="MeshInstance3D" parent="StairsModule"]
+mesh = BoxMesh { size: Vector3(2, 0.2, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.3)
+
+[node name="Step3" type="MeshInstance3D" parent="StairsModule"]
+mesh = BoxMesh { size: Vector3(2, 0.2, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.6)
+
+[node name="Step4" type="MeshInstance3D" parent="StairsModule"]
+mesh = BoxMesh { size: Vector3(2, 0.2, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.9)
+
+[node name="Step5" type="MeshInstance3D" parent="StairsModule"]
+mesh = BoxMesh { size: Vector3(2, 0.2, 0.3) }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.32), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 1.2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StairsModule"]
+shape = BoxShape3D { size: Vector3(2, 1.2, 1.5) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.6)

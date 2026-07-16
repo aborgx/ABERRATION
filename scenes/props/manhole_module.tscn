@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid://manhole_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="CylinderMesh" id="ManholeCoverMesh"]
+height = 0.05
+radius = 0.3
+
+[sub_resource type="CylinderMesh" id="ManholeRingMesh"]
+height = 0.1
+radius = 0.35
+
+[sub_resource type="StandardMaterial3D" id="ManholeCoverMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.3
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="ManholeRingMaterial"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.3
+metallic = 0.7
+
+[node name="ManholeModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Cover" type="MeshInstance3D" parent="ManholeModule"]
+mesh = CylinderMesh { height: 0.05, radius: 0.3 }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+
+[node name="Ring" type="MeshInstance3D" parent="ManholeModule"]
+mesh = CylinderMesh { height: 0.1, radius: 0.35 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.3, metallic: 0.7 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ManholeModule"]
+shape = CylinderShape3D { height: 0.1, radius: 0.35 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)

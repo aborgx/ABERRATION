@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid://interrogation_table_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="TableTopMesh"]
+size = Vector3(1.5, 0.05, 1.0)
+
+[sub_resource type="BoxMesh" id="TableLegMesh"]
+size = Vector3(0.05, 0.7, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="TableMaterial"]
+albedo_color = Color(0.35, 0.3, 0.25)
+roughness = 0.6
+metallic = 0.1
+
+[node name="InterrogationTableProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Top" type="MeshInstance3D" parent="InterrogationTableProp"]
+mesh = BoxMesh { size: Vector3(1.5, 0.05, 1.0) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.725, 0)
+
+[node name="Leg1" type="MeshInstance3D" parent="InterrogationTableProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.35, -0.45)
+
+[node name="Leg2" type="MeshInstance3D" parent="InterrogationTableProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.35, -0.45)
+
+[node name="Leg3" type="MeshInstance3D" parent="InterrogationTableProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.35, 0.45)
+
+[node name="Leg4" type="MeshInstance3D" parent="InterrogationTableProp"]
+mesh = BoxMesh { size: Vector3(0.05, 0.7, 0.05) }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.35, 0.45)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InterrogationTableProp"]
+shape = BoxShape3D { size: Vector3(1.5, 0.7, 1.0) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)

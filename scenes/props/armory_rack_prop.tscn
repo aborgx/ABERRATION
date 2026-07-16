@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid://armory_rack_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="RackFrameMesh"]
+size = Vector3(1.0, 1.8, 0.4)
+
+[sub_resource type="BoxMesh" id="RackSlotMesh"]
+size = Vector3(0.9, 0.1, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="RackMaterial"]
+albedo_color = Color(0.25, 0.25, 0.28)
+roughness = 0.6
+metallic = 0.3
+
+[node name="ArmoryRackProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Frame" type="MeshInstance3D" parent="ArmoryRackProp"]
+mesh = BoxMesh { size: Vector3(1.0, 1.8, 0.4) }
+material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.6, metallic: 0.3 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Slot1" type="MeshInstance3D" parent="ArmoryRackProp"]
+mesh = BoxMesh { size: Vector3(0.9, 0.1, 0.35) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.7, metallic: 0.2 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[node name="Slot2" type="MeshInstance3D" parent="ArmoryRackProp"]
+mesh = BoxMesh { size: Vector3(0.9, 0.1, 0.35) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.7, metallic: 0.2 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Slot3" type="MeshInstance3D" parent="ArmoryRackProp"]
+mesh = BoxMesh { size: Vector3(0.9, 0.1, 0.35) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.7, metallic: 0.2 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Slot4" type="MeshInstance3D" parent="ArmoryRackProp"]
+mesh = BoxMesh { size: Vector3(0.9, 0.1, 0.35) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.7, metallic: 0.2 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="Slot5" type="MeshInstance3D" parent="ArmoryRackProp"]
+mesh = BoxMesh { size: Vector3(0.9, 0.1, 0.35) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.7, metallic: 0.2 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArmoryRackProp"]
+shape = BoxShape3D { size: Vector3(1.0, 1.8, 0.4) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

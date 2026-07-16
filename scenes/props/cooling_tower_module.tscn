@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid://cooling_tower_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="CylinderMesh" id="TowerBodyMesh"]
+height = 4.0
+radius = 1.5
+
+[sub_resource type="CylinderMesh" id="TowerTopMesh"]
+height = 0.5
+radius = 1.8
+
+[sub_resource type="StandardMaterial3D" id="TowerBodyMaterial"]
+albedo_color = Color(0.35, 0.35, 0.38)
+roughness = 0.7
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="TowerTopMaterial"]
+albedo_color = Color(0.3, 0.3, 0.33)
+roughness = 0.6
+metallic = 0.1
+
+[sub_resource type="StandardMaterial3D" id="TowerFanMaterial"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.2
+metallic = 0.8
+
+[node name="CoolingTowerModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Body" type="MeshInstance3D" parent="CoolingTowerModule"]
+mesh = CylinderMesh { height: 4.0, radius: 1.5 }
+material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.35, 0.38), roughness: 0.7, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+
+[node name="Top" type="MeshInstance3D" parent="CoolingTowerModule"]
+mesh = CylinderMesh { height: 0.5, radius: 1.8 }
+material_override = StandardMaterial3D { albedo_color: Color(0.3, 0.3, 0.33), roughness: 0.6, metallic: 0.1 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.25, 0)
+
+[node name="Fan1" type="MeshInstance3D" parent="CoolingTowerModule"]
+mesh = CylinderMesh { height: 0.1, radius: 1.2 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+
+[node name="Fan2" type="MeshInstance3D" parent="CoolingTowerModule"]
+mesh = CylinderMesh { height: 0.1, radius: 1.2 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0.5)
+
+[node name="Fan3" type="MeshInstance3D" parent="CoolingTowerModule"]
+mesh = CylinderMesh { height: 0.1, radius: 1.2 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -0.5)
+
+[node name="Fan4" type="MeshInstance3D" parent="CoolingTowerModule"]
+mesh = CylinderMesh { height: 0.1, radius: 1.2 }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.2, metallic: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CoolingTowerModule"]
+shape = CylinderShape3D { height: 4.0, radius: 1.5 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)

@@ -1,0 +1,72 @@
+[gd_scene load_steps=3 format=3 uid://room_module]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="RoomFloorMesh"]
+size = Vector3(8, 0.1, 8)
+
+[sub_resource type="BoxMesh" id="RoomWallMesh"]
+size = Vector3(0.2, 3, 8)
+
+[sub_resource type="StandardMaterial3D" id="RoomFloorMaterial"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="StandardMaterial3D" id="RoomWallMaterial"]
+albedo_color = Color(0.32, 0.32, 0.35)
+roughness = 0.8
+metallic = 0.0
+
+[node name="RoomModule" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+
+[node name="Floor" type="MeshInstance3D" parent="RoomModule"]
+mesh = BoxMesh { size: Vector3(8, 0.1, 8) }
+material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.9 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
+[node name="WallNorth" type="MeshInstance3D" parent="RoomModule"]
+mesh = BoxMesh { size: Vector3(8, 3, 0.2) }
+material_override = StandardMaterial3D { albedo_color: Color(0.32, 0.32, 0.35), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4.1)
+
+[node name="WallSouth" type="MeshInstance3D" parent="RoomModule"]
+mesh = BoxMesh { size: Vector3(8, 3, 0.2) }
+material_override = StandardMaterial3D { albedo_color: Color(0.32, 0.32, 0.35), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.1)
+
+[node name="WallEast" type="MeshInstance3D" parent="RoomModule"]
+mesh = BoxMesh { size: Vector3(0.2, 3, 8) }
+material_override = StandardMaterial3D { albedo_color: Color(0.32, 0.32, 0.35), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 1.5, 0)
+
+[node name="WallWest" type="MeshInstance3D" parent="RoomModule"]
+mesh = BoxMesh { size: Vector3(0.2, 3, 8) }
+material_override = StandardMaterial3D { albedo_color: Color(0.32, 0.32, 0.35), roughness: 0.8 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 1.5, 0)
+
+[node name="Ceiling" type="MeshInstance3D" parent="RoomModule"]
+mesh = BoxMesh { size: Vector3(8, 0.1, 8) }
+material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.9 }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.05, 0)
+
+[node name="CollisionFloor" type="CollisionShape3D" parent="RoomModule"]
+shape = BoxShape3D { size: Vector3(8, 0.1, 8) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
+[node name="CollisionWallNorth" type="CollisionShape3D" parent="RoomModule"]
+shape = BoxShape3D { size: Vector3(8, 3, 0.2) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4.1)
+
+[node name="CollisionWallSouth" type="CollisionShape3D" parent="RoomModule"]
+shape = BoxShape3D { size: Vector3(8, 3, 0.2) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.1)
+
+[node name="CollisionWallEast" type="CollisionShape3D" parent="RoomModule"]
+shape = BoxShape3D { size: Vector3(0.2, 3, 8) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1, 1.5, 0)
+
+[node name="CollisionWallWest" type="CollisionShape3D" parent="RoomModule"]
+shape = BoxShape3D { size: Vector3(0.2, 3, 8) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1, 1.5, 0)
