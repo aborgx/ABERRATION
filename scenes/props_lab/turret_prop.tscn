@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid://turret_prop]
+
+[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+
+[sub_resource type="CylinderMesh" id="TurretBaseMesh"]
+height = 0.2
+radius = 0.25
+
+[sub_resource type="CylinderMesh" id="TurretBodyMesh"]
+height = 0.4
+radius = 0.18
+
+[sub_resource type="CylinderMesh" id="BarrelMesh"]
+height = 0.5
+radius = 0.04
+
+[sub_resource type="BoxMesh" id="SensorMesh"]
+size = Vector3(0.12, 0.08, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="BaseMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.2
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="BodyMat"]
+albedo_color = Color(0.3, 0.3, 0.32)
+roughness = 0.3
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="BarrelMat"]
+albedo_color = Color(0.2, 0.2, 0.22)
+roughness = 0.2
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="SensorMat"]
+albedo_color = Color(0.8, 0.0, 0.0)
+roughness = 0.1
+metallic = 0.0
+emission = Color(0.8, 0.0, 0.0)
+emission_energy = 0.5
+
+[node name="TurretProp" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TurretProp"]
+shape = CylinderShape3D {
+	height: 0.6,
+	radius: 0.25
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[node name="Base" type="MeshInstance3D" parent="TurretProp"]
+mesh = SubResource("TurretBaseMesh")
+material_override = SubResource("BaseMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Body" type="MeshInstance3D" parent="TurretProp"]
+mesh = SubResource("TurretBodyMesh")
+material_override = SubResource("BodyMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+
+[node name="Barrel" type="MeshInstance3D" parent="TurretProp"]
+mesh = SubResource("BarrelMesh")
+material_override = SubResource("BarrelMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+
+[node name="Sensor" type="MeshInstance3D" parent="TurretProp"]
+mesh = SubResource("SensorMesh")
+material_override = SubResource("SensorMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.5, 0.15)
+
+[node name="DetectionArea" type="Area3D" parent="TurretProp"]
+monitoring = true
+monitorable = false
+collision_layer = 0
+collision_mask = 1
+
+[node name="DetectionArea/CollisionShape3D" type="CollisionShape3D" parent="TurretProp/DetectionArea"]
+shape = BoxShape3D { size: Vector3(0.5, 0.5, 3.0) }
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 1.5)

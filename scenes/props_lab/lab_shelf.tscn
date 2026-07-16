@@ -1,0 +1,95 @@
+[gd_scene load_steps=3 format=3 uid://lab_shelf]
+
+[ext_resource type="Script" path="res://Bible/scripts/level/destructible_prop.gd" id="1_1"]
+
+[sub_resource type="BoxMesh" id="ShelfFrameMesh"]
+size = Vector3(1.2, 1.5, 0.04)
+
+[sub_resource type="BoxMesh" id="ShelfPlaneMesh"]
+size = Vector3(1.1, 0.02, 0.4)
+
+[sub_resource type="BoxMesh" id="ShelfFootMesh"]
+size = Vector3(0.04, 0.02, 0.4)
+
+[sub_resource type="CylinderMesh" id="BeakerMesh"]
+height = 0.12
+radius = 0.04
+
+[sub_resource type="StandardMaterial3D" id="FrameMat"]
+albedo_color = Color(0.5, 0.5, 0.5)
+roughness = 0.3
+metallic = 0.7
+
+[sub_resource type="StandardMaterial3D" id="ShelfMat"]
+albedo_color = Color(0.4, 0.4, 0.42)
+roughness = 0.4
+metallic = 0.6
+
+[sub_resource type="StandardMaterial3D" id="BeakerMat"]
+albedo_color = Color(0.533, 0.533, 1.0, 0.3)
+roughness = 0.05
+metallic = 0.0
+transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+
+[sub_resource type="StandardMaterial3D" id="SampleMat"]
+albedo_color = Color(0.0, 0.5, 0.3)
+roughness = 0.3
+metallic = 0.0
+emission = Color(0.0, 0.3, 0.15)
+emission_energy = 0.3
+transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+
+[node name="LabShelf" type="StaticBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LabShelf"]
+shape = BoxShape3D {
+	size: Vector3(1.2, 1.5, 0.4)
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="LeftFrame" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("ShelfFrameMesh")
+material_override = SubResource("FrameMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.75, 0)
+
+[node name="RightFrame" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("ShelfFrameMesh")
+material_override = SubResource("FrameMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.75, 0)
+
+[node name="Shelf1" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("ShelfPlaneMesh")
+material_override = SubResource("ShelfMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="Shelf2" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("ShelfPlaneMesh")
+material_override = SubResource("ShelfMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Shelf3" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("ShelfPlaneMesh")
+material_override = SubResource("ShelfMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+
+[node name="Beaker1" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("BeakerMesh")
+material_override = SubResource("BeakerMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.48, 0)
+
+[node name="Beaker2" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("BeakerMesh")
+material_override = SubResource("BeakerMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.48, 0)
+
+[node name="Beaker3" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("BeakerMesh")
+material_override = SubResource("SampleMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.98, 0)
+
+[node name="Beaker4" type="MeshInstance3D" parent="LabShelf"]
+mesh = SubResource("BeakerMesh")
+material_override = SubResource("BeakerMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.48, 0)
