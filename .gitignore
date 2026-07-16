@@ -15,3 +15,6 @@ pipeline/.env
 # OS
 .DS_Store
 Thumbs.db
+scenes/enemies/models/*.glb
+scenes/enemies/models/*.glb
+scenes/enemies/models/*.glb.import

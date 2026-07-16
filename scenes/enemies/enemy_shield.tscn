@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid://enemy_shield]
+
+[ext_resource type="Script" path="res://scripts/ai/enemy_shield.gd" id="1_1"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/models/Shield.glb" id="1_2"]
+
+[node name="EnemyShield" type="CharacterBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 4
+collision_mask = 3
+
+[node name="Model" type="Node3D" parent="EnemyShield"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="EnemyShield/Model"]
+scene_file_path = "res://scenes/enemies/models/Shield.glb"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyShield"]
+shape = CapsuleShape3D {
+	height: 1.85
+	radius: 0.4
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+
+[node name="Hurtbox" type="Area3D" parent="EnemyShield"]
+collision_layer = 1
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyShield/Hurtbox"]
+shape = CapsuleShape3D {
+	height: 1.85
+	radius: 0.45
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+
+[node name="Hitbox" type="Area3D" parent="EnemyShield"]
+collision_layer = 3
+monitoring = false
+monitorable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyShield/Hitbox"]
+shape = CapsuleShape3D {
+	height: 1.85
+	radius: 0.5
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="EnemyShield"]
+enabled = true
+target_position = Vector3(0, -2, 0)
+collision_mask = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyShield/Model/MeshInstance3D"]
+anims = {}
+default_anim = ""

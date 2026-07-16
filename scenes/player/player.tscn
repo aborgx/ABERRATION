@@ -1,0 +1,64 @@
+[gd_scene load_steps=15 format=3 uid://bkq8v7w9x2y1z]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_1"]
+[ext_resource type="Script" path="res://scripts/components/movement_component.gd" id="1_2"]
+[ext_resource type="Script" path="res://scripts/player/camera_controller.gd" id="1_3"]
+[ext_resource type="Script" path="res://scripts/player/combat_component.gd" id="1_4"]
+[ext_resource type="Script" path="res://scripts/player/frenesia_component.gd" id="1_5"]
+[ext_resource type="PackedScene" path="res://scenes/player/chr_player_rigged.glb" id="1_6"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 1
+collision_mask = 6
+
+[node name="MovementComponent" type="Node" parent="Player"]
+script = ExtResource("1_2")
+
+[node name="CombatComponent" type="Node" parent="Player"]
+script = ExtResource("1_4")
+
+[node name="FrenesiaComponent" type="Node" parent="Player"]
+script = ExtResource("1_5")
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+script = ExtResource("1_3")
+fov = 60.0
+near = 0.1
+far = 100.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = CapsuleShape3D {
+	height: 1.8
+	radius: 0.3
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Model" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Model"]
+scene_file_path = "res://scenes/player/chr_player_rigged.glb"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Model/MeshInstance3D"]
+anims = {
+	"idle": ExtResource("1_6"),
+	"walk": ExtResource("1_7"),
+	"sprint": ExtResource("1_8"),
+	"crouch": ExtResource("1_9"),
+	"jump": ExtResource("1_10"),
+	"fall": ExtResource("1_11"),
+	"dash": ExtResource("1_12"),
+	"melee_1": ExtResource("1_13"),
+	"melee_2": ExtResource("1_14"),
+	"melee_3": ExtResource("1_15"),
+	"nail_launch": ExtResource("1_16"),
+	"scream": ExtResource("1_17"),
+	"grab": ExtResource("1_18"),
+	"dash_attack": ExtResource("1_19"),
+	"ground_slam": ExtResource("1_20")
+}
+default_anim = "idle"

@@ -65,7 +65,7 @@ func _register_all_props() -> void:
 	prop_scenes["security_camera"] = preload("res://scenes/props/security_camera_prop.tscn")
 	prop_scenes["keycard_reader"] = preload("res://scenes/props/keycard_reader_prop.tscn")
 	
-	# Police Station specific
+	# Industrial / Police Station specific
 	prop_scenes["evidence_locker"] = preload("res://scenes/props/evidence_locker_prop.tscn")
 	prop_scenes["interrogation_table"] = preload("res://scenes/props/interrogation_table_prop.tscn")
 	prop_scenes["one_way_mirror"] = preload("res://scenes/props/one_way_mirror_prop.tscn")

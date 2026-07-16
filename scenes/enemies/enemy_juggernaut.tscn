@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid://enemy_juggernaut]
+
+[ext_resource type="Script" path="res://scripts/ai/boss_juggernaut.gd" id="1_1"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/models/JUJJERNAUT.glb" id="1_2"]
+
+[node name="EnemyJuggernaut" type="CharacterBody3D" parent="."]
+script = ExtResource("1_1")
+collision_layer = 4
+collision_mask = 3
+
+[node name="Model" type="Node3D" parent="EnemyJuggernaut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="EnemyJuggernaut/Model"]
+scene_file_path = "res://scenes/enemies/models/JUJJERNAUT.glb"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyJuggernaut"]
+shape = CapsuleShape3D {
+	height: 2.3
+	radius: 0.6
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="Hurtbox" type="Area3D" parent="EnemyJuggernaut"]
+collision_layer = 1
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyJuggernaut/Hurtbox"]
+shape = CapsuleShape3D {
+	height: 2.3
+	radius: 0.65
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="Hitbox" type="Area3D" parent="EnemyJuggernaut"]
+collision_layer = 3
+monitoring = false
+monitorable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyJuggernaut/Hitbox"]
+shape = CapsuleShape3D {
+	height: 2.3
+	radius: 0.7
+}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="EnemyJuggernaut"]
+enabled = true
+target_position = Vector3(0, -2.5, 0)
+collision_mask = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemyJuggernaut/Model/MeshInstance3D"]
+anims = {}
+default_anim = ""
