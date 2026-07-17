@@ -1,0 +1,66 @@
+[gd_scene load_steps=24 format=3 uid="uid://boss_juggernaut"]
+
+[ext_resource type="Script" path="res://scripts/ai/boss_juggernaut.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ai/fsm_component.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ai/utility_ai.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ai/navigation_component.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/ai/avoidance_component.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ai/boids_component.gd" id="6"]
+
+[sub_resource type="BoxMesh" id="Mesh_body"]
+size = Vector3(2.0, 3.0, 1.5)
+
+[sub_resource type="BoxMesh" id="Mesh_shield"]
+size = Vector3(2.5, 3.5, 0.1)
+
+[sub_resource type="BoxShape3D" id="Shape_body"]
+size = Vector3(2.0, 3.0, 1.5)
+
+[sub_resource type="SphereShape3D" id="Shape_bash"]
+radius = 3.0
+
+[sub_resource type="CapsuleMesh" id="Mesh_head"]
+radius = 0.3
+height = 0.5
+
+[node name="BossJuggernaut" type="CharacterBody3D"]
+script = ExtResource("1")
+collision_layer = 4
+collision_mask = 1
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("Mesh_head")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_body")
+
+[node name="Shield" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8)
+mesh = SubResource("Mesh_shield")
+visible = false
+
+[node name="BashArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+
+[node name="BashCollision" type="CollisionShape3D" parent="BashArea"]
+shape = SubResource("Shape_bash")
+
+[node name="FSMComponent" type="Node" parent="."]
+script = ExtResource("2")
+initial_state = "idle"
+
+[node name="NavigationComponent" type="Node" parent="."]
+script = ExtResource("4")
+
+[node name="AvoidanceComponent" type="Node" parent="."]
+script = ExtResource("5")
+
+[node name="BoidsComponent" type="Node" parent="."]
+script = ExtResource("6")
+
+[node name="UtilityAI" type="Node" parent="."]
+script = ExtResource("3")
