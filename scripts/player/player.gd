@@ -133,10 +133,6 @@ func _physics_process(delta: float) -> void:
 	combat._process(delta)
 	frenesia_comp._process(delta)
 	
-	# Dash check
-	if Input.is_action_just_pressed("dash"):
-		movement.try_dash()
-	
 	# Apply movement (only horizontal, preserve Y for gravity/jump)
 	var horizontal_velocity = movement.calculate_velocity(input_dir)
 	velocity.x = horizontal_velocity.x
