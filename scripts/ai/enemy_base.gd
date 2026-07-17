@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var boids: BoidsComponent = $BoidsComponent
 @onready var navigation: NavigationComponent = $NavigationComponent
 @onready var avoidance: AvoidanceComponent = $AvoidanceComponent
+@onready var anim_player: AnimationPlayer = $AnimationPlayer if has_node("AnimationPlayer") else null
 
 # --- Stats ---
 @export var max_health: int = 100
@@ -31,6 +32,10 @@ var ammo: int = 30
 # --- Player reference ---
 var player: Node3D
 
+# --- Placeholder position for patrol/retreat ---
+var patrol_waypoint: Vector3
+var retreat_point: Vector3
+
 func _ready() -> void:
 	health = max_health
 	is_dead = false
@@ -45,22 +50,31 @@ func _ready() -> void:
 	fsm.state_changed.connect(_on_state_changed)
 
 func _setup_fsm() -> void:
-	fsm.add_state("idle", create_state("idle"))
-	fsm.add_state("patrol", create_state("patrol"))
-	fsm.add_state("alert", create_state("alert"))
-	fsm.add_state("engage", create_state("engage"))
-	fsm.add_state("attack", create_state("attack"))
-	fsm.add_state("retreat", create_state("retreat"))
-	fsm.add_state("flee", create_state("flee"))
-	fsm.add_state("search", create_state("search"))
-	fsm.add_state("flank", create_state("flank"))
-	fsm.add_state("cover", create_state("cover"))
-	fsm.add_state("call_help", create_state("call_help"))
+	fsm.add_state("idle", _make_state("IdleState", "idle"))
+	fsm.add_state("patrol", _make_state("PatrolState", "patrol"))
+	fsm.add_state("alert", _make_state("AlertState", "alert"))
+	fsm.add_state("engage", _make_state("EngageState", "engage"))
+	fsm.add_state("attack", _make_state("AttackState", "attack"))
+	fsm.add_state("retreat", _make_state("RetreatState", "retreat"))
+	fsm.add_state("flee", _make_state("FleeState", "flee"))
+	fsm.add_state("search", _make_state("SearchState", "search"))
+	fsm.add_state("flank", _make_state("FlankState", "flank"))
+	fsm.add_state("cover", _make_state("CoverState", "cover"))
+	fsm.add_state("call_help", _make_state("CallHelpState", "call_help"))
 
-func create_state(name: String) -> Node:
-	var state = Node.new()
-	state.name = name
-	return state
+func _make_state(script_name: String, state_name: String) -> Node:
+	var script_path = "res://scripts/ai/states/" + script_name + ".gd"
+	if ResourceLoader.exists(script_path):
+		var state = ResourceLoader.load(script_path).new()
+		state.name = state_name
+		state.setup(self)
+		add_child(state)
+		return state
+	# Fallback: empty state
+	var empty = Node.new()
+	empty.name = state_name
+	add_child(empty)
+	return empty
 
 func _process(delta: float) -> void:
 	if is_dead:
@@ -77,10 +91,12 @@ func _physics_process(delta: float) -> void:
 	if is_dead:
 		return
 	
-	_apply_movement(delta)
-	
+	# Let state set desired velocity first
 	if fsm:
 		fsm._physics_process(delta)
+	
+	# Then apply boids avoidance + speed cap + move_and_slide
+	_apply_movement(delta)
 
 func _update_perception() -> void:
 	if not player:
@@ -92,12 +108,8 @@ func _update_perception() -> void:
 func _check_line_of_sight(target_pos: Vector3) -> bool:
 	var space_state = get_world_3d().direct_space_state
 	var from = global_position + Vector3(0, 1.5, 0)
-	var direction = (target_pos - from).normalized()
-	var distance = from.distance_to(target_pos)
-	
 	var query = PhysicsRayQueryParameters3D.create(from, target_pos, 1 | 2)
-	var result = get_world_3d().direct_space_state.intersect_ray(query)
-	
+	var result = space_state.intersect_ray(query)
 	return not result
 
 func _update_utility_ai() -> void:
@@ -167,32 +179,23 @@ func _apply_movement(delta: float) -> void:
 		velocity = Vector3.ZERO
 		return
 	
-	var target_speed = move_speed
-	match fsm.current_state:
-		"engage", "attack":
-			target_speed = run_speed
-		"retreat", "flee":
-			target_speed = run_speed
-		"patrol":
-			target_speed = move_speed
-		_:
-			target_speed = move_speed
-	
-	var nav_vel = Vector3.ZERO
-	if navigation and fsm.current_state in ["patrol", "engage", "retreat", "flee", "flank"]:
-		nav_vel = navigation.get_next_velocity(target_speed)
-	
+	# Add avoidance force on top of state-set velocity
 	var avoid_force = Vector3.ZERO
 	if avoidance:
 		var neighbors = _get_nearby_enemies(avoidance.avoidance_radius)
 		avoid_force = avoidance.calculate_avoidance_force({"global_position": global_position}, neighbors)
 	
-	var final_vel = nav_vel + avoid_force
-	final_vel = final_vel.limit_length(target_speed)
+	velocity.x += avoid_force.x
+	velocity.z += avoid_force.z
 	
-	velocity.x = final_vel.x
-	velocity.z = final_vel.z
+	# Apply speed limit based on current state
+	var speed_limit = move_speed
+	if fsm:
+		match fsm.current_state:
+			"engage", "attack", "retreat", "flee":
+				speed_limit = run_speed
 	
+	velocity = velocity.limit_length(speed_limit)
 	move_and_slide()
 
 func take_damage(amount: int) -> void:
@@ -233,3 +236,37 @@ func _return_to_pool() -> void:
 
 func _on_state_changed(old_state: String, new_state: String) -> void:
 	pass
+
+# --- Utility methods for states ---
+
+func play_anim(anim_name: String) -> void:
+	if anim_player:
+		anim_player.play(anim_name)
+
+func move_toward(target_pos: Vector3, speed: float) -> void:
+	var direction = (target_pos - global_position).normalized()
+	velocity.x = direction.x * speed
+	velocity.z = direction.z * speed
+
+func nav_to(target_pos: Vector3) -> Vector3:
+	"""Returns navigation-guided velocity toward target_pos. Zero if no navigation."""
+	if navigation:
+		navigation.set_target(target_pos)
+		return navigation.get_next_velocity(move_speed)
+	return Vector3.ZERO
+
+func get_retreat_point() -> Vector3:
+	"""Find a point away from player."""
+	if not player:
+		return global_position + Vector3(10, 0, 0)
+	var away_dir = (global_position - player.global_position).normalized()
+	return global_position + away_dir * 20.0
+
+func get_flank_point() -> Vector3:
+	"""Find a flanking position relative to player."""
+	if not player:
+		return global_position + Vector3(5, 0, 5)
+	var to_player = (player.global_position - global_position).normalized()
+	var flank_dir = to_player.cross(Vector3.UP).normalized()
+	var side = 1 if randi() % 2 == 0 else -1
+	return player.global_position + flank_dir * side * 5.0 + to_player * 3.0

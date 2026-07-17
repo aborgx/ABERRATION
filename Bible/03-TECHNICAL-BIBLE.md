@@ -432,6 +432,14 @@ func return_to_pool(node: Node) -> void:
     add_child(node)
 ```
 
+**Modifiche Recenti:**
+- **2026-07-17** `[FEAT]` `[P1]` `[fsm-states]`: implementati tutti gli 11 stati FSM enemy (idle, patrol, alert, engage, attack, retreat, flee, search, flank, cover, call_help) in `scripts/ai/states/*.gd` segendo `04-AI-BIBLE.md §2.3`.
+  - **Impatto**: EnemyBase.gd: refactor `create_state()` in `_make_state()` che carica script `.gd` e chiama `setup(enemy)`. Nuovi metodi utility: `play_anim()`, `move_toward()`, `nav_to()`, `get_retreat_point()`, `get_flank_point()`. `_physics_process()` ora esegue stato PRIMA di `_apply_movement()` per dare priorità alla direzione dello stato. `_apply_movement()` semplificato: solo avoid force + speed cap + move_and_slide.
+  - **Rischio**: medio — nuovi script non testati su scena reale; `AnimationPlayer` opzionale (null-safe). `get_tree().get_nodes_in_group("spawn_points")` come fallback waypoint.
+- **2026-07-17** `[FEAT]` `[P1]` `[spawning]`: Director e SpawnManager collegati — SpawnManager ora trova Director via gruppo e usa `get_spawn_rate()` e `get_enemy_types()` per spawn dinamico basato su tensione. Nuovo metodo `spawn_next_enemy()`.
+  - **Impatto**: INTEGRATION-MAP.md: aggiunta freccia `SpawnManager --> Director`. Director.gd: aggiunto `add_to_group("director")`. SpawnManager.gd: rimosso `@export var spawn_rate` (sostituito da metodo dinamico).
+  - **Rischio**: basso — retrocompatibile, `enemy_pool.get_from_pool()` null-check giá presente.
+
 ### 5.3 Pools Necessari
 
 | Pool | Scene | Initial Size | Max Size |

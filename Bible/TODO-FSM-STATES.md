@@ -7,7 +7,10 @@
 - **META-RULES**: §1.2 — "La KB è corretta, il codice no → Il codice ha un bug — fixarlo"
 - **KB Reference**: `04-AI-BIBLE.md §2.3` (stati implementati con pseudocodice)
 - **Wave Reference**: `WAVE3-AI-PLAN.md` (Task 1: FSMComponent, Task 10: EnemyBase)
-- **Status**: `draft` (non iniziato)
+- **Status**: `implemented` (tutti gli 11 stati implementati in scripts/ai/states/)
+- **Implementation date**: 2026-07-17
+- **Commit**: AW3.1 — FSM enemy state behaviors
+- **Note**: L'implementazione segue la AI-BIBLE §2.3. Transizioni gia gestite da UtilityAI. Stati con comportamento pieno (move_toward, nav_to, anim, timers).
 - **Estimated Effort**: ~3-4 ore (11 stati, ciascuno 10-30 righe GDScript)
 - **Created**: 2026-07-17
 
