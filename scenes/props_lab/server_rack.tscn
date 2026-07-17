@@ -1,123 +1,18 @@
-[gd_scene load_steps=3 format=3 uid://server_rack]
+[gd_scene load_steps=3 format=3 uid="uid://caed1dcca7cbfbfe"]
 
-[ext_resource type="Script" path="res://Bible/scripts/level/destructible_prop.gd" id="1_1"]
+[sub_resource type="BoxMesh" id="Mesh_server_rack"]
+size = Vector3(0.8, 2.5, 0.6)
 
-[sub_resource type="BoxMesh" id="RackBodyMesh"]
-size = Vector3(0.6, 2.0, 0.8)
+[sub_resource type="BoxShape3D" id="Shape_server_rack"]
+size = Vector3(0.8, 2.5, 0.6)
 
-[sub_resource type="BoxMesh" id="ServerSlotMesh"]
-size = Vector3(0.5, 0.08, 0.7)
-
-[sub_resource type="BoxMesh" id="LEDMesh"]
-size = Vector3(0.03, 0.03, 0.01)
-
-[sub_resource type="StandardMaterial3D" id="RackBodyMat"]
-albedo_color = Color(0.2, 0.2, 0.22)
-roughness = 0.2
-metallic = 0.6
-
-[sub_resource type="StandardMaterial3D" id="ServerSlotMat"]
-albedo_color = Color(0.3, 0.3, 0.32)
-roughness = 0.3
-metallic = 0.5
-
-[sub_resource type="StandardMaterial3D" id="LEDGreenMat"]
-albedo_color = Color(0.0, 0.8, 0.2)
-roughness = 0.1
-metallic = 0.0
-emission = Color(0.0, 0.8, 0.2)
-emission_energy = 0.6
-
-[sub_resource type="StandardMaterial3D" id="LEDBlueMat"]
-albedo_color = Color(0.0, 0.4, 1.0)
-roughness = 0.1
-metallic = 0.0
-emission = Color(0.0, 0.4, 1.0)
-emission_energy = 0.8
-
-[sub_resource type="StandardMaterial3D" id="LEDRedMat"]
-albedo_color = Color(0.8, 0.0, 0.0)
-roughness = 0.1
-metallic = 0.0
-emission = Color(0.8, 0.0, 0.0)
-emission_energy = 0.5
-
-[node name="ServerRack" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
+[node name="Server_rack" type="StaticBody3D"]
 collision_layer = 2
+collision_mask = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ServerRack"]
-shape = BoxShape3D {
-	size: Vector3(0.6, 2.0, 0.8)
-}
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_server_rack")
 
-[node name="Body" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("RackBodyMesh")
-material_override = SubResource("RackBodyMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_server_rack")
 
-[node name="Slot1" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.01)
-
-[node name="Slot2" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.01)
-
-[node name="Slot3" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0.01)
-
-[node name="Slot4" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0.01)
-
-[node name="Slot5" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.01)
-
-[node name="Slot6" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.01)
-
-[node name="Slot7" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.01)
-
-[node name="Slot8" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("ServerSlotMesh")
-material_override = SubResource("ServerSlotMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0.01)
-
-[node name="LED1" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("LEDMesh")
-material_override = SubResource("LEDGreenMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.22, 0.36)
-
-[node name="LED2" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("LEDMesh")
-material_override = SubResource("LEDBlueMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.42, 0.36)
-
-[node name="LED3" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("LEDMesh")
-material_override = SubResource("LEDRedMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.62, 0.36)
-
-[node name="LED4" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("LEDMesh")
-material_override = SubResource("LEDGreenMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.42, 0.36)
-
-[node name="LED5" type="MeshInstance3D" parent="ServerRack"]
-mesh = SubResource("LEDMesh")
-material_override = SubResource("LEDBlueMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.62, 0.36)

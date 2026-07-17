@@ -1,71 +1,28 @@
-[gd_scene load_steps=3 format=3 uid://laser_grid]
+[gd_scene load_steps=4 format=3 uid="uid://4b58ffa3134fd3ce"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[sub_resource type="BoxMesh" id="Mesh_laser"]
+size = Vector3(4, 0.02, 0.02)
 
-[sub_resource type="BoxMesh" id="EmitterMesh"]
-size = Vector3(0.1, 0.1, 0.1)
+[sub_resource type="BoxShape3D" id="Shape_laser"]
+size = Vector3(4, 0.02, 0.02)
 
-[sub_resource type="BoxMesh" id="ReceiverMesh"]
-size = Vector3(0.1, 0.1, 0.1)
+[sub_resource type="BoxShape3D" id="Trigger_laser"]
+size = Vector3(4, 0.5, 0.1)
 
-[sub_resource type="BoxMesh" id="BeamMesh"]
-size = Vector3(0.01, 0.01, 3.0)
-
-[sub_resource type="StandardMaterial3D" id="EmitterMat"]
-albedo_color = Color(0.165, 0.541, 0.541)
-roughness = 0.1
-metallic = 0.0
-emission = Color(0.165, 0.541, 0.541)
-emission_energy = 1.0
-
-[sub_resource type="StandardMaterial3D" id="ReceiverMat"]
-albedo_color = Color(0.3, 0.3, 0.32)
-roughness = 0.3
-metallic = 0.6
-
-[sub_resource type="StandardMaterial3D" id="BeamMat"]
-albedo_color = Color(1.0, 0.2, 0.0)
-roughness = 0.0
-metallic = 0.0
-emission = Color(1.0, 0.2, 0.0)
-emission_energy = 1.5
-transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-
-[node name="LaserGrid" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
+[node name="LaserGrid" type="StaticBody3D"]
 collision_layer = 2
-
-[node name="Emitter" type="MeshInstance3D" parent="LaserGrid"]
-mesh = SubResource("EmitterMesh")
-material_override = SubResource("EmitterMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, -1.5)
-
-[node name="Receiver" type="MeshInstance3D" parent="LaserGrid"]
-mesh = SubResource("ReceiverMesh")
-material_override = SubResource("ReceiverMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 1.5)
-
-[node name="BeamLow" type="MeshInstance3D" parent="LaserGrid"]
-mesh = SubResource("BeamMesh")
-material_override = SubResource("BeamMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-
-[node name="BeamMid" type="MeshInstance3D" parent="LaserGrid"]
-mesh = SubResource("BeamMesh")
-material_override = SubResource("BeamMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
-
-[node name="BeamHigh" type="MeshInstance3D" parent="LaserGrid"]
-mesh = SubResource("BeamMesh")
-material_override = SubResource("BeamMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-
-[node name="AlarmArea" type="Area3D" parent="LaserGrid"]
-monitoring = true
-monitorable = false
-collision_layer = 0
 collision_mask = 1
 
-[node name="AlarmArea/CollisionShape3D" type="CollisionShape3D" parent="LaserGrid/AlarmArea"]
-shape = BoxShape3D { size: Vector3(0.5, 0.8, 3.0) }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+[node name="Beam" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_laser")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_laser")
+
+[node name="Trigger" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+
+[node name="TriggerShape" type="CollisionShape3D" parent="Trigger"]
+shape = SubResource("Trigger_laser")

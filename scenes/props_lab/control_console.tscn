@@ -1,94 +1,18 @@
-[gd_scene load_steps=3 format=3 uid://control_console]
+[gd_scene load_steps=3 format=3 uid="uid://43de5f3efa93c617"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[sub_resource type="BoxMesh" id="Mesh_control_console"]
+size = Vector3(1, 0.6, 0.8)
 
-[sub_resource type="BoxMesh" id="ConsoleBaseMesh"]
-size = Vector3(1.5, 0.8, 0.8)
+[sub_resource type="BoxShape3D" id="Shape_control_console"]
+size = Vector3(1, 0.6, 0.8)
 
-[sub_resource type="BoxMesh" id="ConsoleDeskMesh"]
-size = Vector3(1.5, 0.06, 0.6)
-
-[sub_resource type="BoxMesh" id="ScreenPanelMesh"]
-size = Vector3(0.6, 0.4, 0.03)
-
-[sub_resource type="BoxMesh" id="KeyPanelMesh"]
-size = Vector3(0.5, 0.02, 0.3)
-
-[sub_resource type="StandardMaterial3D" id="BaseMat"]
-albedo_color = Color(0.3, 0.3, 0.32)
-roughness = 0.3
-metallic = 0.6
-
-[sub_resource type="StandardMaterial3D" id="DeskMat"]
-albedo_color = Color(0.5, 0.5, 0.5)
-roughness = 0.2
-metallic = 0.8
-
-[sub_resource type="StandardMaterial3D" id="ScreenMat"]
-albedo_color = Color(0.1, 0.3, 0.6)
-roughness = 0.1
-metallic = 0.0
-emission = Color(0.1, 0.3, 0.6)
-emission_energy = 0.5
-
-[sub_resource type="StandardMaterial3D" id="KeyMat"]
-albedo_color = Color(0.15, 0.15, 0.18)
-roughness = 0.3
-metallic = 0.2
-
-[sub_resource type="StandardMaterial3D" id="GlowButtonMat"]
-albedo_color = Color(0.165, 0.541, 0.541)
-roughness = 0.1
-metallic = 0.0
-emission = Color(0.165, 0.541, 0.541)
-emission_energy = 0.6
-
-[node name="ControlConsole" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
+[node name="Control_console" type="StaticBody3D"]
 collision_layer = 2
+collision_mask = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ControlConsole"]
-shape = BoxShape3D {
-	size: Vector3(1.5, 0.86, 0.8)
-}
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43, 0)
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_control_console")
 
-[node name="Base" type="MeshInstance3D" parent="ControlConsole"]
-mesh = SubResource("ConsoleBaseMesh")
-material_override = SubResource("BaseMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_control_console")
 
-[node name="Desk" type="MeshInstance3D" parent="ControlConsole"]
-mesh = SubResource("ConsoleDeskMesh")
-material_override = SubResource("DeskMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.83, 0)
-
-[node name="ScreenPanel" type="MeshInstance3D" parent="ControlConsole"]
-mesh = SubResource("ScreenPanelMesh")
-material_override = SubResource("ScreenMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, -0.15)
-
-[node name="KeyPanel" type="MeshInstance3D" parent="ControlConsole"]
-mesh = SubResource("KeyPanelMesh")
-material_override = SubResource("KeyMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0.15)
-
-[node name="Button1" type="MeshInstance3D" parent="ControlConsole"]
-mesh = BoxMesh { size: Vector3(0.03, 0.01, 0.03) }
-material_override = SubResource("GlowButtonMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.9, 0.15)
-
-[node name="Button2" type="MeshInstance3D" parent="ControlConsole"]
-mesh = BoxMesh { size: Vector3(0.03, 0.01, 0.03) }
-material_override = StandardMaterial3D { albedo_color: Color(0.8, 0.1, 0.0), roughness: 0.1, metallic: 0.0, emission: Color(0.8, 0.1, 0.0), emission_energy: 0.4 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.9, 0.15)
-
-[node name="Button3" type="MeshInstance3D" parent="ControlConsole"]
-mesh = BoxMesh { size: Vector3(0.03, 0.01, 0.03) }
-material_override = StandardMaterial3D { albedo_color: Color(0.0, 0.6, 0.0), roughness: 0.1, metallic: 0.0, emission: Color(0.0, 0.6, 0.0), emission_energy: 0.5 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0.9, 0.15)
-
-[node name="Button4" type="MeshInstance3D" parent="ControlConsole"]
-mesh = BoxMesh { size: Vector3(0.03, 0.01, 0.03) }
-material_override = StandardMaterial3D { albedo_color: Color(1.0, 0.8, 0.0), roughness: 0.1, metallic: 0.0, emission: Color(1.0, 0.8, 0.0), emission_energy: 0.6 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.9, 0.15)

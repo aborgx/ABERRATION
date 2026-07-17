@@ -1,76 +1,18 @@
-[gd_scene load_steps=6 format=3 uid://lab_corridor_module]
+[gd_scene load_steps=3 format=3 uid="uid://6016a52aceb69f16"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[sub_resource type="BoxMesh" id="Mesh_lab_corridor_module"]
+size = Vector3(2, 3, 8)
 
-[sub_resource type="BoxMesh" id="CorridorFloorMesh"]
-size = Vector3(2, 0.1, 8)
+[sub_resource type="BoxShape3D" id="Shape_lab_corridor_module"]
+size = Vector3(2, 3, 8)
 
-[sub_resource type="BoxMesh" id="LeftWallMesh"]
-size = Vector3(0.1, 3, 8)
+[node name="Lab_corridor_module" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
 
-[sub_resource type="BoxMesh" id="RightWallMesh"]
-size = Vector3(0.1, 3, 8)
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_lab_corridor_module")
 
-[sub_resource type="CylinderMesh" id="PipeMesh"]
-height = 8
-radius = 0.08
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_lab_corridor_module")
 
-[sub_resource type="StandardMaterial3D" id="FloorMat"]
-albedo_color = Color(0.91, 0.91, 0.91)
-roughness = 0.3
-metallic = 0.4
-
-[sub_resource type="StandardMaterial3D" id="GlassMat"]
-albedo_color = Color(0.533, 0.533, 1.0, 0.2)
-roughness = 0.05
-metallic = 0.0
-transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-
-[sub_resource type="StandardMaterial3D" id="PipeMat"]
-albedo_color = Color(0.502, 0.502, 0.502)
-roughness = 0.3
-metallic = 0.7
-
-[sub_resource type="StandardMaterial3D" id="PipeAccentMat"]
-albedo_color = Color(0.165, 0.541, 0.541)
-roughness = 0.4
-metallic = 0.5
-
-[node name="LabCorridorModule" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LabCorridorModule"]
-shape = BoxShape3D {
-	size: Vector3(2, 3, 8)
-}
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 4)
-
-[node name="Floor" type="MeshInstance3D" parent="LabCorridorModule"]
-mesh = SubResource("CorridorFloorMesh")
-material_override = SubResource("FloorMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-
-[node name="LeftWall" type="MeshInstance3D" parent="LabCorridorModule"]
-mesh = SubResource("LeftWallMesh")
-material_override = SubResource("GlassMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 1.5, 4)
-
-[node name="RightWall" type="MeshInstance3D" parent="LabCorridorModule"]
-mesh = SubResource("RightWallMesh")
-material_override = SubResource("GlassMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.05, 1.5, 4)
-
-[node name="PipeLeft" type="MeshInstance3D" parent="LabCorridorModule"]
-mesh = SubResource("PipeMesh")
-material_override = SubResource("PipeMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.8, 4)
-
-[node name="PipeRight" type="MeshInstance3D" parent="LabCorridorModule"]
-mesh = SubResource("PipeMesh")
-material_override = SubResource("PipeMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.8, 4)
-
-[node name="PipeAccent" type="MeshInstance3D" parent="LabCorridorModule"]
-mesh = CylinderMesh { height: 8, radius: 0.04 }
-material_override = SubResource("PipeAccentMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 4)

@@ -1,66 +1,18 @@
-[gd_scene load_steps=3 format=3 uid://ventilation_duct]
+[gd_scene load_steps=3 format=3 uid="uid://36f4de2ac53be7a5"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[sub_resource type="BoxMesh" id="Mesh_ventilation_duct"]
+size = Vector3(1, 0.5, 1)
 
-[sub_resource type="BoxMesh" id="DuctBodyMesh"]
-size = Vector3(2, 0.3, 1.5)
+[sub_resource type="BoxShape3D" id="Shape_ventilation_duct"]
+size = Vector3(1, 0.5, 1)
 
-[sub_resource type="BoxMesh" id="DuctCoverMesh"]
-size = Vector3(1.8, 0.02, 1.3)
-
-[sub_resource type="BoxMesh" id="GrateMesh"]
-size = Vector3(1.7, 0.01, 0.04)
-
-[sub_resource type="StandardMaterial3D" id="DuctMat"]
-albedo_color = Color(0.5, 0.5, 0.5)
-roughness = 0.4
-metallic = 0.6
-
-[sub_resource type="StandardMaterial3D" id="CoverMat"]
-albedo_color = Color(0.4, 0.4, 0.42)
-roughness = 0.5
-metallic = 0.5
-
-[sub_resource type="StandardMaterial3D" id="GrateMat"]
-albedo_color = Color(0.3, 0.3, 0.32)
-roughness = 0.5
-metallic = 0.5
-
-[node name="VentilationDuct" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
+[node name="Ventilation_duct" type="StaticBody3D"]
 collision_layer = 2
+collision_mask = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="VentilationDuct"]
-shape = BoxShape3D {
-	size: Vector3(2, 0.3, 1.5)
-}
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_ventilation_duct")
 
-[node name="DuctBody" type="MeshInstance3D" parent="VentilationDuct"]
-mesh = SubResource("DuctBodyMesh")
-material_override = SubResource("DuctMat")
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_ventilation_duct")
 
-[node name="Cover" type="MeshInstance3D" parent="VentilationDuct"]
-mesh = SubResource("DuctCoverMesh")
-material_override = SubResource("CoverMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
-
-[node name="Grate1" type="MeshInstance3D" parent="VentilationDuct"]
-mesh = SubResource("GrateMesh")
-material_override = SubResource("GrateMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, -0.5)
-
-[node name="Grate2" type="MeshInstance3D" parent="VentilationDuct"]
-mesh = SubResource("GrateMesh")
-material_override = SubResource("GrateMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
-
-[node name="Grate3" type="MeshInstance3D" parent="VentilationDuct"]
-mesh = SubResource("GrateMesh")
-material_override = SubResource("GrateMat")
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0.5)
-
-[node name="ClimbCollision" type="CollisionShape3D" parent="VentilationDuct"]
-shape = BoxShape3D {
-	size: Vector3(2, 0.02, 1.5)
-}
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0)
