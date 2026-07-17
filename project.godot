@@ -8,9 +8,6 @@ config/name="ABERRATION"
 config/description="Run & Gun Splatter/Horror Arcade — Action Horror Game"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/main_scene="res://scenes/main.tscn"
-boot_splash/show_image=false
-boot_splash/show_logo=false
-
 [display]
 
 window/size/viewport_width=1920
