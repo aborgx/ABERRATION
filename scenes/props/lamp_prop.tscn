@@ -1,62 +1,25 @@
-[gd_scene load_steps=3 format=3 uid://lamp_prop]
+[gd_scene load_steps=3 format=3 uid="uid://439fcf00d963b160"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[sub_resource type="CylinderMesh" id="Mesh_pole"]
+top_radius = 0.03
+bottom_radius = 0.05
+height = 2.0
 
-[sub_resource type="CylinderMesh" id="LampBaseMesh"]
-height = 0.1
-radius = 0.15
+[sub_resource type="SphereShape3D" id="Shape_light"]
+radius = 0.1
 
-[sub_resource type="CylinderMesh" id="LampPoleMesh"]
-height = 1.8
-radius = 0.03
+[node name="LampProp" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
 
-[sub_resource type="SphereMesh" id="LampShadeMesh"]
-radius = 0.25
+[node name="Pole" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_pole")
 
-[sub_resource type="StandardMaterial3D" id="LampBaseMaterial"]
-albedo_color = Color(0.2, 0.2, 0.22)
-roughness = 0.3
-metallic = 0.8
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+omni_range = 8.0
+light_energy = 0.8
+light_color = Color(1, 0.95, 0.8)
 
-[sub_resource type="StandardMaterial3D" id="LampPoleMaterial"]
-albedo_color = Color(0.25, 0.25, 0.28)
-roughness = 0.3
-metallic = 0.7
-
-[sub_resource type="StandardMaterial3D" id="LampShadeMaterial"]
-albedo_color = Color(0.95, 0.9, 0.8)
-roughness = 0.2
-metallic = 0.0
-emission = Color(1.0, 0.95, 0.8)
-emission_energy = 0.8
-
-[node name="LampProp" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
-
-[node name="Base" type="MeshInstance3D" parent="LampProp"]
-mesh = CylinderMesh { height: 0.1, radius: 0.15 }
-material_override = StandardMaterial3D { albedo_color: Color(0.2, 0.2, 0.22), roughness: 0.3, metallic: 0.8 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-
-[node name="Pole" type="MeshInstance3D" parent="LampProp"]
-mesh = CylinderMesh { height: 1.8, radius: 0.03 }
-material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.3, metallic: 0.7 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
-
-[node name="Shade" type="MeshInstance3D" parent="LampProp"]
-mesh = SphereMesh { radius: 0.25 }
-material_override = StandardMaterial3D { albedo_color: Color(0.95, 0.9, 0.8), roughness: 0.2, metallic: 0.0, emission: Color(1.0, 0.95, 0.8), emission_energy: 0.8 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
-
-[node name="LightOmni" type="OmniLight3D" parent="LampProp"]
-light_color = Color(1.0, 0.95, 0.8)
-light_energy = 1.5
-light_indirect_energy = 0.5
-light_specular = 0.5
-light_shadow_enabled = true
-light_shadow_max_distance = 10.0
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LampProp"]
-shape = CylinderShape3D { height: 1.9, radius: 0.15 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+[node name="LightCollision" type="CollisionShape3D" parent="Light"]
+shape = SubResource("Shape_light")

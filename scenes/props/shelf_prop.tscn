@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://26fe85f29001a5ec"]
+
+[sub_resource type="BoxMesh" id="Mesh_shelf_prop"]
+size = Vector3(1.2, 2, 0.4)
+
+[sub_resource type="BoxShape3D" id="Shape_shelf_prop"]
+size = Vector3(1.2, 2, 0.4)
+
+[node name="Shelf_prop" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_shelf_prop")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_shelf_prop")
+

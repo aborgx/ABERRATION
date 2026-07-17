@@ -1,25 +1,21 @@
-[gd_scene load_steps=3 format=3 uid://pillar_module]
+[gd_scene load_steps=3 format=3 uid="uid://8b6914127f458ba5"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
-
-[sub_resource type="CylinderMesh" id="PillarMesh"]
+[sub_resource type="CylinderMesh" id="Mesh_pillar_module"]
+top_radius = 0.5
+bottom_radius = 0.5
 height = 3.0
-radius = 0.4
 
-[sub_resource type="StandardMaterial3D" id="PillarMaterial"]
-albedo_color = Color(0.3, 0.3, 0.32)
-roughness = 0.7
-metallic = 0.1
+[sub_resource type="CylinderShape3D" id="Shape_pillar_module"]
+radius = 0.5
+height = 3.0
 
-[node name="PillarModule" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
+[node name="Pillar_module" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PillarModule"]
-shape = CylinderShape3D {
-	height: 3.0
-	radius: 0.4
-}
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_pillar_module")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="PillarModule"]
-mesh = SubResource("PillarMesh")
-material_override = SubResource("PillarMaterial")
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_pillar_module")
+

@@ -1,29 +1,21 @@
-[gd_scene load_steps=3 format=3 uid://barricade_prop]
+[gd_scene load_steps=3 format=3 uid="uid://ce1bc1645708e840"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
-[ext_resource type="Script" path="res://scripts/level/destructible_prop.gd" id="1_2"]
+[ext_resource type="Script" path="res://scripts/level/destructible_prop.gd" id="1"]
 
-[sub_resource type="BoxMesh" id="BarricadeMesh"]
-size = Vector3(2, 1.5, 0.5)
+[sub_resource type="BoxMesh" id="Mesh_barricade"]
+size = Vector3(2, 1.5, 0.3)
 
-[sub_resource type="StandardMaterial3D" id="BarricadeMaterial"]
-albedo_color = Color(0.4, 0.35, 0.3)
-roughness = 0.8
-metallic = 0.0
+[sub_resource type="BoxShape3D" id="Shape_barricade"]
+size = Vector3(2, 1.5, 0.3)
 
-[node name="BarricadeProp" type="RigidBody3D" parent="."]
-script = ExtResource("1_2")
-mass = 50.0
-linear_damp = 0.5
-angular_damp = 0.5
+[node name="BarricadeProp" type="StaticBody3D"]
+script = ExtResource("1")
 collision_layer = 2
 collision_mask = 1
+max_health = 150
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BarricadeProp"]
-mesh = BoxMesh { size: Vector3(2, 1.5, 0.5) }
-material_override = StandardMaterial3D { albedo_color: Color(0.4, 0.35, 0.3), roughness: 0.8, metallic: 0.0 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_barricade")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="BarricadeProp"]
-shape = BoxShape3D { size: Vector3(2, 1.5, 0.5) }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_barricade")

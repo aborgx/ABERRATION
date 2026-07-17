@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://a6d934d313d1d4b3"]
+
+[sub_resource type="CylinderMesh" id="Mesh_base"]
+top_radius = 0.3
+bottom_radius = 0.5
+height = 0.5
+
+[sub_resource type="CylinderShape3D" id="Shape_base"]
+radius = 0.5
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="Mesh_barrel"]
+top_radius = 0.05
+bottom_radius = 0.08
+height = 1.0
+
+[node name="TurretProp" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_base")
+
+[node name="CollisionBase" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_base")
+
+[node name="Barrel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("Mesh_barrel")

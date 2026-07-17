@@ -1,34 +1,18 @@
-[gd_scene load_steps=3 format=3 uid://window_module]
+[gd_scene load_steps=3 format=3 uid="uid://54dbf63f0f73568b"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
+[sub_resource type="BoxMesh" id="Mesh_window_module"]
+size = Vector3(1.5, 1.5, 0.05)
 
-[sub_resource type="BoxMesh" id="WindowFrameMesh"]
-size = Vector3(2.2, 2.2, 0.3)
+[sub_resource type="BoxShape3D" id="Shape_window_module"]
+size = Vector3(1.5, 1.5, 0.05)
 
-[sub_resource type="BoxMesh" id="GlassMesh"]
-size = Vector3(2, 2, 0.05)
+[node name="Window_module" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
 
-[sub_resource type="StandardMaterial3D" id="FrameMaterial"]
-albedo_color = Color(0.15, 0.15, 0.18)
-roughness = 0.8
-metallic = 0.0
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_window_module")
 
-[sub_resource type="StandardMaterial3D" id="GlassMaterial"]
-albedo_color = Color(0.4, 0.5, 0.7)
-roughness = 0.05
-metallic = 0.0
-transparency = 0.3
-transparency_mode = 1
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_window_module")
 
-[node name="WindowModule" type="StaticBody3D" parent="."]
-script = ExtResource("1_1")
-
-[node name="Frame" type="MeshInstance3D" parent="WindowModule"]
-mesh = BoxMesh { size: Vector3(2.2, 2.2, 0.3) }
-material_override = StandardMaterial3D { albedo_color: Color(0.15, 0.15, 0.18), roughness: 0.8 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Glass" type="MeshInstance3D" parent="WindowModule"]
-mesh = BoxMesh { size: Vector3(2, 2, 0.05) }
-material_override = StandardMaterial3D { albedo_color: Color(0.4, 0.5, 0.7), roughness: 0.05, metallic: 0.0, transparency: 0.3, transparency_mode: 1 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)

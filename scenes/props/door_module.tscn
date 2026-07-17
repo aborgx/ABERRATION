@@ -1,43 +1,27 @@
-[gd_scene load_steps=4 format=3 uid://door_module]
+[gd_scene load_steps=4 format=3 uid="uid://84d51620d0f64a5f"]
 
-[ext_resource type="Script" path="res://scripts/level/prop_library.gd" id="1_1"]
-[ext_resource type="Script" path="res://scripts/level/door_module.gd" id="1_2"]
+[sub_resource type="BoxMesh" id="Mesh_door"]
+size = Vector3(1.2, 2.5, 0.1)
 
-[sub_resource type="BoxMesh" id="DoorFrameMesh"]
-size = Vector3(2.2, 3.2, 0.3)
+[sub_resource type="BoxShape3D" id="Shape_door"]
+size = Vector3(1.2, 2.5, 0.1)
 
-[sub_resource type="BoxMesh" id="DoorMesh"]
-size = Vector3(2, 3, 0.1)
+[sub_resource type="BoxShape3D" id="Trigger_door"]
+size = Vector3(2.0, 3.0, 2.0)
 
-[sub_resource type="StandardMaterial3D" id="DoorFrameMaterial"]
-albedo_color = Color(0.25, 0.25, 0.28)
-roughness = 0.8
-metallic = 0.0
+[node name="DoorModule" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 1
 
-[sub_resource type="StandardMaterial3D" id="DoorMaterial"]
-albedo_color = Color(0.35, 0.3, 0.25)
-roughness = 0.6
-metallic = 0.2
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("Mesh_door")
 
-[node name="DoorModule" type="StaticBody3D" parent="."]
-script = ExtResource("1_2")
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Shape_door")
 
-[node name="Frame" type="MeshInstance3D" parent="DoorModule"]
-mesh = BoxMesh { size: Vector3(2.2, 3.2, 0.3) }
-material_override = StandardMaterial3D { albedo_color: Color(0.25, 0.25, 0.28), roughness: 0.8 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Door" type="MeshInstance3D" parent="DoorModule"]
-mesh = BoxMesh { size: Vector3(2, 3, 0.1) }
-material_override = StandardMaterial3D { albedo_color: Color(0.35, 0.3, 0.25), roughness: 0.6, metallic: 0.2 }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.15)
-
-[node name="TriggerArea" type="Area3D" parent="DoorModule"]
-monitoring = true
-monitorable = false
+[node name="Trigger" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 1
 
-[node name="TriggerArea/CollisionShape3D" type="CollisionShape3D" parent="DoorModule/TriggerArea"]
-shape = BoxShape3D { size: Vector3(2.5, 3.5, 1.5) }
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+[node name="TriggerShape" type="CollisionShape3D" parent="Trigger"]
+shape = SubResource("Trigger_door")
