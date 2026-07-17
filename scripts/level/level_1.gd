@@ -142,19 +142,24 @@ func _build_boss_arena() -> void:
 	_place_cover(46, 0, -2)
 	_place_cover(54, 0, -2)
 
-func _place_room(cx: float, cz: float, cy: float, w: float, d: float) -> void:
-	"""Place floor and walls for a rectangular room at center (cx, cy, cz)."""
+func _place_floor(cx: float, cz: float, cy: float, w: float, d: float) -> void:
+	"""Place a floor tile at position."""
 	if not prop_library:
 		return
-	var half_w = w / 2.0
-	var half_d = d / 2.0
-	# Floor
 	var floor = prop_library.instantiate_prop("floor")
 	if floor:
 		floor.position = Vector3(cx, cy - 1.0, cz)
 		floor.scale = Vector3(w / 4.0, 1, d / 4.0)
 		add_child(floor)
+
+func _place_room(cx: float, cz: float, cy: float, w: float, d: float) -> void:
+	"""Place floor and walls for a rectangular room at center (cx, cy, cz)."""
+	_place_floor(cx, cz, cy, w, d)
+	if not prop_library:
+		return
 	# Walls (north, south, east, west)
+	var half_w = w / 2.0
+	var half_d = d / 2.0
 	var walls = [
 		[Vector3(cx, cy + 0.5, cz - half_d - 0.1), Vector3(w / 4.0, 1, 1)],  # North
 		[Vector3(cx, cy + 0.5, cz + half_d + 0.1), Vector3(w / 4.0, 1, 1)],  # South

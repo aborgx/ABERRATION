@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/level/level_1.gd" id="1"]
 
 [sub_resource type="Environment" id="Env"]
-background_color = Color(0.02, 0.02, 0.05)
+background_color = Color(0.02, 0.02, 0.05, 1.0)
 ambient_light_color = Color(0.05, 0.05, 0.1)
 fog_enabled = true
 fog_light_color = Color(0.1, 0.12, 0.15)
