@@ -18,3 +18,5 @@ Thumbs.db
 scenes/enemies/models/*.glb
 scenes/enemies/models/*.glb
 scenes/enemies/models/*.glb.import
+scenes/enemies/models/*.png
+scenes/enemies/models/*.jpg
