@@ -1,16 +1,43 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_1"]
 [ext_resource type="Script" path="res://scripts/components/movement_component.gd" id="1_2"]
 [ext_resource type="Script" path="res://scripts/player/camera_controller.gd" id="1_3"]
 [ext_resource type="Script" path="res://scripts/player/combat_component.gd" id="1_4"]
 [ext_resource type="Script" path="res://scripts/player/frenesia_component.gd" id="1_5"]
-[ext_resource type="PackedScene" path="res://scenes/player/chr_player_rigged.glb" id="1_6"]
 
-[node name="Player" type="CharacterBody3D" parent="."]
-script = ExtResource("1_1")
+[sub_resource type="CapsuleShape3D" id="Shape_player"]
+height = 1.8
+radius = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_player"]
+size = Vector3(0.6, 1.8, 0.6)
+
+[node name="Player" type="CharacterBody3D"]
 collision_layer = 1
-collision_mask = 6
+collision_mask = 65535
+
+script = ExtResource("1_1")
+max_health = 100
+max_frenesia = 100
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("Shape_player")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="Model" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Model"]
+mesh = SubResource("Mesh_player")
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
+current = true
+far = 100.0
+near = 0.1
 
 [node name="MovementComponent" type="Node" parent="Player"]
 script = ExtResource("1_2")
@@ -20,25 +47,3 @@ script = ExtResource("1_4")
 
 [node name="FrenesiaComponent" type="Node" parent="Player"]
 script = ExtResource("1_5")
-
-[node name="CameraPivot" type="Node3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-
-[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot"]
-script = ExtResource("1_3")
-fov = 60.0
-near = 0.1
-far = 100.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-shape = CapsuleShape3D {
-	height: 1.8
-	radius: 0.3
-}
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-
-[node name="Model" type="Node3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Model"]
-scene_file_path = "res://scenes/player/chr_player_rigged.glb"

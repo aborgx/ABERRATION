@@ -1,8 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/level/level_1.gd" id="1"]
-
-[sub_resource type="WorldEnvironment" id="WorldEnv"]
 
 [sub_resource type="Environment" id="Env"]
 background_color = Color(0.02, 0.02, 0.05)

@@ -109,7 +109,9 @@ func _place_room(cx: float, cz: float, cy: float, w: float, d: float) -> void:
 		[Vector3(cx + w / 2.0 + 0.1, cy + 0.5, cz), Vector3(1, 1, d / 4.0)],
 		[Vector3(cx - w / 2.0 - 0.1, cy + 0.5, cz), Vector3(1, 1, d / 4.0)],
 	]
-	for pos, scale in walls:
+	for wall_data in walls:
+		var pos = wall_data[0]
+		var scale = wall_data[1]
 		var wall = prop_library.instantiate_prop("lab_wall")
 		if wall:
 			wall.position = pos
