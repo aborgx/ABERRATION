@@ -17,6 +17,8 @@ var spawn_manager
 var director
 var prop_library
 
+const _PropLibraryLab = preload("res://scripts/level/prop_library_lab.gd")
+
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	spawn_manager = get_tree().get_first_node_in_group("spawn_manager")
@@ -24,7 +26,7 @@ func _ready() -> void:
 	prop_library = get_tree().get_first_node_in_group("prop_library_lab")
 	
 	if not prop_library:
-		prop_library = PropLibraryLab.new()
+		prop_library = _PropLibraryLab.new()
 		prop_library.add_to_group("prop_library_lab")
 		add_child(prop_library)
 	
