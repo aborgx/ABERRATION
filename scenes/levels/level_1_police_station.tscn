@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/level/level_1.gd" id="1"]
+
+[sub_resource type="WorldEnvironment" id="WorldEnv"]
+
+[sub_resource type="Environment" id="Env"]
+background_color = Color(0.02, 0.02, 0.05)
+ambient_light_color = Color(0.05, 0.05, 0.1)
+fog_enabled = true
+fog_light_color = Color(0.1, 0.12, 0.15)
+fog_density = 0.005
+fog_height = 10.0
+fog_height_density = 0.5
+tonemap_mode = 2
+glow_enabled = true
+glow_levels/1 = 0.01
+glow_intensity = 0.3
+
+[sub_resource type="NavigationMesh" id="NavMesh"]
+cell_size = 0.2
+cell_height = 0.2
+agent_radius = 0.5
+agent_height = 1.8
+agent_max_climb = 0.3
+agent_max_slope = 45.0
+geometry/parsed_geometry_type = 2
+
+[node name="Level1PoliceStation" type="Node3D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.5, 0, 0.289, 0.5, 0.816, -0.408, -0.707, 0.577, 0, 5, 0)
+light_energy = 1.5
+light_color = Color(0.9, 0.85, 0.8)
+shadow_enabled = true
+shadow_bias = 0.02
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("GroundMesh")
+
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(100, 0.1, 80)
+
+[node name="NavigationRegion" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavMesh")
+
+[node name="Areas" type="Node" parent="."]
+
+[node name="EntranceTrigger" type="Area3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -10)
+
+[node name="EntranceCollision" type="CollisionShape3D" parent="Areas/EntranceTrigger"]
+shape = SubResource("Box")
+
+[sub_resource type="BoxShape3D" id="Box"]
+size = Vector3(12, 4, 12)
+
+[node name="CorridorTrigger" type="Area3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -10)
+
+[node name="CorridorCollision" type="CollisionShape3D" parent="Areas/CorridorTrigger"]
+shape = SubResource("Box2")
+
+[sub_resource type="BoxShape3D" id="Box2"]
+size = Vector3(8, 4, 8)
+
+[node name="OfficesTrigger" type="Area3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6)
+
+[node name="OfficesCollision" type="CollisionShape3D" parent="Areas/OfficesTrigger"]
+shape = SubResource("Box3")
+
+[sub_resource type="BoxShape3D" id="Box3"]
+size = Vector3(16, 4, 14)
+
+[node name="BarricadeTrigger" type="Area3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -6)
+
+[node name="BarricadeCollision" type="CollisionShape3D" parent="Areas/BarricadeTrigger"]
+shape = SubResource("Box4")
+
+[sub_resource type="BoxShape3D" id="Box4"]
+size = Vector3(8, 4, 8)
+
+[node name="ArmoryTrigger" type="Area3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6)
+
+[node name="ArmoryCollision" type="CollisionShape3D" parent="Areas/ArmoryTrigger"]
+shape = SubResource("Box5")
+
+[sub_resource type="BoxShape3D" id="Box5"]
+size = Vector3(10, 4, 10)
+
+[node name="BossArenaTrigger" type="Area3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -6)
+
+[node name="BossArenaCollision" type="CollisionShape3D" parent="Areas/BossArenaTrigger"]
+shape = SubResource("Box6")
+
+[sub_resource type="BoxShape3D" id="Box6"]
+size = Vector3(20, 4, 20)

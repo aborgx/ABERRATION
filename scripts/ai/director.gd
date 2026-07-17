@@ -52,6 +52,12 @@ func get_enemy_types() -> Array[String]:
 	
 	return types
 
+var is_boss_active: bool = false
+
+func notify_boss_spawned() -> void:
+	is_boss_active = true
+	current_tension = 1.0
+
 func on_enemy_killed() -> void:
 	enemies_killed += 1
 
