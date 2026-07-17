@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/level/level_1.gd" id="1"]
 
@@ -69,35 +69,35 @@ navigation_mesh = SubResource("NavMesh")
 [node name="EntranceTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -10)
 
-[node name="EntranceCollision" type="CollisionShape3D" parent="Areas/EntranceTrigger"]
+[node name="EntranceCollision" type="CollisionShape3D" parent="EntranceTrigger"]
 shape = SubResource("Box")
 
 [node name="CorridorTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -10)
 
-[node name="CorridorCollision" type="CollisionShape3D" parent="Areas/CorridorTrigger"]
+[node name="CorridorCollision" type="CollisionShape3D" parent="CorridorTrigger"]
 shape = SubResource("Box2")
 
 [node name="OfficesTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6)
 
-[node name="OfficesCollision" type="CollisionShape3D" parent="Areas/OfficesTrigger"]
+[node name="OfficesCollision" type="CollisionShape3D" parent="OfficesTrigger"]
 shape = SubResource("Box3")
 
 [node name="BarricadeTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -6)
 
-[node name="BarricadeCollision" type="CollisionShape3D" parent="Areas/BarricadeTrigger"]
+[node name="BarricadeCollision" type="CollisionShape3D" parent="BarricadeTrigger"]
 shape = SubResource("Box4")
 
 [node name="ArmoryTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6)
 
-[node name="ArmoryCollision" type="CollisionShape3D" parent="Areas/ArmoryTrigger"]
+[node name="ArmoryCollision" type="CollisionShape3D" parent="ArmoryTrigger"]
 shape = SubResource("Box5")
 
 [node name="BossArenaTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -6)
 
-[node name="BossArenaCollision" type="CollisionShape3D" parent="Areas/BossArenaTrigger"]
+[node name="BossArenaCollision" type="CollisionShape3D" parent="BossArenaTrigger"]
 shape = SubResource("Box6")

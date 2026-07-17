@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/hud_artery.gd" id="1_1"]
 
@@ -10,7 +10,7 @@ offset_top = -4.0
 offset_right = 100.0
 offset_bottom = -54.0
 
-[node name="Artery" type="Control" parent="HUD"]
+[node name="Artery" type="Control" parent="."]
 script = ExtResource("1_1")
 layout_mode = 3
 anchors_preset = 15
