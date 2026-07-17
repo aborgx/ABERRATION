@@ -32,6 +32,7 @@ var _pre_dash_state: String = "prowl"
 
 # --- References (set by player.gd) ---
 var body: CharacterBody3D = null
+var speed_multiplier: float = 1.0
 
 func _ready() -> void:
 	pass
@@ -84,7 +85,7 @@ func calculate_velocity(input_dir: Vector2) -> Vector3:
 		direction = direction.normalized()
 	direction = direction.rotated(Vector3.UP, body.rotation.y)
 	
-	var target_velocity = direction * target_speed
+	var target_velocity = direction * target_speed * speed_multiplier
 	var current_horizontal = Vector3(body.velocity.x, 0.0, body.velocity.z)
 	
 	var has_horizontal_input = source_direction.length() > 0.0
