@@ -10,6 +10,9 @@ var time_in_level: float = 0.0
 var enemies_killed: int = 0
 var damage_taken: int = 0
 
+func _ready() -> void:
+	add_to_group("director")
+
 func _process(delta: float) -> void:
 	time_in_level += delta
 	update_tension()

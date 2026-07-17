@@ -2,16 +2,34 @@ class_name SpawnManager
 extends Node
 
 @export var max_enemies: int = 200
-@export var spawn_rate: float = 1.0
 @export var spawn_radius: float = 30.0
 
 var current_enemies: int = 0
 var spawn_points: Array = []
 var enemy_pool: Node
+var director: Director
 
 func _ready() -> void:
 	spawn_points = get_tree().get_nodes_in_group("spawn_points")
 	enemy_pool = get_tree().get_first_node_in_group("pool_manager")
+	director = get_tree().get_first_node_in_group("director")
+
+func get_spawn_rate() -> float:
+	if director:
+		return director.get_spawn_rate()
+	return 1.0
+
+func spawn_next_enemy() -> bool:
+	if current_enemies >= max_enemies:
+		return false
+	if not director:
+		return false
+	var types: Array[String] = director.get_enemy_types()
+	if types.is_empty():
+		return false
+	var enemy_type = types[randi() % types.size()]
+	spawn_enemy(enemy_type)
+	return true
 
 func spawn_enemy(enemy_type: String) -> void:
 	if current_enemies >= max_enemies:
