@@ -23,6 +23,10 @@ var shake_timer: float = 0.0
 var shake_offset: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
+	# Auto-find player if no target set
+	if target == null:
+		target = get_tree().get_first_node_in_group("player")
+	
 	# Create camera if not in scene tree
 	if not has_node("Camera3D"):
 		camera = Camera3D.new()
