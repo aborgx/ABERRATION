@@ -4,6 +4,8 @@ extends Node
 signal frenesia_changed(old_value: int, new_value: int)
 signal frenesia_level_changed(new_level: FrenesiaLevel)
 
+var body: CharacterBody3D = null
+
 enum FrenesiaLevel { CALM, AGITATED, FURIOUS, FRENETIC, OVERFRENESIA }
 
 @export var max_frenesia: int = 100
