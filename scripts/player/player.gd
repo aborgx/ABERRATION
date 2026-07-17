@@ -27,9 +27,9 @@ var coyote_timer: float = 0.0
 var jump_buffer_timer: float = 0.0
 
 # --- Components ---
-@onready var movement: MovementComponent = $MovementComponent
-@onready var combat: CombatComponent = $CombatComponent
-@onready var frenesia_comp: FrenesiaComponent = $FrenesiaComponent
+@onready var movement = $MovementComponent
+@onready var combat = $CombatComponent
+@onready var frenesia_comp = $FrenesiaComponent
 
 func _ready() -> void:
 	# Connect movement signals
@@ -94,14 +94,14 @@ func _physics_process(delta: float) -> void:
 	# Combat input
 	# Melee
 	if Input.is_action_just_pressed("attack_melee"):
-		var input_dir = movement.get_input_direction()
+		input_dir = movement.get_input_direction()
 		combat.melee_attack(input_dir)
 	
 	# Nail Launch (charge)
 	if Input.is_action_pressed("attack_ranged"):
 		combat.start_nail_charge()
 	elif Input.is_action_just_released("attack_ranged"):
-		var input_dir = movement.get_input_direction()
+		input_dir = movement.get_input_direction()
 		combat.release_nail_launch(input_dir)
 	
 	# Scream
@@ -114,7 +114,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Dash Attack
 	if Input.is_action_just_pressed("dash_attack"):
-		var input_dir = movement.get_input_direction()
+		input_dir = movement.get_input_direction()
 		combat.dash_attack(input_dir)
 	
 	# Ground Slam
@@ -165,7 +165,7 @@ func _die() -> void:
 	# Placeholder — will be expanded in later waves
 	pass
 
-func get_velocity() -> Vector3:
+func get_player_velocity() -> Vector3:
 	return velocity
 
 func _on_movement_state_changed(old_state: String, new_state: String) -> void:

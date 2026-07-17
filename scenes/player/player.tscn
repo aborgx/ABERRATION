@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid://bkq8v7w9x2y1z]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_1"]
 [ext_resource type="Script" path="res://scripts/components/movement_component.gd" id="1_2"]
@@ -42,23 +42,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Model"]
 scene_file_path = "res://scenes/player/chr_player_rigged.glb"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Model/MeshInstance3D"]
-anims = {
-	"idle": ExtResource("1_6"),
-	"walk": ExtResource("1_7"),
-	"sprint": ExtResource("1_8"),
-	"crouch": ExtResource("1_9"),
-	"jump": ExtResource("1_10"),
-	"fall": ExtResource("1_11"),
-	"dash": ExtResource("1_12"),
-	"melee_1": ExtResource("1_13"),
-	"melee_2": ExtResource("1_14"),
-	"melee_3": ExtResource("1_15"),
-	"nail_launch": ExtResource("1_16"),
-	"scream": ExtResource("1_17"),
-	"grab": ExtResource("1_18"),
-	"dash_attack": ExtResource("1_19"),
-	"ground_slam": ExtResource("1_20")
-}
-default_anim = "idle"

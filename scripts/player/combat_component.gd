@@ -67,8 +67,8 @@ var is_on_floor: bool = true
 
 # --- References ---
 var body: CharacterBody3D = null
-var movement: MovementComponent = null
-var frenesia: FrenesiaComponent = null
+var movement = null
+var frenesia = null
 
 # --- Damage/Speed Multipliers (from Frenesia) ---
 var damage_multiplier: float = 1.0
@@ -277,8 +277,13 @@ func scream() -> void:
 		return
 	
 	var space_state = body.get_world_3d().direct_space_state
-	var query = PhysicsSphereQueryParameters3D.create(body.global_position, scream_range, 4)
-	var results = space_state.intersect_sphere(query)
+	var sphere_shape = SphereShape3D.new()
+	sphere_shape.radius = scream_range
+	var query = PhysicsShapeQueryParameters3D.new()
+	query.shape = sphere_shape
+	query.transform = Transform3D.IDENTITY.translated(body.global_position)
+	query.collision_mask = 4
+	var results = space_state.intersect_shape(query)
 	
 	for result in results:
 		var collider = result.collider
@@ -425,8 +430,13 @@ func ground_slam() -> void:
 		return
 	
 	var space_state = body.get_world_3d().direct_space_state
-	var query = PhysicsSphereQueryParameters3D.create(body.global_position, ground_slam_radius, 4)
-	var results = space_state.intersect_sphere(query)
+	var sphere_shape = SphereShape3D.new()
+	sphere_shape.radius = ground_slam_radius
+	var query = PhysicsShapeQueryParameters3D.new()
+	query.shape = sphere_shape
+	query.transform = Transform3D.IDENTITY.translated(body.global_position)
+	query.collision_mask = 4
+	var results = space_state.intersect_shape(query)
 	
 	for result in results:
 		var collider = result.collider
