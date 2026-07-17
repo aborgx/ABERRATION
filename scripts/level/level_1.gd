@@ -13,9 +13,9 @@ signal boss_defeated
 var current_area: String = "entrance"
 var areas_cleared: Dictionary = {}
 var player: Node3D
-var spawn_manager: SpawnManager
-var director: Director
-var prop_library: PropLibrary
+var spawn_manager
+var director
+var prop_library
 
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
