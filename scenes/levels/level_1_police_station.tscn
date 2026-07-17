@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/level/level_1.gd" id="1"]
 
@@ -24,6 +24,27 @@ agent_max_climb = 0.3
 agent_max_slope = 45.0
 geometry/parsed_geometry_type = 2
 
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(100, 0.1, 80)
+
+[sub_resource type="BoxShape3D" id="Box"]
+size = Vector3(12, 4, 12)
+
+[sub_resource type="BoxShape3D" id="Box2"]
+size = Vector3(8, 4, 8)
+
+[sub_resource type="BoxShape3D" id="Box3"]
+size = Vector3(16, 4, 14)
+
+[sub_resource type="BoxShape3D" id="Box4"]
+size = Vector3(8, 4, 8)
+
+[sub_resource type="BoxShape3D" id="Box5"]
+size = Vector3(10, 4, 10)
+
+[sub_resource type="BoxShape3D" id="Box6"]
+size = Vector3(20, 4, 20)
+
 [node name="Level1PoliceStation" type="Node3D"]
 script = ExtResource("1")
 
@@ -40,9 +61,6 @@ shadow_bias = 0.02
 [node name="Ground" type="MeshInstance3D" parent="."]
 mesh = SubResource("GroundMesh")
 
-[sub_resource type="BoxMesh" id="GroundMesh"]
-size = Vector3(100, 0.1, 80)
-
 [node name="NavigationRegion" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavMesh")
 
@@ -54,17 +72,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -10)
 [node name="EntranceCollision" type="CollisionShape3D" parent="Areas/EntranceTrigger"]
 shape = SubResource("Box")
 
-[sub_resource type="BoxShape3D" id="Box"]
-size = Vector3(12, 4, 12)
-
 [node name="CorridorTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -10)
 
 [node name="CorridorCollision" type="CollisionShape3D" parent="Areas/CorridorTrigger"]
 shape = SubResource("Box2")
-
-[sub_resource type="BoxShape3D" id="Box2"]
-size = Vector3(8, 4, 8)
 
 [node name="OfficesTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6)
@@ -72,17 +84,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6)
 [node name="OfficesCollision" type="CollisionShape3D" parent="Areas/OfficesTrigger"]
 shape = SubResource("Box3")
 
-[sub_resource type="BoxShape3D" id="Box3"]
-size = Vector3(16, 4, 14)
-
 [node name="BarricadeTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -6)
 
 [node name="BarricadeCollision" type="CollisionShape3D" parent="Areas/BarricadeTrigger"]
 shape = SubResource("Box4")
-
-[sub_resource type="BoxShape3D" id="Box4"]
-size = Vector3(8, 4, 8)
 
 [node name="ArmoryTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6)
@@ -90,14 +96,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, -6)
 [node name="ArmoryCollision" type="CollisionShape3D" parent="Areas/ArmoryTrigger"]
 shape = SubResource("Box5")
 
-[sub_resource type="BoxShape3D" id="Box5"]
-size = Vector3(10, 4, 10)
-
 [node name="BossArenaTrigger" type="Area3D" parent="Areas"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, -6)
 
 [node name="BossArenaCollision" type="CollisionShape3D" parent="Areas/BossArenaTrigger"]
 shape = SubResource("Box6")
-
-[sub_resource type="BoxShape3D" id="Box6"]
-size = Vector3(20, 4, 20)
