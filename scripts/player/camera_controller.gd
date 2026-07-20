@@ -37,7 +37,6 @@ func _ready() -> void:
 	
 	# Configure camera
 	camera.fov = 60.0
-	camera.position = Vector3(0, 0, 0)
 	
 	# Set rotation for look-down angle
 	rotation.x = -deg_to_rad(look_down_angle)
@@ -45,6 +44,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if target == null:
 		return
+	
+	# Reset camera local offset every frame (shake overrides below)
+	camera.position = Vector3.ZERO
 	
 	# Calculate desired position
 	var target_pos = target.global_position
@@ -98,8 +100,6 @@ func _physics_process(delta: float) -> void:
 		shake_offset.z = 0
 		
 		camera.position = shake_offset
-	else:
-		camera.position = camera.position.lerp(Vector3.ZERO, 10 * delta)
 
 func shake(intensity: float = 0.3, duration: float = 0.2) -> void:
 	shake_intensity = intensity

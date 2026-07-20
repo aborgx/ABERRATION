@@ -55,8 +55,10 @@ func create_animation_tree() -> AnimationTree:
 	# Build state machine
 	tree_root = _build_state_machine()
 
+	# Activate tree BEFORE starting playback (Godot 4.7 needs tree active for playback)
+	active = true
+
 	# Set initial state via AnimationNodeStateMachinePlayback (Godot 4.7 API)
-	# start_node property does not exist in 4.7; playback.start() is the correct call
 	var playback = get("parameters/playback")
 	if playback != null:
 		playback.start(&"Idle")
@@ -72,8 +74,6 @@ func create_animation_tree() -> AnimationTree:
 
 	# Speed parameter for Walk↔Sprint blend
 	set("parameters/Walk/blend_position", 0.0)
-
-	active = true
 
 	tree_ready.emit(self)
 	return self

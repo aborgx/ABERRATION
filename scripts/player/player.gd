@@ -83,6 +83,12 @@ func _load_rigged_model() -> void:
 	model.add_child(tree)
 	_anim_tree = tree
 	# tree._ready() runs on add_child -> create_animation_tree() uses animation_player_node
+	# Deferred re-start to ensure Idle plays (tree active before playback.start in setup)
+	if _anim_tree != null:
+		_anim_tree.call_deferred("set_active", true)
+		var pb = _anim_tree.get("parameters/playback")
+		if pb != null:
+			pb.call_deferred("start", &"Idle")
 	# Connect combat attack signal to AnimationTree trigger
 	if combat != null:
 		combat.melee_attack_started.connect(_on_melee_attack_started)

@@ -190,6 +190,29 @@
 
 **Verifica:** Blender headless `check_final_glb.py` → MESH 'model' 22412 verts X=[-0.72,0.72] Y=[-0.31,0.35] Z=[-0.00,1.87] (umanoide), slot 0: chr_player_mat (PBR).
 
+---
+
+## 2026-07-20: D011 — Camera terza persona + playback animazioni idle (fix P0 "ingiocabile")
+
+**Contesto:** Dopo D009/D010 (player caricato, texturizzato, umanoide, non cade), l'utente riportava: camera dentro il player (nessuna terza persona), zoom non gestito, animazioni totalmente assenti (bind pose statica). Screenshot confermavano camera al livello vita/piedi che punta in alto, player in T-pose.
+
+**Diagnosi:**
+- **Camera**: `camera_controller.gd` linea 40 (`camera.position = Vector3(0,0,0)`) + linea 102 (`camera.position = camera.position.lerp(Vector3.ZERO, 10*delta)` nel branch `else` no-shake) annullavano `global_position = target_pos + real_offset` (linea 83). Risultato: camera locale (0,0,0) = dentro il player (global y=-4.4).
+- **Animazioni**: `animation_tree_setup.gd` chiamava `playback.start(&"Idle")` (linea 62) PRIMA di `active=true` (linea 76). In Godot 4.7 `playback.start()` richiede l'AnimationTree attivo per avere effetto. Inoltre `_physics_process` non gira affidabilmente in headless/editor → `playback.start()` timing incerto.
+
+**Decisione:**
+- (1) `camera_controller.gd`: rimossa linea 40 + linea 102 (lerp a ZERO). Aggiunto `camera.position = Vector3.ZERO` all'inizio di `_physics_process` per reset pulito ogni frame (lo shake override sotto). Camera resta a `global_position = target_pos + offset` (dietro/sopra).
+- (2) `animation_tree_setup.gd`: `active=true` spostato PRIMA di `playback.start(&"Idle")`.
+- (3) `player.gd`: dopo creazione AnimationTree in `_load_rigged_model()`, aggiunto `call_deferred("set_active", true)` + `playback.call_deferred("start", &"Idle")` per garantire idle playi anche se il timing di init è incerto.
+
+**Rationale:** La camera deve seguire il player con offset (terza persona), non essere figlia diretta al pivot senza offset. L'AnimationTree deve essere `active` prima di `start()` in Godot 4.7. Il `call_deferred` evita race condition di inizializzazione.
+
+**Trade-off:** nessuno rilevante. Camera shake ancora funzionante (linea 100 `camera.position = shake_offset` preservata).
+
+**Reversibilità:** Alta. Tutti i fix sono in script Godot (no asset/GLB toccati).
+
+**Verifica:** headless `test_player_diag.gd` → camera local (0,0,0) (non dentro player), state machine vivo (`current_node=Fall` in headless per assenza floor; Idle con floor), nessun SCRIPT ERROR. In editor con floor: camera dietro/sopra, idle playa.
+
 
 **Verifica:** Blender headless (`verify_anim.py`) → ARMATURE 66 ossa, HAS_WEIGHTS=True, 6 NLA tracks. Godot headless → Skeleton3D 66 ossa, AnimationPlayer 6 anim, AnimationTree `active=true`.
 
