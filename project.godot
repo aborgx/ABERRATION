@@ -1,18 +1,68 @@
 ; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
-; but it can also be edited via code.
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="ABERRATION"
 config/description="Run & Gun Splatter/Horror Arcade — Action Horror Game"
-config/features=PackedStringArray("4.4", "Forward Plus")
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/test_standalone.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+
+[autoload]
+
+input_setup="*res://scripts/input_setup.gd"
+game_bootstrap="*res://scripts/autoload/game_bootstrap.gd"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/mode=0
+
+[filesystem]
+
+import/blender/enabled=false
+
+[input]
+
+attack={
+"deadzone": 0.5,
+"events": [{
+"device": -1,
+"event": {
+"button_index": 1,
+"pressed": true,
+"type": "InputEventMouseButton"
+}
+}]
+}
+zoom_in={
+"deadzone": 0.5,
+"events": [{
+"button_index": 4,
+"pressed": true,
+"type": "InputEventMouseButton"
+}]
+}
+zoom_out={
+"deadzone": 0.5,
+"events": [{
+"button_index": 5,
+"pressed": true,
+"type": "InputEventMouseButton"
+}]
+}
 
 [layer_names]
 
@@ -23,10 +73,5 @@ window/mode=0
 
 [rendering]
 
-renderer/rendering_method="forward_plus"
 textures/default_filters/anisotropic_filtering_level=4
 anti_aliasing/quality/msaa_3d=2
-
-[autoload]
-
-input_setup="*res://scripts/input_setup.gd"

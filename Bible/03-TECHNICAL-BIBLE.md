@@ -309,6 +309,24 @@ func calculate_speed() -> float:
   → **NON rimuovere**: il cablaggio `is_moving = moving and is_on_ground` è corretto per logica runtime; il limite è solo del test environment headless. Per playtest visivo usare Godot editor (non headless).
   → **Introdotto**: 2026-07-20 (playtest Fase A step 4, limite headless documentato)
 
+- **Caso**: `camera_controller.gd` legge `target = get_first_node_in_group("player")` in `_ready()` (linea 27-28). Se il Player node NON è nel gruppo "player", `target=null` → `_physics_process` ritorna early (linea 46 `if target == null: return`) → camera mai spostata dall'origine del pivot (0,2,0) → appare "sopra la testa" (distance=0).
+  → **Comportamento**: La camera resta figlia del `CameraPivot` senza offset → l'utente vede il player dall'alto/interno, non in terza persona. Il `distance` (default 6) non viene mai applicato.
+  → **Fix (2026-07-20, D012)**: `player.gd` aggiunge `add_to_group("player")` in `_enter_tree()` (parent `_enter_tree` fires prima di child `_ready` → `camera_controller._ready()` trova il target). `distance` 5→6, `height` 2→2.5. Verificato headless: OFFSET.z=6.0 (dietro player).
+  → **NON rimuovere**: il `add_to_group("player")` in `_enter_tree()`. Se rimosso → camera rotta di nuovo.
+  → **Introdotto**: 2026-07-20 (fix robusto camera, D012)
+
+- **Caso**: Animazioni non partono in editor F5 nonostante AnimationTree `active=true` + `playback.start(&"Idle")`.
+  → **Comportamento**: `player.gd` faceva `call_deferred("set_active", true)` + `playback.call_deferred("start", &"Idle")` DOPO `model.add_child(tree)`, ma `tree._ready()` già eseguiva `create_animation_tree()` con `active=true`+`playback.start()`. Doppio call → race condition → in editor l'animazione non parte (bind pose statica).
+  → **Fix (2026-07-20, D012)**: Rimosso il `call_deferred` conflittuale da `player.gd`. UN solo punto di init: `AnimationTree._ready()` → `create_animation_tree()` fa `active=true` PRIMA di `playback.start(&"Idle")`. Verificato headless: state machine vivo (`current_node=Fall` no floor; `Idle` con floor), nessun SCRIPT ERROR.
+  → **NON rimuovere**: il `call_deferred` da `player.gd` (già rimosso). Non re-introdurlo. L'AnimationTree `_ready()` è l'unico owner dell'init.
+  → **Introdotto**: 2026-07-20 (fix robusto animazioni, D012)
+
+- **Caso**: Zoom camera non implementato → l'utente non può allontanare la visuale per debug/usabilità.
+  → **Comportamento**: Nessun input map `zoom_in`/`zoom_out` + nessuna logica in `camera_controller.gd` → la distanza camera è fissa (6m).
+  → **Fix (2026-07-20, D012)**: `project.godot` aggiunge azioni `zoom_in` (wheel up, button 4) + `zoom_out` (wheel down, button 5). `camera_controller.gd` aggiunge `min_distance=2.0`, `max_distance=12.0`, `zoom_speed=1.0` + zoom in `_physics_process` (adjusta `distance` con `clampf`). Range 2-12m via mouse wheel.
+  → **NON rimuovere**: le azioni input `zoom_in`/`zoom_out` in project.godot. Se rimosse → zoom non funziona.
+  → **Introdotto**: 2026-07-20 (zoom camera, D012)
+
 **API runtime attuale:**
 | Nome | Input | Output | Side Effect | Dipendenze |
 |------|-------|--------|-------------|------------|

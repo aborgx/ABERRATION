@@ -1,15 +1,18 @@
 class_name CameraController
 extends Node3D
 
-## Third-person camera with dead zone, look ahead, and wall avoidance.
+## Third-person camera with dead zone, look ahead, wall avoidance, and zoom.
 
 @export var target: Node3D = null
-@export var distance: float = 5.0
-@export var height: float = 2.0
+@export var distance: float = 6.0
+@export var height: float = 2.5
 @export var look_down_angle: float = 15.0
 @export var follow_speed: float = 10.0
 @export var look_ahead_distance: float = 2.0
 @export var wall_avoidance_enabled: bool = true
+@export var min_distance: float = 2.0
+@export var max_distance: float = 12.0
+@export var zoom_speed: float = 1.0
 
 # --- Internal ---
 var camera: Camera3D
@@ -53,6 +56,15 @@ func _physics_process(delta: float) -> void:
 	var forward = -target.global_transform.basis.z
 	var right = target.global_transform.basis.x
 	
+	# Zoom (mouse wheel)
+	var zoom_delta := 0.0
+	if Input.is_action_just_pressed("zoom_in"):
+		zoom_delta -= zoom_speed
+	if Input.is_action_just_pressed("zoom_out"):
+		zoom_delta += zoom_speed
+	if zoom_delta != 0.0:
+		distance = clampf(distance + zoom_delta, min_distance, max_distance)
+
 	# Base offset (behind and above target)
 	target_offset = Vector3(0, height, distance)
 	

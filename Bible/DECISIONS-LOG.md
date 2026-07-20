@@ -207,6 +207,30 @@
 
 **Rationale:** La camera deve seguire il player con offset (terza persona), non essere figlia diretta al pivot senza offset. L'AnimationTree deve essere `active` prima di `start()` in Godot 4.7. Il `call_deferred` evita race condition di inizializzazione.
 
+---
+
+## 2026-07-20: D012 — Fix robusto camera + animazioni + zoom (revisione D011)
+
+**Contesto:** Dopo D011 l'utente riportava "situazione pressoché identica a prima del fix" — camera ancora non dietro il player (distance=0) e animazioni assenti in editor F5. Inoltre: "lo zoom non è implementato e non posso allontanare la visuale".
+
+**Diagnosi (@explorer exp-9 + @observer obs-3):**
+- **Camera distance=0**: `camera_controller.gd` legge `target = get_first_node_in_group("player")` in `_ready()` (linea 27-28). Ma il Player node NON era nel gruppo "player" → `target=null` → `_physics_process` ritornava early (linea 46 `if target == null: return`) → camera mai spostata dall'origine del pivot (0,2,0) → appare "sopra la testa". Il `distance=5` non veniva mai applicato.
+- **Animazioni assenti**: `player.gd` faceva `call_deferred("set_active", true)` + `playback.call_deferred("start", &"Idle")` DOPO `model.add_child(tree)`, ma `tree._ready()` già eseguiva `create_animation_tree()` con `active=true`+`playback.start()`. Doppio call → race condition. In editor l'animazione non partiva.
+- **Zoom**: nessun input map `zoom_in`/`zoom_out` + nessuna logica in `camera_controller.gd`.
+
+**Decisione:**
+- (1) `player.gd`: aggiunto `add_to_group("player")` in `_enter_tree()` (parent `_enter_tree` fires prima di child `_ready` → `camera_controller._ready()` trova il target). Rimosso il `call_deferred` conflittuale per `set_active`/`playback.start()` — l'AnimationTree `_ready()` gestisce tutto.
+- (2) `camera_controller.gd`: `distance` 5→6, `height` 2→2.5. Aggiunti `min_distance=2.0`, `max_distance=12.0`, `zoom_speed=1.0` + zoom mouse wheel (`zoom_in`/`zoom_out` in project.godot, button 4/5) che adjusta `distance` con `clampf` in `_physics_process`.
+- (3) `project.godot`: aggiunte azioni input `zoom_in` (wheel up, button 4) e `zoom_out` (wheel down, button 5).
+
+**Rationale:** Il root cause della camera era il target null (gruppo mancante), non l'offset. Le animazioni richiedono UN solo punto di init (AnimationTree._ready), non doppio call_deferred. Lo zoom è essenziale per il debug/usabilità della visuale.
+
+**Trade-off:** nessuno. Camera shake preservato.
+
+**Reversibilità:** Alta (solo script + project.godot).
+
+**Verifica:** headless `test_camera_pos.gd` → OFFSET.z=6.0 (dietro player), nessun SCRIPT ERROR. `test_player_diag.gd` → ANIM_TREE active, playback=true, current_node=Fall (headless no floor; Idle con floor). Zoom range 2-12m via mouse wheel.
+
 **Trade-off:** nessuno rilevante. Camera shake ancora funzionante (linea 100 `camera.position = shake_offset` preservata).
 
 **Reversibilità:** Alta. Tutti i fix sono in script Godot (no asset/GLB toccati).
