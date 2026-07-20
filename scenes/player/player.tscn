@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/player/camera_controller.gd" id="1_3"]
 [ext_resource type="Script" path="res://scripts/player/combat_component.gd" id="1_4"]
 [ext_resource type="Script" path="res://scripts/player/frenesia_component.gd" id="1_5"]
+[ext_resource type="PackedScene" path="res://scenes/player/chr_player_rigged_anim.glb" id="1_7"]
 
 [sub_resource type="CapsuleShape3D" id="Shape_player"]
 height = 1.8
@@ -15,7 +16,7 @@ size = Vector3(0.6, 1.8, 0.6)
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 1
-collision_mask = 6
+collision_mask = 1
 script = ExtResource("1_1")
 
 [node name="MovementComponent" type="Node" parent="."]
@@ -42,6 +43,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Model"]
-mesh = SubResource("Mesh_player")

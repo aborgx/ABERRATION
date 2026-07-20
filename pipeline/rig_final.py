@@ -4,19 +4,19 @@ ABERRATION — rig_final.py  (Blender 5.2 LTS)
 
 Produces chr_player_rigged_anim.glb with:
   - ARMATURE type (NOT EMPTY/Rigify) — 66 bones, mesh2motion naming
-  - MESH "chr_player" (48811 verts) with valid skin weights
+  - MESH "model" (~22K verts, humanoid Z=1.87m) with valid skin weights
   - 6 procedural animations (idle, walk, run, jump, attack, death)
 
 Approach (Option B + DataTransfer modifier):
   1. Import ProtagonistaRig_M2M.glb → UniRigArmature (66 bones) + zombie_character (with weights)
-  2. Import chr_player_rigged.glb → chr_player (clean mesh)
-  3. Align chr_player to zombie position
-  4. DataTransfer modifier: copy VGROUP_WEIGHTS from zombie → chr_player (NEAREST_VERTEX)
+  2. Import base_basic_pbr.glb → clean mesh (humanoid, 22K verts)
+  3. Align clean mesh to zombie position
+  4. DataTransfer modifier: copy VGROUP_WEIGHTS from zombie → clean mesh (NEAREST_VERTEX)
   5. Apply modifier, remove zombie_character
   6. Manual Armature modifier (NO parent_set) — avoids the ARMATURE_AUTO 0-weights bug
   7. Generate procedural animations on the armature
   8. Create PBR material from source textures (basecolor, normal, RM)
-  9. Export GLB (only armature + chr_player, export_skins=True, export_animations=True)
+  9. Export GLB (only armature + mesh, export_skins=True, export_animations=True)
 
 CRITICAL FIXES for Blender 5.2:
   - NO bpy.ops.object.armature_deform_add  (removed in 5.2)
@@ -37,7 +37,7 @@ import sys
 # ─── Paths ─────────────────────────────────────────────────────────────────
 BASE = "E:/Giochini/Giuseppe"
 M2M_PATH = f"{BASE}/Mesh/ProtagonistaRig_M2M.glb"
-CLEAN_PATH = f"{BASE}/scenes/player/chr_player_rigged.glb"
+CLEAN_PATH = f"{BASE}/Mesh/Abberration2/base_basic_pbr.glb"
 OUTPUT_PATH = f"{BASE}/scenes/player/chr_player_rigged_anim.glb"
 
 # ─── Helpers ───────────────────────────────────────────────────────────────
@@ -175,7 +175,7 @@ def transfer_weights_data_transfer(
         log(f"  Apply failed: {e}")
 
     # 4. Verify
-    has_w = verify_weights(dst_mesh, "  chr_player (after NEAREST_VERTEX)")
+    has_w = verify_weights(dst_mesh, "  clean mesh (after NEAREST_VERTEX)")
     if has_w:
         return True
 
@@ -197,7 +197,7 @@ def transfer_weights_data_transfer(
     except Exception as e:
         log(f"  Apply failed: {e}")
 
-    return verify_weights(dst_mesh, "  chr_player (after NEAREST_FACE)")
+    return verify_weights(dst_mesh, "  clean mesh (after POLY_NEAREST)")
 
 
 # ─── Material creation ────────────────────────────────────────────────────
@@ -218,7 +218,7 @@ def create_pbr_material(mesh: bpy.types.Object) -> None:
     tex_norm = f"{tex_dir}/ProtagonistaRig_M2M_zombie_character_3d_model_normal.jpg"
     tex_rm   = f"{tex_dir}/ProtagonistaRig_M2M_zombie_character_3d_model_rm.jpg"
 
-    log("  Loading PBR textures for chr_player...")
+    log("  Loading PBR textures for clean mesh...")
     img_base = bpy.data.images.load(tex_base)
     img_norm = bpy.data.images.load(tex_norm)
     img_rm   = bpy.data.images.load(tex_rm)
@@ -497,16 +497,16 @@ def main() -> int:
         return 1
 
     # ── Step 2: Import clean mesh ───────────────────────────────────────
-    log("[2/8] Import clean mesh (chr_player)...")
+    log("[2/8] Import clean mesh (base_basic_pbr)...")
     import_glb(CLEAN_PATH)
     clean = get_mesh(exclude=[zombie])
     if clean is None:
         log("FATAL: No clean mesh found")
         return 1
-    verify_weights(clean, "  chr_player (before transfer)")
+    verify_weights(clean, "  clean mesh (before transfer)")
 
     # ── Step 3: Align meshes ───────────────────────────────────────────
-    log("[3/8] Align chr_player to zombie position...")
+    log("[3/8] Align clean mesh to zombie position...")
     clean.location = zombie.location.copy()
     clean.rotation_euler = zombie.rotation_euler.copy()
     clean.scale = zombie.scale.copy()
@@ -524,8 +524,8 @@ def main() -> int:
     log("[5/8] Remove zombie_character...")
     bpy.data.objects.remove(zombie, do_unlink=True)
 
-    # ── Step 6: Manually parent chr_player to armature ──────────────────
-    log("[6/8] Parent chr_player to armature (manual Armature modifier)...")
+    # ── Step 6: Manually parent clean mesh to armature ──────────────────
+    log("[6/8] Parent mesh to armature (manual Armature modifier)...")
     # Method: object.parent link + manual Armature modifier
     # NOTE: parent_set(type='ARMATURE_AUTO') produces 0 weights in Blender 5.2
     #       on GLB-imported objects, so we do it manually.
@@ -539,7 +539,7 @@ def main() -> int:
     arm_mod = clean.modifiers.new(name="Armature", type='ARMATURE')
     arm_mod.object = arm
     log(f"  Armature modifier: object='{arm_mod.object.name}'")
-    verify_weights(clean, "  chr_player (after re-parent)")
+    verify_weights(clean, "  clean mesh (after re-parent)")
 
     # ── Step 7: Detect bones + generate animations ─────────────────────
     log("[7/8] Detect bones & generate procedural animations...")

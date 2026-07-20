@@ -170,6 +170,26 @@
 
 **Verifica:** headless `test_player_mount.gd` → GLB_INST ✓, ANIMPLAYER ✓, ANIMTREE active=true ✓, SKELETON 66 ossa ✓.
 
+---
+
+## 2026-07-20: D010 — Mesh protagonista corretta + collisione floor (fix P0 "massa informe" + caduta)
+
+**Contesto:** Dopo il fix D009 (caricamento GLB + PBR), l'utente riportava due problemi visivi: (1) il player cadeva attraverso il pavimento ("senza consistenza"), (2) il player era una "massa informe" non riconoscibile come umanoide.
+
+**Diagnosi:**
+- (1) `player.tscn`: `collision_mask=6` (binario `110` = layer 2,3). Il floor `StaticBody3D` in `test_level.tscn`/`test_anim_floor.tscn` è su layer 1 (default). Player non rileva floor → caduta. Fix: `collision_mask=1`.
+- (2) Bounding box check Blender: `scenes/player/chr_player_rigged.glb` (usata da `rig_final.py`) = X=±0.35 Y=±0.19 Z=[0,0.98] → forma piatta/larga, NON umanoide. Il vero protagonista è `Mesh/Abberration2/base_basic_pbr.glb` = X=±0.72 Y=±0.33 Z=[0,1.87] → umanoide corretto (Z=1.87m). Anche `Mesh/ProtagonistaRig_Godot.glb` è umanoide (Z=1.70) ma 247K verts (pesante).
+
+**Decisione:** (1) `player.tscn` `collision_mask=1`. (2) `rig_final.py` `CLEAN_PATH` reindirizzato a `Mesh/Abberration2/base_basic_pbr.glb` (scelta utente: umanoide, 22K verts, ha PBR, nome coerente col gioco). GLB rigenerato: mesh `model` 22412 verts, bbox umanoide, 66 ossa, 6 anim, materiale `chr_player_mat`.
+
+**Rationale:** `chr_player_rigged.glb` era una mesh placeholder/errata (forma non umanoide). `Abberration2/base_basic_pbr.glb` è il protagonista corretto. Il pipeline rigga entrambi allo stesso modo (DataTransfer weights da `ProtagonistaRig_M2M.glb` 66 ossa), quindi il cambio è trasparente per armature/animazioni.
+
+**Trade-off:** nessuno rilevante. `Abberration2` è più leggera (22K vs 48.8K) della precedente.
+
+**Reversibilità:** Alta. `rig_final.py` punta a `CLEAN_PATH` configurabile; il GLB è rigenerabile. Se si vuole `ProtagonistaRig_Godot.glb` (più dettagliata), basta cambiare `CLEAN_PATH`.
+
+**Verifica:** Blender headless `check_final_glb.py` → MESH 'model' 22412 verts X=[-0.72,0.72] Y=[-0.31,0.35] Z=[-0.00,1.87] (umanoide), slot 0: chr_player_mat (PBR).
+
 
 **Verifica:** Blender headless (`verify_anim.py`) → ARMATURE 66 ossa, HAS_WEIGHTS=True, 6 NLA tracks. Godot headless → Skeleton3D 66 ossa, AnimationPlayer 6 anim, AnimationTree `active=true`.
 

@@ -283,6 +283,10 @@ Before merging a new runtime call:
   - **Impatto**: (1) `player.gd._load_rigged_model()` ora usa `GLTFDocument.new()` + `GLTFState.new()` + `append_from_file()` + `generate_scene()` per istanziare il GLB a runtime (fix loop caricamento infinito da `preload()` su `.glb`). (2) `pipeline/rig_final.py` ora crea `chr_player_mat` (Principled BSDF) con texture da `Mesh/ProtagonistaRig_M2M_*` (basecolor/normal/rm) e lo assegna a `chr_player` prima dell'export GLB. Verificato headless: GLB istanziato, AnimationPlayer presente, AnimationTree active, Skeleton3D 66 ossa, **materiale `chr_player_mat` presente (albedo 1,1,1, PBR reale, non fallback grigio)**. Scene utilizzabili in editor con player texturizzato.
   - **Rischio**: basso. Vedi 03-TECHNICAL-BIBLE.md Edge Cases (caricamento GLB runtime) + DECISIONS-LOG D009.
 
+- **2026-07-20** `[FIX]` `[P0]` `[player]`: mesh protagonista corretta + collisione floor
+  - **Impatto**: (1) `player.tscn` `collision_mask` cambiato da `6` a `1` → il player ora rileva il floor (StaticBody3D default layer 1). Prima `mask=6` (layer 2,3) non rilevava il floor → caduta attraverso. (2) `rig_final.py` `CLEAN_PATH` reindirizzato da `scenes/player/chr_player_rigged.glb` (mesh piatta Z=0.98m, "massa informe") a `Mesh/Abberration2/base_basic_pbr.glb` (umanoide Z=1.87m, 22K verts, PBR). GLB rigenerato: `chr_player_rigged_anim.glb` ora ha mesh `model` 22412 verts, bbox X=±0.72 Y=±0.33 Z=[0,1.87] (umanoide), 66 ossa, 6 anim, materiale `chr_player_mat`. Verificato Blender: bbox umanoide corretto + materiale presente.
+  - **Rischio**: basso. Vedi DECISIONS-LOG D010 + 03-TECHNICAL-BIBLE.md Edge Cases.
+
 - **2026-07-16** `[FEAT]` `[P0]` `[integration]`: Aggiornamento completo Integration Map per WAVE5/WAVE6 + Mesh Pipeline
   - **Impatto**: Runtime graph aggiornato con tutti i moduli Wave 5/6, ownership map estesa, mesh pipeline integration con 13 nemici, future wave boundaries allineate
   - **Rischio**: medio (molte nuove dipendenze cross-wave)
