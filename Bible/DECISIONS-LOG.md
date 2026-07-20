@@ -113,6 +113,25 @@
 
 ---
 
+## 2026-07-20: D007 — Godot 4.7 AnimationTree API: start_node rimosso
+
+**Contesto:** `scripts/player/animation_tree_setup.gd` falliva in headless con `SCRIPT ERROR: Invalid assignment of property or key 'start_node'`. Il codice usava `_state_machine.start_node = "Idle"` (sintassi Godot ≤4.4) e un `@onready` hardcoded su `/root/TestAnimationsVisual/...` (path inesistente).
+
+**Opzioni considerate:**
+- A. Mantenere `start_node` come String/StringName (fallisce in 4.7).
+- B. Usare `set_start_node()` (non esiste in 4.7).
+- C. Usare `AnimationNodeStateMachinePlayback.start(&"Idle")` recuperato da `tree.get("parameters/playback")` dopo l'assegnazione di `tree_root`.
+
+**Decisione:** C. In Godot 4.7 `AnimationNodeStateMachine` **non ha** la proprietà `start_node`; lo stato iniziale si imposta via `AnimationNodeStateMachinePlayback.start()`. Inoltre `@onready` hardcoded sostituito con `@export var animation_player_node: AnimationPlayer` (allineato a `EnemyAnimationSetup`).
+
+**Rationale:** Verificato via documentazione ufficiale Godot 4.7 (librarian, 2026-07-20). Il test `test_animation_system.gd` passa 68/68 dopo il fix.
+
+**Trade-off:** richiede che l'AnimationTree sia nell'albero scena (o `tree_root` assegnato) prima di chiamare `playback.start()`.
+
+**Reversibilità:** Bassa — è l'API corretta per 4.7; tornare a `start_node` significherebbe retrocedere a Godot ≤4.4.
+
+---
+
 ## Recent Changes
 
 - **2026-07-16** `[FEAT]` `[P0]` `[design]`: **CORE DESIGN PRINCIPLE — Protagonist is the ONLY monster**.

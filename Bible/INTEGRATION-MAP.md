@@ -264,6 +264,10 @@ Before merging a new runtime call:
 
 ## 7. Recent Changes
 
+- **2026-07-20** `[FIX]` `[P1]` `[animation]`: `animation_tree_setup.gd` allineato a Godot 4.7
+  - **Impatto**: rimosso `@onready` hardcoded su path inesistente; proprietà `animation_player_node` esportata (come `EnemyAnimationSetup`); `start_node` sostituito con `AnimationNodeStateMachinePlayback.start(&"Idle")` (API 4.7). Test `test_animation_system.gd` ora 68/68 passati, 0 SCRIPT ERROR.
+  - **Rischio**: basso. Vedi DECISIONS-LOG D007.
+
 - **2026-07-16** `[FEAT]` `[P0]` `[integration]`: Aggiornamento completo Integration Map per WAVE5/WAVE6 + Mesh Pipeline
   - **Impatto**: Runtime graph aggiornato con tutti i moduli Wave 5/6, ownership map estesa, mesh pipeline integration con 13 nemici, future wave boundaries allineate
   - **Rischio**: medio (molte nuove dipendenze cross-wave)
