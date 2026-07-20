@@ -38,8 +38,6 @@ var is_dead: bool = false
 @onready var movement = $MovementComponent
 @onready var combat = $CombatComponent
 
-const PLAYER_MODEL_GLB := preload("res://scenes/player/chr_player_rigged_anim.glb")
-
 var _anim_tree: AnimationTree = null
 
 func _ready() -> void:
@@ -49,9 +47,20 @@ func _ready() -> void:
 	_load_rigged_model()
 
 func _load_rigged_model() -> void:
-	# Instance the rigged+animated GLB (verified: Skeleton3D 66 bones + AnimationPlayer 6 anims)
-	var glb_scene = PLAYER_MODEL_GLB.instantiate()
+	# Load the rigged+animated GLB at runtime via GLTFDocument (preload on .glb fails)
+	var glb_path := "res://scenes/player/chr_player_rigged_anim.glb"
+	var doc := GLTFDocument.new()
+	var gltf_state := GLTFState.new()
+	var err: Error = doc.append_from_file(glb_path, gltf_state)
+	if err != OK:
+		push_error("Player: failed to load GLB '%s' (err %d)" % [glb_path, err])
+		return
+	var glb_scene: Node = doc.generate_scene(gltf_state)
+	if glb_scene == null:
+		push_error("Player: GLB loaded but get_scene() returned null")
+		return
 	model.add_child(glb_scene)
+	_apply_fallback_materials(glb_scene)
 
 	# Find AnimationPlayer inside the GLB instance
 	var anim_player: AnimationPlayer = null
@@ -77,6 +86,24 @@ func _load_rigged_model() -> void:
 	# Connect combat attack signal to AnimationTree trigger
 	if combat != null:
 		combat.melee_attack_started.connect(_on_melee_attack_started)
+
+func _apply_fallback_materials(root: Node) -> void:
+	for child in root.get_children():
+		if child is MeshInstance3D:
+			var mesh: Mesh = child.mesh
+			if mesh != null:
+				var needs_mat := false
+				for i in mesh.get_surface_count():
+					if mesh.surface_get_material(i) == null:
+						needs_mat = true
+						break
+				if needs_mat:
+					var mat := StandardMaterial3D.new()
+					mat.albedo_color = Color(0.6, 0.65, 0.7)
+					for i in mesh.get_surface_count():
+						if mesh.surface_get_material(i) == null:
+							mesh.surface_set_material(i, mat)
+		_apply_fallback_materials(child)
 
 func _on_melee_attack_started(_combo_count: int) -> void:
 	if _anim_tree != null:

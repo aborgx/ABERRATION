@@ -297,6 +297,12 @@ func calculate_speed() -> float:
   → **NON rimuovere**: la connessione segnale è l'unico trigger di `is_attacking`; non chiamare `trigger_attack()` da `_update_animation_state()` (quello pilota solo stati continui). Verificato headless: `trigger_attack()`→`is_attacking=true`→`false`; connessione `melee_attack_started`→`_on_melee_attack_started` confermata `true`.
   → **Introdotto**: 2026-07-20 (cablaggio attacco AnimationTree, step 3 completamento)
 
+- **Caso**: `player.gd` caricava il GLB con `preload("res://scenes/player/chr_player_rigged_anim.glb")` + `.instantiate()` → scene vuota / loop di caricamento infinito in editor.
+  → **Comportamento**: Un `.glb` NON è una `PackedScene`; `preload()` su `.glb` crudo fallisce silenziosamente (ritorna `GLTFDocument`/`Resource`, non scena) → `.instantiate()` ritorna null → `Model` resta vuoto → Godot mostra barra rossa di caricamento infinita, player assente o solo luce visibile.
+  → **Fix (2026-07-20, P0)**: `_load_rigged_model()` usa ora `GLTFDocument.new()` + `GLTFState.new()` + `append_from_file(path, state)` + `generate_scene(state)` per istanziare il GLB a runtime. Aggiunto `_apply_fallback_materials()` che assegna `StandardMaterial3D` grigio (0.6,0.65,0.7) alle superfici senza materiale (la mesh sorgente è untextured → evita grigio raw). Verificato headless: GLB istanziato, AnimationPlayer presente, AnimationTree active, Skeleton3D 66 ossa.
+  → **NON rimuovere**: non tornare a `preload()`/`instantiate()` su `.glb`. Se si vuole materiale PBR reale, modificare `pipeline/rig_final.py` per esportare materiali dalla sorgente, non cambiare il load runtime.
+  → **Introdotto**: 2026-07-20 (fix P0 caricamento GLB runtime, D009)
+
 - **Caso**: Playtest headless (`--headless` Godot 4.7 su WSL/opencode) NON risolve collisioni `CharacterBody3D` vs `StaticBody3D` → `is_on_floor()` ritorna sempre `false` → `is_on_ground=false` → `is_moving` mascherato (resta `false` anche con input).
   → **Comportamento**: `is_sprinting`, `is_attacking`, `is_dead`, `in_air` sono validabili headless (rispondono quando i valori sorgente sono settati manualmente o via segnale). `is_moving` NON è validabile headless perché dipende da `is_on_ground` (physics reale). Transizioni smooth Idle↔Walk↔Sprint↔Jump/Fall richiedono **editor Godot su Windows** con rendering+physics reali.
   → **Si verifica se**: si esegue test headless con `--script` o `--scene` in ambiente WSL. Il player spawna e "cade" ma non atterra mai (physics dummy non processa collisioni StaticBody).

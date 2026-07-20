@@ -149,6 +149,28 @@
 
 **Reversibilità:** Media. Il glb finale è indipendente; si può riggare `chr_player_rigged.glb` da zero con schema diverso se necessario, ma richiede re-run pipeline Blender.
 
+---
+
+## 2026-07-20: D009 — Caricamento GLB runtime in player.gd (fix P0 scene non utilizzabili)
+
+**Contesto:** Dopo il completamento Fase A (rigging + montaggio + cablaggio AnimationTree), l'utente riportava che le scene di test (`test_level.tscn`, `test_anim_floor.tscn`) mostravano una barra rossa di caricamento infinita e il player assente (a volte solo luce visibile, a volte mesh grigia non texturizzata). Screenshot confermavano: nessun errore visibile, viewport vuoto o geometria raw grigia.
+
+**Opzioni considerate:**
+- A. (scelta) Caricare il GLB a runtime con `GLTFDocument.new()` + `GLTFState.new()` + `append_from_file(path, state)` + `generate_scene(state)`. API Godot 4.7 ufficiale per istanziare `.glb`/`.gltf` a runtime.
+- B. Convertire il `.glb` in `.tscn` via editor e `preload()` della scena. Richiede step manuale editor, meno robusto per pipeline automatizzata.
+- C. Importare il GLB come `PackedScene` con `ResourceLoader.load(path, "PackedScene")`. Fallisce: `.glb` non è `PackedScene` nativa.
+
+**Decisione:** A. `player.gd._load_rigged_model()` ora usa `GLTFDocument` + `GLTFState` per istanziare `chr_player_rigged_anim.glb`. Aggiunto `_apply_fallback_materials()` che assegna `StandardMaterial3D` grigio (0.6,0.65,0.7) alle superfici senza materiale (la mesh sorgente `chr_player_rigged.glb` è untextured → il GLB esportato non ha PBR materials).
+
+**Rationale:** `preload()`/`load()` su `.glb` crudo ritorna `GLTFDocument`/`Resource`, NON `PackedScene` → `.instantiate()` fallisce silenziosamente → `Model` vuoto → Godot mostra spinner di caricamento infinito. L'API `GLTFDocument` è l'unica via corretta per GLB runtime in Godot 4.7. Il fallback materiale evita il grigio raw (estetica, non bloccante).
+
+**Trade-off:** materiali ancora grigi (no PBR reale). Per materiali PBR serve modificare `pipeline/rig_final.py` per esportare i materiali dalla sorgente `chr_player_rigged.glb` (non ancora fatto). Funzionalità gameplay non impattata.
+
+**Reversibilità:** Alta. Il fix è solo in `player.gd`; il GLB resta invariato. Se si vuole PBR reale, si aggiorna il pipeline Blender separatamente.
+
+**Verifica:** headless `test_player_mount.gd` → GLB_INST ✓, ANIMPLAYER ✓, ANIMTREE active=true ✓, SKELETON 66 ossa ✓.
+
+
 **Verifica:** Blender headless (`verify_anim.py`) → ARMATURE 66 ossa, HAS_WEIGHTS=True, 6 NLA tracks. Godot headless → Skeleton3D 66 ossa, AnimationPlayer 6 anim, AnimationTree `active=true`.
 
 ## Recent Changes
