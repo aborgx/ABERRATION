@@ -267,8 +267,8 @@ Before merging a new runtime call:
 ## 7. Recent Changes
 
 - **2026-07-20** `[FEAT]` `[P1]` `[animation]`: Cablaggio runtime AnimationTree in `player.gd` (step 3) — COMPLETATO
-  - **Impatto**: `_update_animation_state()` in `_physics_process()` pilota `is_moving`/`is_sprinting`/`in_air`/`is_dead` da `MovementComponent` + stato player. Verificato headless: `is_sprinting=true` su `current_state="sprint"`. `is_attacking` cablato da `CombatComponent`: `combat_component.gd` emette `melee_attack_started` → `player.gd._on_melee_attack_started()` → `animation_tree_setup.gd.trigger_attack()` (pilota condition `is_attacking`). Verificato headless: `trigger_attack()`→`is_attacking=true`→`false`; connessione segnale confermata `true`.
-  - **Rischio**: basso. Vedi 03-TECHNICAL-BIBLE.md Edge Cases + DECISIONS-LOG D008.
+  - **Impatto**: `_update_animation_state()` in `_physics_process()` pilota `is_moving`/`is_sprinting`/`in_air`/`is_dead` da `MovementComponent` + stato player. Verificato headless: `is_sprinting=true` su `current_state="sprint"`; `is_attacking` cablato da `CombatComponent` via segnale `melee_attack_started` → `trigger_attack()` (verificato: `is_attacking=true`→`false`, connessione confermata). `is_dead`/`in_air` rispondono a valori sorgente settati. **Limite headless**: `is_moving` non validabile headless perché `is_on_floor()` ritorna sempre `false` in `--headless` WSL (physics dummy non processa collisioni StaticBody) → `is_on_ground=false` maschera `is_moving`. Playtest visivo completo (transizioni smooth) richiede editor Godot su Windows.
+  - **Rischio**: basso. Vedi 03-TECHNICAL-BIBLE.md Edge Cases (cablaggio attacco + limite headless) + DECISIONS-LOG D008.
 
 - **2026-07-20** `[FEAT]` `[P1]` `[animation]`: Player riggato + animato montato in `player.tscn`
   - **Impatto**: `pipeline/rig_final.py` produce `scenes/player/chr_player_rigged_anim.glb` (Skeleton3D 66 ossa + skin weights + 6 anim via DataTransfer weights da `ProtagonistaRig_M2M.glb`). `player.gd._load_rigged_model()` istanzia il glb via codice e cabla `AnimationTreeSetup` all'AnimationPlayer. Verificato headless: AnimationTree `active=true`, 9 anim, Skeleton3D 66 ossa.

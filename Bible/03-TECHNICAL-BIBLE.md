@@ -297,6 +297,12 @@ func calculate_speed() -> float:
   → **NON rimuovere**: la connessione segnale è l'unico trigger di `is_attacking`; non chiamare `trigger_attack()` da `_update_animation_state()` (quello pilota solo stati continui). Verificato headless: `trigger_attack()`→`is_attacking=true`→`false`; connessione `melee_attack_started`→`_on_melee_attack_started` confermata `true`.
   → **Introdotto**: 2026-07-20 (cablaggio attacco AnimationTree, step 3 completamento)
 
+- **Caso**: Playtest headless (`--headless` Godot 4.7 su WSL/opencode) NON risolve collisioni `CharacterBody3D` vs `StaticBody3D` → `is_on_floor()` ritorna sempre `false` → `is_on_ground=false` → `is_moving` mascherato (resta `false` anche con input).
+  → **Comportamento**: `is_sprinting`, `is_attacking`, `is_dead`, `in_air` sono validabili headless (rispondono quando i valori sorgente sono settati manualmente o via segnale). `is_moving` NON è validabile headless perché dipende da `is_on_ground` (physics reale). Transizioni smooth Idle↔Walk↔Sprint↔Jump/Fall richiedono **editor Godot su Windows** con rendering+physics reali.
+  → **Si verifica se**: si esegue test headless con `--script` o `--scene` in ambiente WSL. Il player spawna e "cade" ma non atterra mai (physics dummy non processa collisioni StaticBody).
+  → **NON rimuovere**: il cablaggio `is_moving = moving and is_on_ground` è corretto per logica runtime; il limite è solo del test environment headless. Per playtest visivo usare Godot editor (non headless).
+  → **Introdotto**: 2026-07-20 (playtest Fase A step 4, limite headless documentato)
+
 **API runtime attuale:**
 | Nome | Input | Output | Side Effect | Dipendenze |
 |------|-------|--------|-------------|------------|
