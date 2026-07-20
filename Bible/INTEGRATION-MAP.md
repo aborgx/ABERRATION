@@ -126,14 +126,21 @@ graph TD
 
 ## 2. Wave Target Runtime Graphs
 
-### Wave 1 — Foundation (COMPLETATO)
-- Player movement, camera, HUD artery, test level
+### Wave 1 — Foundation (PARZIALE)
+- **Logica presente**: `player.gd` (movement/camera/health), `movement_component.gd`, `camera_controller.gd`, `hud_artery.gd`, `test_level.tscn` — tutti con codice reale (verificato 2026-07-20).
+- **Mancante**: integrazione asset/animazione. `player.tscn` usa `MeshInstance3D`+`BoxMesh` placeholder; nessun `Skeleton3D`/`AnimationPlayer`/`AnimationTree` cablato. `AnimationTreeSetup` esiste ma non istanziato in scene reali.
+- **Exit gate**: NON superato (player non animato, è un cubo).
 
-### Wave 2 — Combat Feel (COMPLETATO)
-- CombatComponent, MeleeAttack, NailLaunch, FrenesiaComponent, VFX hooks
+### Wave 2 — Combat Feel (PARZIALE)
+- **Logica presente**: `combat_component.gd` (melee/nail/scream/grab), `frenesia_component.gd`, `procedural_animator.gd`, `blood_particles.gd`, `hit_flash.gd` — tutti con codice reale (verificato 2026-07-20).
+- **Mancante**: cablaggio a player animato (dipende da Wave 1 animazione).
 
-### Wave 3 — Swarm Core (COMPLETATO)
-- EnemyBase, FSMComponent, UtilityAI, BoidsComponent, SpawnManager, PoolManager, Director
+### Wave 3 — Swarm Core (NON COMPLETATA)
+- **Logica presente**: `fsm_component.gd`, `utility_ai.gd`, `boids_component.gd`, `navigation_component.gd` (verificato 2026-07-20).
+- **MANCANTI (4/8 moduli)**: `enemy_base.gd`, `spawn_manager.gd`, `pool_manager.gd`, `director.gd` — **non esistono nel filesystem** (verificato 2026-07-20 via glob). La dichiarazione "COMPLETATO" precedente era ERRATA (KB drift, P0).
+- **Exit gate**: NON superato.
+
+> **[DRIFT-FIX] 2026-07-20 (P0)**: INTEGRATION-MAP §2 dichiarava Wave 1/2/3 "COMPLETATO". Verifica filesystem ha mostrato Wave 3 con 4 moduli core assenti e Wave 1/2 senza integrazione asset/animazione. Stato corretto a PARZIALE / NON COMPLETATA.
 
 ### Wave 4 — Police Vertical Slice (IN CORSO)
 - Level1, CheckpointSystem, BossJuggernaut, AudioManagers, PropLibraryGlobal
@@ -192,7 +199,7 @@ graph TD
 
 | Asset | Scene Path | Rig Type | Tris LOD0 | Dipendenze Wave |
 |-------|------------|----------|-----------|-----------------|
-| `chr_player` | `scenes/player/chr_player/` | Humanoid (Rigify) | 22K | **Wave 1-2** (Movement, Combat) |
+| `chr_player` | `scenes/player/chr_player_rigged.glb` | Humanoid (Rigify) | 22K | **Wave 1-2** (Movement, Combat) |
 | `chr_enemy_infantry` | `scenes/enemies/chr_enemy_infantry/` | Humanoid (Rigify) | 10K | Wave 4 (AW4.3) |
 | `chr_enemy_shield` | `scenes/enemies/chr_enemy_shield/` | Humanoid (Rigify) | 12K | Wave 4 (AW4.4) |
 | `chr_enemy_juggernaut` | `scenes/enemies/chr_enemy_juggernaut/` | Humanoid + exo bones | 28K | Wave 4 (AW4.7) |
