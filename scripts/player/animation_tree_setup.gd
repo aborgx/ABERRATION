@@ -79,32 +79,41 @@ func create_animation_tree() -> AnimationTree:
 	return self
 
 func _load_animations() -> void:
-	"""Load animation .tres files into AnimationPlayer."""
+	"""Copy animations from the glb AnimationPlayer into the AnimationTree's library.
+	The glb (chr_player_rigged_anim.glb) already contains idle/walk/run/jump/attack/death.
+	We map them to the state-machine names used by the tree."""
+	var src_lib = animation_player_node.get_animation_library(&"")
+	if not src_lib:
+		push_warning("AnimationTreeSetup: no animation library in source AnimationPlayer")
+		return
+
+	# Map state-machine names -> glb animation names
 	var anim_map := {
-		"idle": "res://animations/player_idle.tres",
-		"walk": "res://animations/player_walk.tres",
-		"run": "res://animations/player_run.tres",
-		"jump": "res://animations/player_jump.tres",
-		"attack": "res://animations/player_attack.tres",
-		"death": "res://animations/player_death.tres",
-		"fall": "res://animations/player_jump.tres",  # reuse jump for fall
-		"hit": "res://animations/player_idle.tres",   # placeholder
-		"alert": "res://animations/player_idle.tres", # placeholder
+		"idle": "idle",
+		"walk": "walk",
+		"run": "run",
+		"jump": "jump",
+		"fall": "jump",    # reuse jump for fall
+		"attack": "attack",
+		"hit": "idle",     # placeholder
+		"alert": "idle",   # placeholder
+		"death": "death",
 	}
-	
-	# AnimationPlayer already has a default library at index 0
+
+	# Ensure target library exists on the AnimationPlayer
 	var anim_lib = animation_player_node.get_animation_library(&"")
 	if not anim_lib:
 		anim_lib = AnimationLibrary.new()
 		animation_player_node.add_animation_library("", anim_lib)
-	
-	for anim_name in anim_map:
-		var anim_res = load(anim_map[anim_name])
-		if anim_res:
-			anim_lib.add_animation(anim_name, anim_res)
-			print("Loaded animation: ", anim_name)
-		else:
-			print("Failed to load: ", anim_map[anim_name])
+
+	for state_name in anim_map:
+		var src_name = anim_map[state_name]
+		var anim_res = src_lib.get_animation(src_name)
+		if anim_res and not anim_lib.has_animation(state_name):
+			anim_lib.add_animation(state_name, anim_res)
+			print("Loaded animation: ", state_name, " <- ", src_name)
+		elif not anim_res:
+			print("Missing source animation: ", src_name)
 
 func _build_state_machine() -> AnimationNodeStateMachine:
 	_state_machine = AnimationNodeStateMachine.new()

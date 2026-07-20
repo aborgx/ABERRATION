@@ -1,18 +1,21 @@
 class_name Player
 extends CharacterBody3D
 
-## Main player controller for Aberration.
-## Integrates MovementComponent, CombatComponent, FrenesiaComponent, handles physics and gravity.
+## Simple player controller for visual test - no animation dependencies
 
 signal health_changed(old_value: int, new_value: int)
 signal frenesia_changed(old_value: int, new_value: int)
 signal state_changed(new_state: String)
 
 # --- Constants ---
-const GRAVITY: float = -19.6  # Heavier than real for arcade feel
+const GRAVITY: float = -19.6
 const JUMP_FORCE: float = 400.0
 const COYOTE_TIME: float = 0.1
 const JUMP_BUFFER: float = 0.1
+const MOVE_SPEED: float = 6.0
+const SPRINT_SPEED: float = 12.0
+const ACCELERATION: float = 20.0
+const DECELERATION: float = 25.0
 
 # --- Exported ---
 @export var max_health: int = 100
@@ -25,214 +28,133 @@ var can_jump: bool = true
 var is_on_ground: bool = false
 var coyote_timer: float = 0.0
 var jump_buffer_timer: float = 0.0
+var is_dead: bool = false
 
-# --- Components ---
+# --- Components (simple references) ---
+@onready var camera_pivot = $CameraPivot
+@onready var camera = $CameraPivot/Camera3D
+@onready var collision_shape = $CollisionShape3D
+@onready var model = $Model
 @onready var movement = $MovementComponent
 @onready var combat = $CombatComponent
-@onready var frenesia_comp = $FrenesiaComponent
+
+const PLAYER_MODEL_GLB := preload("res://scenes/player/chr_player_rigged_anim.glb")
+
+var _anim_tree: AnimationTree = null
 
 func _ready() -> void:
-	# Connect movement signals
-	movement.state_changed.connect(_on_movement_state_changed)
-	movement.dash_started.connect(_on_dash_started)
-	movement.dash_finished.connect(_on_dash_finished)
-	
-	# Connect combat signals
-	combat.hit_landed.connect(_on_hit_landed)
-	combat.frenesia_gained.connect(_on_frenesia_gained)
-	combat.combo_updated.connect(_on_combo_updated)
-	
-	# Connect frenesia signals
-	frenesia_comp.frenesia_changed.connect(_on_frenesia_changed)
-	frenesia_comp.frenesia_level_changed.connect(_on_frenesia_level_changed)
-	
-	# Set references
-	movement.body = self
-	combat.body = self
-	combat.movement = movement
-	combat.frenesia = frenesia_comp
-	frenesia_comp.body = self
-	
-	# Set initial state
-	state_changed.emit("idle")
+	# Hide mouse cursor and capture it
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+	_load_rigged_model()
+
+func _load_rigged_model() -> void:
+	# Instance the rigged+animated GLB (verified: Skeleton3D 66 bones + AnimationPlayer 6 anims)
+	var glb_scene = PLAYER_MODEL_GLB.instantiate()
+	model.add_child(glb_scene)
+
+	# Find AnimationPlayer inside the GLB instance
+	var anim_player: AnimationPlayer = null
+	for n in glb_scene.get_children():
+		if n is AnimationPlayer:
+			anim_player = n
+		elif n is Node3D:
+			for c in n.get_children():
+				if c is AnimationPlayer:
+					anim_player = c
+	if anim_player == null:
+		push_warning("Player: no AnimationPlayer found in GLB")
+		return
+
+	# Build AnimationTree wired to the GLB's AnimationPlayer
+	var tree = load("res://scripts/player/animation_tree_setup.gd").new()
+	tree.name = "AnimationTree"
+	tree.player = self
+	tree.animation_player_node = anim_player
+	model.add_child(tree)
+	_anim_tree = tree
+	# tree._ready() runs on add_child -> create_animation_tree() uses animation_player_node
+	# Connect combat attack signal to AnimationTree trigger
+	if combat != null:
+		combat.melee_attack_started.connect(_on_melee_attack_started)
+
+func _on_melee_attack_started(_combo_count: int) -> void:
+	if _anim_tree != null:
+		_anim_tree.trigger_attack()
+
+func _update_animation_state() -> void:
+	if _anim_tree == null:
+		return
+	var moving = movement.current_state != "prowl" or movement.move_direction.length() > 0.0
+	_anim_tree.set_state_condition("is_moving", moving and is_on_ground)
+	_anim_tree.set_state_condition("is_sprinting", movement.current_state == "sprint")
+	_anim_tree.set_state_condition("in_air", not is_on_ground)
+	_anim_tree.set_state_condition("is_dead", is_dead)
 
 func _physics_process(delta: float) -> void:
-	# Apply gravity
+	if is_dead:
+		return
+	
+	# Gravity
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
+	else:
+		velocity.y = 0
 	
-	# Ground detection
-	var was_on_ground = is_on_ground
-	is_on_ground = is_on_floor()
+	# Input
+	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	var direction = (camera_pivot.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	# Coyote time
-	if was_on_ground and not is_on_ground:
-		coyote_timer = COYOTE_TIME
-	elif coyote_timer > 0:
-		coyote_timer -= delta
+	# Sprint
+	var target_speed = MOVE_SPEED
+	if Input.is_action_pressed("sprint"):
+		target_speed = SPRINT_SPEED
 	
-	# Jump buffer
-	if Input.is_action_just_pressed("jump"):
-		jump_buffer_timer = JUMP_BUFFER
+	# Acceleration/Deceleration
+	if direction != Vector3.ZERO:
+		velocity.x = move_toward(velocity.x, direction.x * target_speed, ACCELERATION * delta)
+		velocity.z = move_toward(velocity.z, direction.z * target_speed, ACCELERATION * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
+		velocity.z = move_toward(velocity.z, 0, DECELERATION * delta)
 	
-	if jump_buffer_timer > 0:
-		jump_buffer_timer -= delta
-	
-	# Jump logic
-	if jump_buffer_timer > 0 and coyote_timer > 0 and can_jump:
+	# Jump
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_FORCE
-		jump_buffer_timer = 0
-		coyote_timer = 0
 	
-	# Movement input
-	var input_dir = movement.get_input_direction()
+	# Camera rotation (mouse)
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+		var mouse_delta = Input.get_last_mouse_velocity()
+		rotate_y(-mouse_delta.x * 0.002)
+		camera_pivot.rotate_x(-mouse_delta.y * 0.002)
+		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, -1.3, 1.3)
 	
-	# Dash check
-	if Input.is_action_just_pressed("dash"):
-		movement.try_dash()
-	
-	# Combat input
-	# Melee
-	if Input.is_action_just_pressed("attack_melee"):
-		input_dir = movement.get_input_direction()
-		combat.melee_attack(input_dir)
-	
-	# Nail Launch (charge)
-	if Input.is_action_pressed("attack_ranged"):
-		combat.start_nail_charge()
-	elif Input.is_action_just_released("attack_ranged"):
-		input_dir = movement.get_input_direction()
-		combat.release_nail_launch(input_dir)
-	
-	# Scream
-	if Input.is_action_just_pressed("scream"):
-		combat.scream()
-	
-	# Grab
-	if Input.is_action_just_pressed("grab"):
-		combat.grab()
-	
-	# Dash Attack
-	if Input.is_action_just_pressed("dash_attack"):
-		input_dir = movement.get_input_direction()
-		combat.dash_attack(input_dir)
-	
-	# Ground Slam
-	if Input.is_action_just_pressed("ground_slam"):
-		combat.ground_slam()
-	
-	# Apply frenesia speed multiplier to movement
-	if frenesia_comp:
-		movement.speed_multiplier = frenesia_comp.get_speed_multiplier()
-	
-	# Apply frenesia damage multiplier to combat
-	if combat and frenesia_comp:
-		combat.damage_multiplier = frenesia_comp.get_damage_multiplier()
-	
-	# Update combat timers
-	combat._process(delta)
-	frenesia_comp._process(delta)
-	
-	# Apply movement (only horizontal, preserve Y for gravity/jump)
-	var horizontal_velocity = movement.calculate_velocity(input_dir)
-	velocity.x = horizontal_velocity.x
-	velocity.z = horizontal_velocity.z
-	
-	# Move
 	move_and_slide()
+	
+	# Update grounded state
+	is_on_ground = is_on_floor()
+	_update_animation_state()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func take_damage(amount: int) -> void:
-	var old_health = health
-	health = clamp(health - amount, 0, max_health)
-	health_changed.emit(old_health, health)
-	
-	# Frenesia penalty on damage
-	frenesia_comp.on_damage_taken()
-	
+	health -= amount
+	health_changed.emit(health + amount, health)
 	if health <= 0:
-		_die()
+		die()
+
+func die() -> void:
+	is_dead = true
+	state_changed.emit("dead")
 
 func add_frenesia(amount: int) -> void:
-	var old_frenesia = frenesia
 	frenesia = clamp(frenesia + amount, 0, max_frenesia)
-	frenesia_changed.emit(old_frenesia, frenesia)
-
-func _die() -> void:
-	# Placeholder — will be expanded in later waves
-	pass
-
-func get_player_velocity() -> Vector3:
-	return velocity
-
-func _on_movement_state_changed(old_state: String, new_state: String) -> void:
-	state_changed.emit(new_state)
-
-func _on_dash_started() -> void:
-	# Placeholder for dash VFX/sound
-	pass
-
-func _on_dash_finished() -> void:
-	# Placeholder for dash VFX/sound
-	pass
-
-# --- Combat Signal Handlers ---
-
-func _on_hit_landed(target: Node, damage: int, hit_type: String) -> void:
-	# Camera shake based on hit type
-	var shake_intensity = 0.2
-	var shake_duration = 0.1
-	match hit_type:
-		"melee":
-			shake_intensity = 0.3
-			shake_duration = 0.15
-		"nail":
-			shake_intensity = 0.15
-			shake_duration = 0.1
-		"scream":
-			shake_intensity = 0.4
-			shake_duration = 0.2
-		"grab":
-			shake_intensity = 0.5
-			shake_duration = 0.25
-		"dash_attack":
-			shake_intensity = 0.35
-			shake_duration = 0.2
-		"ground_slam":
-			shake_intensity = 0.6
-			shake_duration = 0.3
-	
-	if has_node("CameraPivot/Camera3D"):
-		get_node("CameraPivot/Camera3D").shake(shake_intensity, shake_duration)
-	
-	# Hit flash
-	_hit_flash()
-
-func _on_frenesia_gained(amount: int) -> void:
-	# Visual feedback
-	pass
-
-func _on_combo_updated(count: int) -> void:
-	# UI feedback
-	pass
-
-func _on_frenesia_changed(old: int, new: int) -> void:
-	# Update HUD artery
-	if has_node("../HUD/Artery"):
-		get_node("../HUD/Artery").frenesia = new
-
-func _on_frenesia_level_changed(level: int) -> void:
-	# Visual/audio changes per level
-	match level:
-		1: _set_frenesia_visuals(1.0)  # AGITATED
-		2: _set_frenesia_visuals(1.5)  # FURIOUS
-		3: _set_frenesia_visuals(2.0)  # FRENETIC
-		4: _set_frenesia_visuals(3.0)  # OVERFRENESIA
-		_: _set_frenesia_visuals(1.0)
-
-func _set_frenesia_visuals(intensity: float) -> void:
-	# Bloom, vignette, chromatic aberration, eye glow
-	pass
-
-func _hit_flash() -> void:
-	# Screen flash red
-	pass
+	frenesia_changed.emit(frenesia - amount, frenesia)

@@ -4,6 +4,7 @@ extends Node
 signal hit_landed(target: Node, damage: int, hit_type: String)
 signal frenesia_gained(amount: int)
 signal combo_updated(count: int)
+signal melee_attack_started(combo_count: int)
 
 # --- Melee ---
 @export var melee_damage: int = 30
@@ -130,6 +131,7 @@ func melee_attack(input_dir: Vector2) -> void:
 	can_combo = current_combo < max_combo
 	melee_cooldown_timer = melee_cooldown
 	combo_updated.emit(current_combo)
+	melee_attack_started.emit(current_combo)
 	
 	# Calculate damage with frenesia multiplier
 	var damage = melee_damage
@@ -182,8 +184,9 @@ func _play_melee_animation(combo_count: int) -> void:
 func start_nail_charge() -> void:
 	if nail_cooldown_timer > 0:
 		return
-	is_charging_nail = true
-	nail_charge_time = 0.0
+	if not is_charging_nail:
+		is_charging_nail = true
+		nail_charge_time = 0.0
 
 func release_nail_launch(input_dir: Vector2) -> void:
 	if not is_charging_nail:

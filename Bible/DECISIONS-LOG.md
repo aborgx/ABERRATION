@@ -132,6 +132,25 @@
 
 ---
 
+## 2026-07-20: D008 — Player rigging: riggare chr_player_rigged.glb + transfer animazioni (C→A)
+
+**Contesto:** `chr_player_rigged.glb` è una mesh pulita (48.8K vertici) SENZA armature nè skinning. Le animazioni di qualità `protagonist_*.glb` (idle/walk/run/jump/attack/death) esistono con skeleton 66 ossa (`UniRigArmature`, schema mesh2motion/Mixamo). Serviva un player riggato + animato montabile in Godot.
+
+**Opzioni considerate:**
+- A. Riggare `chr_player_rigged.glb` con Rigify metarig + skinning, poi transfer animazioni `protagonist_*.glb` per bone-name.
+- B. (scelta) Riggare `chr_player_rigged.glb` con armature semplice 66 ossa (`UniRigArmature` da `ProtagonistaRig_M2M.glb`) + transfer weights via DataTransfer modifier da `zombie_character` (mesh sorgente con skinning valido) + animazioni procedurali generate direttamente sull'armatura semplice.
+- C. Usare direttamente `ProtagonistaRig_M2M.glb` come player mesh (scarta `chr_player_rigged.glb`).
+
+**Decisione:** B. `pipeline/rig_final.py` importa `ProtagonistaRig_M2M.glb` (armatura semplice `UniRigArmature`, 66 ossa, `zombie_character` skinnata), importa `chr_player_rigged.glb`, allinea le mesh, copia i vertex groups (weights) da `zombie_character` → `chr_player` via `DATA_TRANSFER` modifier (`vert_mapping='NEAREST'`, fallback `POLY_NEAREST`), parenta `chr_player` all'armatura, genera 6 animazioni procedurali (idle/walk/run/jump/attack/death) e esporta `scenes/player/chr_player_rigged_anim.glb`.
+
+**Rationale:** Blender 5.2 LTS converte le armature Rigify in EMPTY `rig.001` all'export GLB → Godot vede `NO_SKELETON`. L'opzione A fallisce sistematicamente (verificato: 4 tentativi, tutti con armature perse all'export). L'opzione B usa armature SEMPLICI (non Rigify) che sopravvivono all'export GLB. Inoltre `parent_set(ARMATURE_AUTO)` su mesh importata da GLB fallisce silenziosamente (0 weights) → DataTransfer da mesh sorgente skinnata è l'unico path affidabile dato che `chr_player` e `zombie_character` hanno topologie diverse (48.8K vs 246K vertici).
+
+**Trade-off:** le animazioni sono procedurali semplici (keyframe su ossa principali), non mocap/Cascadeur. Qualità sufficiente per Wave 1-2; upgrade successivo possibile con retargeting mocap su `UniRigArmature`.
+
+**Reversibilità:** Media. Il glb finale è indipendente; si può riggare `chr_player_rigged.glb` da zero con schema diverso se necessario, ma richiede re-run pipeline Blender.
+
+**Verifica:** Blender headless (`verify_anim.py`) → ARMATURE 66 ossa, HAS_WEIGHTS=True, 6 NLA tracks. Godot headless → Skeleton3D 66 ossa, AnimationPlayer 6 anim, AnimationTree `active=true`.
+
 ## Recent Changes
 
 - **2026-07-16** `[FEAT]` `[P0]` `[design]`: **CORE DESIGN PRINCIPLE — Protagonist is the ONLY monster**.

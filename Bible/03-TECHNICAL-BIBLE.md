@@ -285,6 +285,18 @@ func calculate_speed() -> float:
   → **NON rimuovere**: `try_dash()` deve essere chiamato **esattamente una volta** per frame in player.gd. La posizione corretta è subito dopo `get_input_direction()` e prima del combat input.
   → **Introdotto**: 2026-07-17 (fix P1 duplicate call)
 
+- **Caso**: `_update_animation_state()` in `player.gd` calcola `is_moving = (movement.current_state != "prowl" OR move_direction.length() > 0) AND is_on_ground`.
+  → **Comportamento**: Se il player è in aria (`is_on_ground == false`), `is_moving` resta `false` anche con input → l'AnimationTree transita Idle→Fall (via `in_air`) invece di Walk. Corretto per logica (caduta non è "moving" a terra).
+  → **Si verifica se**: il player salta o cade; `in_air=true` pilota la transizione Jump/Fall, `is_moving` è mascherato da `is_on_ground`.
+  → **NON rimuovere**: il AND con `is_on_ground` evita che Walk giri mentre il player è in volo. Se rimosso → animazione Walk sovrapposta a Fall.
+  → **Introdotto**: 2026-07-20 (cablaggio runtime AnimationTree, step 3)
+
+- **Caso**: `is_attacking` pilotato da `CombatComponent` via segnale `melee_attack_started` → `player.gd._on_melee_attack_started()` → `animation_tree_setup.gd.trigger_attack()`.
+  → **Comportamento**: `trigger_attack()` imposta `is_attacking=true`, attende ~0.05s (timer), poi resetta a `false`. La condition resta `true` solo per la durata dell'animazione attack nello state machine. Se il segnale non è connesso (es. `combat` null in `_load_rigged_model()`), l'attacco non transita e l'animazione attack non parte.
+  → **Si verifica se**: `combat_component.gd.melee_attack()` è chiamato (input attacco). Connessione stabilita in `player.gd._load_rigged_model()` dopo aver creato l'AnimationTree.
+  → **NON rimuovere**: la connessione segnale è l'unico trigger di `is_attacking`; non chiamare `trigger_attack()` da `_update_animation_state()` (quello pilota solo stati continui). Verificato headless: `trigger_attack()`→`is_attacking=true`→`false`; connessione `melee_attack_started`→`_on_melee_attack_started` confermata `true`.
+  → **Introdotto**: 2026-07-20 (cablaggio attacco AnimationTree, step 3 completamento)
+
 **API runtime attuale:**
 | Nome | Input | Output | Side Effect | Dipendenze |
 |------|-------|--------|-------------|------------|
@@ -294,6 +306,10 @@ func calculate_speed() -> float:
 | `update_state(input_dir)` | `Vector2` | `void` | Emette `state_changed` se cambia stato | Input Map |
 
 **Modifiche Recenti:**
+- **2026-07-20** `[FEAT]` `[P1]` `[player]`: cablaggio runtime AnimationTree in `player.gd._physics_process()` → `_update_animation_state()` — COMPLETATO (incl. `is_attacking`).
+  - **Impatto**: pilota le condition `is_moving`/`is_sprinting`/`in_air`/`is_dead` dell'AnimationTree da `MovementComponent.current_state` + stato player (`is_on_ground`, `is_dead`). `is_attacking` cablato da `CombatComponent`: `melee_attack_started` → `player.gd._on_melee_attack_started()` → `animation_tree_setup.gd.trigger_attack()`. Verificato headless: `is_sprinting=true` su `current_state=="sprint"`; `trigger_attack()`→`is_attacking=true`→`false`; connessione segnale confermata `true`.
+  - **Rischio**: basso — sola lettura di stato + trigger evento, nessun side effect su physics.
+  - **Edge case**: `is_moving` mascherato da `is_on_ground` (vedi sopra) per evitare Walk durante Fall. `is_attacking` è event-driven (segnale), NON in `_update_animation_state()`.
 - **2026-07-17** `[FIX]` `[P1]` `[player]`: rimosso `try_dash()` duplicato in `player.gd:_physics_process()` — causava doppia chiamata per frame, con potenziali race condition sullo stato dash.
   - **Impatto**: `Player` chiama `movement.try_dash()` una sola volta per frame.
   - **Rischio**: basso — rimozione di codice ridondante.

@@ -42,9 +42,9 @@ Se un worker non puo leggere questi file, non deve modificare il progetto.
 |------|-------|------|
 | Vision | stable | Pillars chiari: predatore, swarm horror, mobilita, brutalita |
 | Gameplay | draft | Meccaniche definite, tuning non validato |
-| Technical | parziale | Architettura definita. Wave 1/2: logica player/combat/frenesia/vfx PRESENTE. Wave 3: 4/8 moduli mancanti (enemy_base, spawn_manager, pool_manager, director). Animazione player NON cablata (player.tscn = BoxMesh placeholder) |
+| Technical | parziale | Architettura definita. Wave 1/2: logica player/combat/frenesia/vfx PRESENTE. Wave 1 animazione player COMPLETATA (player riggato 66 ossa + 6 anim montato in player.tscn, AnimationTree cablato — verificato 2026-07-20). Wave 3: 4/8 moduli mancanti (enemy_base, spawn_manager, pool_manager, director). |
 | AI | design | Codice FSM/utility_ai/boids/navigation PRESENTE, ma enemy_base + spawn/pool/director MANCANTI → swarm non funzionante |
-| Art | design | Reference visiva presente; mesh protagonista `chr_player_rigged.glb` esiste, non montato in player.tscn |
+| Art | parziale | Reference visiva presente; mesh protagonista `chr_player_rigged.glb` esiste + asset finale riggato `chr_player_rigged_anim.glb` montato in player.tscn (verificato 2026-07-20) |
 | Audio | design | Nessuna implementazione runtime ancora |
 | Production | draft | Roadmap macro presente, ora integrata con atomic roadmap |
 
@@ -56,10 +56,10 @@ Se un worker non puo leggere questi file, non deve modificare il progetto.
 |------|-------|----------------|
 | `project.godot` | active | Config Godot e input map iniziale |
 | `scripts/components/movement_component.gd` | active | Movimento orizzontale e stati locomotion |
-| `scripts/player/player.gd` | active | Player runtime (CharacterBody3D, movement/camera/health) — **NOTA: `Model` è BoxMesh placeholder, nessun skeleton/animazione cablato** |
+| `scripts/player/player.gd` | active | Player runtime (CharacterBody3D, movement/camera/health) — **`_load_rigged_model()` istanzia `chr_player_rigged_anim.glb` via codice e cabla `AnimationTreeSetup` all'AnimationPlayer del glb** |
 | `scripts/player/camera_controller.gd` | active | Camera runtime (follow + wall avoidance) |
 | `scripts/ui/hud_artery.gd` | active | HUD runtime (health/frenesia draw) |
-| `scenes/player/player.tscn` | active | Scena player — **NOTA: usa MeshInstance3D+BoxMesh placeholder, non chr_player_rigged.glb** |
+| `scenes/player/player.tscn` | active | Scena player — `Model` contiene il glb istanziato via `player.gd` (non BoxMesh placeholder) |
 | `scenes/test/test_level.tscn` | active | Scena test principale |
 
 > **[DRIFT-FIX] 2026-07-20 (P0)**: i 5 file sopra erano dichiarati `missing` ma esistono nel filesystem (verificato via glob + lettura). Corretto stato da `missing` → `active`. Lo stato "active" riflette l'esistenza del file, NON il completamento funzionale (vedi §3 e INTEGRATION-MAP §2 per lo stato reale delle wave).
@@ -83,7 +83,7 @@ Se un worker non puo leggere questi file, non deve modificare il progetto.
 |------|----------|------------|
 | Worker LLM salta dipendenze | P0 | Usare `AGENT-RUNBOOK.md` + atomic plans |
 | KB drift (file dichiarati missing ma esistenti / wave dichiarate completate ma incomplete) | P0 | `[DRIFT-FIX]` 2026-07-20: INDEX §4 + INTEGRATION-MAP §2 riconciliati vs filesystem reale |
-| Animazione player non cablata (player.tscn = BoxMesh placeholder, AnimationTreeSetup non istanziato) | P1 | Cablare `chr_player_rigged.glb` + AnimationTree in player.tscn (vedi piano animazione) |
+| Animazione player non cablata (player.tscn = BoxMesh placeholder, AnimationTreeSetup non istanziato) | P1 | **RISOLTO 2026-07-20**: `chr_player_rigged_anim.glb` montato in `player.tscn` via `player.gd._load_rigged_model()`, AnimationTree cablato. Verificato headless. Rimanente: cablaggio runtime condition (step 3, non bloccante). |
 | Wave 3 incompleta (enemy_base, spawn_manager, pool_manager, director mancanti) | P1 | Implementare i 4 moduli prima di Swarm Core exit gate |
 | Scope creep su combat/AI prima del controller | P0 | Bloccare tutto fuori Wave 1 finche Foundation Gate non passa |
 

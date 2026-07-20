@@ -126,10 +126,11 @@ graph TD
 
 ## 2. Wave Target Runtime Graphs
 
-### Wave 1 — Foundation (PARZIALE)
+### Wave 1 — Foundation (COMPLETATA)
 - **Logica presente**: `player.gd` (movement/camera/health), `movement_component.gd`, `camera_controller.gd`, `hud_artery.gd`, `test_level.tscn` — tutti con codice reale (verificato 2026-07-20).
-- **Mancante**: integrazione asset/animazione. `player.tscn` usa `MeshInstance3D`+`BoxMesh` placeholder; nessun `Skeleton3D`/`AnimationPlayer`/`AnimationTree` cablato. `AnimationTreeSetup` esiste ma non istanziato in scene reali.
-- **Exit gate**: NON superato (player non animato, è un cubo).
+- **Integrazione asset/animazione COMPLETATA (2026-07-20)**: `player.gd` istanzia via codice `scenes/player/chr_player_rigged_anim.glb` (Skeleton3D 66 ossa + AnimationPlayer 6 anim: idle/walk/run/jump/attack/death). `AnimationTreeSetup` (`scripts/player/animation_tree_setup.gd`) creato a runtime in `_load_rigged_model()` e cablato a `animation_player_node` (AnimationPlayer del glb). Verificato headless: AnimationTree `active=true`, 9 anim nello state machine (idle/walk/run/jump/attack/death + fallback fall/hit/alert), Skeleton3D 66 ossa.
+- **Nota montaggio**: l'istanza del glb in tscn via `instance=ExtResource` NON espande i nodi figli in Godot 4.7 (PlayerModel risultava vuoto). Soluzione: caricamento via codice in `player.gd._ready()` → `PLAYER_MODEL_GLB.instantiate()` + `model.add_child()`.
+- **Exit gate**: SUPERATO (player animato, skeleton + AnimationTree cablati). Rimanente: cablaggio runtime delle condition (is_moving/is_sprinting/in_air/is_attacking/is_dead) da movement→AnimationTree (Wave 1 step 3, non bloccante per il gate di Foundation).
 
 ### Wave 2 — Combat Feel (PARZIALE)
 - **Logica presente**: `combat_component.gd` (melee/nail/scream/grab), `frenesia_component.gd`, `procedural_animator.gd`, `blood_particles.gd`, `hit_flash.gd` — tutti con codice reale (verificato 2026-07-20).
@@ -199,7 +200,8 @@ graph TD
 
 | Asset | Scene Path | Rig Type | Tris LOD0 | Dipendenze Wave |
 |-------|------------|----------|-----------|-----------------|
-| `chr_player` | `scenes/player/chr_player_rigged.glb` | Humanoid (Rigify) | 22K | **Wave 1-2** (Movement, Combat) |
+| `chr_player` | `scenes/player/chr_player_rigged.glb` | Humanoid (mesh pulita, NON skinnata) | 48.8K vertici | **Wave 1-2** (sorgente mesh) |
+| `chr_player` (riggato+animato) | `scenes/player/chr_player_rigged_anim.glb` | Humanoid 66 ossa (mesh2motion/Mixamo, `UniRigArmature`) + 6 anim (idle/walk/run/jump/attack/death) | 48.8K vertici | **Wave 1-2** (Movement, Combat) — ASSET FINALE MONTATO IN `player.tscn` |
 | `chr_enemy_infantry` | `scenes/enemies/chr_enemy_infantry/` | Humanoid (Rigify) | 10K | Wave 4 (AW4.3) |
 | `chr_enemy_shield` | `scenes/enemies/chr_enemy_shield/` | Humanoid (Rigify) | 12K | Wave 4 (AW4.4) |
 | `chr_enemy_juggernaut` | `scenes/enemies/chr_enemy_juggernaut/` | Humanoid + exo bones | 28K | Wave 4 (AW4.7) |
@@ -263,6 +265,15 @@ Before merging a new runtime call:
 ---
 
 ## 7. Recent Changes
+
+- **2026-07-20** `[FEAT]` `[P1]` `[animation]`: Cablaggio runtime AnimationTree in `player.gd` (step 3) — COMPLETATO
+  - **Impatto**: `_update_animation_state()` in `_physics_process()` pilota `is_moving`/`is_sprinting`/`in_air`/`is_dead` da `MovementComponent` + stato player. Verificato headless: `is_sprinting=true` su `current_state="sprint"`. `is_attacking` cablato da `CombatComponent`: `combat_component.gd` emette `melee_attack_started` → `player.gd._on_melee_attack_started()` → `animation_tree_setup.gd.trigger_attack()` (pilota condition `is_attacking`). Verificato headless: `trigger_attack()`→`is_attacking=true`→`false`; connessione segnale confermata `true`.
+  - **Rischio**: basso. Vedi 03-TECHNICAL-BIBLE.md Edge Cases + DECISIONS-LOG D008.
+
+- **2026-07-20** `[FEAT]` `[P1]` `[animation]`: Player riggato + animato montato in `player.tscn`
+  - **Impatto**: `pipeline/rig_final.py` produce `scenes/player/chr_player_rigged_anim.glb` (Skeleton3D 66 ossa + skin weights + 6 anim via DataTransfer weights da `ProtagonistaRig_M2M.glb`). `player.gd._load_rigged_model()` istanzia il glb via codice e cabla `AnimationTreeSetup` all'AnimationPlayer. Verificato headless: AnimationTree `active=true`, 9 anim, Skeleton3D 66 ossa.
+  - **Rischio**: basso. Vedi DECISIONS-LOG D008.
+  - **Nota**: l'istanza tscn `instance=ExtResource` del glb non espande i nodi in Godot 4.7 → caricamento via codice obbligatorio.
 
 - **2026-07-20** `[FIX]` `[P1]` `[animation]`: `animation_tree_setup.gd` allineato a Godot 4.7
   - **Impatto**: rimosso `@onready` hardcoded su path inesistente; proprietà `animation_player_node` esportata (come `EnemyAnimationSetup`); `start_node` sostituito con `AnimationNodeStateMachinePlayback.start(&"Idle")` (API 4.7). Test `test_animation_system.gd` ora 68/68 passati, 0 SCRIPT ERROR.
