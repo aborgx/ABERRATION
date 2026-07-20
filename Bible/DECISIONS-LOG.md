@@ -164,9 +164,9 @@
 
 **Rationale:** `preload()`/`load()` su `.glb` crudo ritorna `GLTFDocument`/`Resource`, NON `PackedScene` → `.instantiate()` fallisce silenziosamente → `Model` vuoto → Godot mostra spinner di caricamento infinito. L'API `GLTFDocument` è l'unica via corretta per GLB runtime in Godot 4.7. Il fallback materiale evita il grigio raw (estetica, non bloccante).
 
-**Trade-off:** materiali ancora grigi (no PBR reale). Per materiali PBR serve modificare `pipeline/rig_final.py` per esportare i materiali dalla sorgente `chr_player_rigged.glb` (non ancora fatto). Funzionalità gameplay non impattata.
+**Trade-off (risolto 2026-07-20):** inizialmente materiali grigi (fallback). Poi `pipeline/rig_final.py` aggiornato per creare `chr_player_mat` (Principled BSDF) con texture da `Mesh/ProtagonistaRig_M2M_*` (basecolor/normal/rm) e assegnarlo a `chr_player` prima dell'export. GLB rigenerato (5.2 MB, 66 ossa, 6 anim, materiale PBR presente). Verificato headless: `chr_player_mat` presente, albedo (1,1,1,1), nessun fallback grigio. Funzionalità gameplay non impattata.
 
-**Reversibilità:** Alta. Il fix è solo in `player.gd`; il GLB resta invariato. Se si vuole PBR reale, si aggiorna il pipeline Blender separatamente.
+**Reversibilità:** Alta. Il fix è in `player.gd` (load runtime) + `rig_final.py` (materiale). Il GLB è rigenerabile. Se si vuole PBR diverso, si aggiorna il pipeline Blender separatamente.
 
 **Verifica:** headless `test_player_mount.gd` → GLB_INST ✓, ANIMPLAYER ✓, ANIMTREE active=true ✓, SKELETON 66 ossa ✓.
 

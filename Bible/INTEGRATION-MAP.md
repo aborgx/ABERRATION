@@ -279,8 +279,8 @@ Before merging a new runtime call:
   - **Impatto**: rimosso `@onready` hardcoded su path inesistente; proprietà `animation_player_node` esportata (come `EnemyAnimationSetup`); `start_node` sostituito con `AnimationNodeStateMachinePlayback.start(&"Idle")` (API 4.7). Test `test_animation_system.gd` ora 68/68 passati, 0 SCRIPT ERROR.
   - **Rischio**: basso. Vedi DECISIONS-LOG D007.
 
-- **2026-07-20** `[FIX]` `[P0]` `[player]`: caricamento GLB runtime corretto in `player.gd._load_rigged_model()`
-  - **Impatto**: rimosso `preload("...chr_player_rigged_anim.glb")` + `.instantiate()` (falliva silenziosamente: `.glb` non è `PackedScene` → `Model` vuoto → barra rossa caricamento infinita in editor, player assente). Ora usa `GLTFDocument.new()` + `GLTFState.new()` + `append_from_file()` + `generate_scene()` per istanziare il GLB a runtime. Aggiunto `_apply_fallback_materials()` (StandardMaterial3D grigio 0.6,0.65,0.7 per superfici senza materiale, dato che la mesh sorgente è untextured). Verificato headless: GLB istanziato, AnimationPlayer presente, AnimationTree active, Skeleton3D 66 ossa. Scene ora utilizzabili in editor.
+- **2026-07-20** `[FIX]` `[P0]` `[player]`: caricamento GLB runtime corretto + materiali PBR in `player.gd` / `pipeline/rig_final.py`
+  - **Impatto**: (1) `player.gd._load_rigged_model()` ora usa `GLTFDocument.new()` + `GLTFState.new()` + `append_from_file()` + `generate_scene()` per istanziare il GLB a runtime (fix loop caricamento infinito da `preload()` su `.glb`). (2) `pipeline/rig_final.py` ora crea `chr_player_mat` (Principled BSDF) con texture da `Mesh/ProtagonistaRig_M2M_*` (basecolor/normal/rm) e lo assegna a `chr_player` prima dell'export GLB. Verificato headless: GLB istanziato, AnimationPlayer presente, AnimationTree active, Skeleton3D 66 ossa, **materiale `chr_player_mat` presente (albedo 1,1,1, PBR reale, non fallback grigio)**. Scene utilizzabili in editor con player texturizzato.
   - **Rischio**: basso. Vedi 03-TECHNICAL-BIBLE.md Edge Cases (caricamento GLB runtime) + DECISIONS-LOG D009.
 
 - **2026-07-16** `[FEAT]` `[P0]` `[integration]`: Aggiornamento completo Integration Map per WAVE5/WAVE6 + Mesh Pipeline
