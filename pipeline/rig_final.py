@@ -226,10 +226,17 @@ def create_pbr_material(mesh: bpy.types.Object) -> None:
     log(f"    normal:    {img_norm.size[0]}x{img_norm.size[1]}")
     log(f"    rm:        {img_rm.size[0]}x{img_rm.size[1]}")
 
-    # Set Non-Color colorspace for normal and RM maps; basecolor stays sRGB.
-    for img, label in [(img_norm, "normal"), (img_rm, "rm")]:
+    # Explicitly set colorspace for all textures.
+    # Basecolor must be sRGB for correct PBR rendering (fixes muddy/dark appearance in Godot 4.7).
+    # Normal and RM maps must be Non-Color (raw data).
+    for img, label, cs in [
+        (img_base, "basecolor", "sRGB"),
+        (img_norm, "normal", "Non-Color"),
+        (img_rm, "rm", "Non-Color"),
+    ]:
         try:
-            img.colorspace_settings.name = "Non-Color"
+            img.colorspace_settings.name = cs
+            log(f"    {label} colorspace → {cs}")
         except Exception as e:
             log(f"    Warning: could not set colorspace on {label}: {e}")
 

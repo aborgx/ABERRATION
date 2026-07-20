@@ -237,6 +237,31 @@
 
 **Verifica:** headless `test_player_diag.gd` → camera local (0,0,0) (non dentro player), state machine vivo (`current_node=Fall` in headless per assenza floor; Idle con floor), nessun SCRIPT ERROR. In editor con floor: camera dietro/sopra, idle playa.
 
+---
+
+## 2026-07-20: D013 — Texture PBR + animazione runtime + zoom smoothing (fix P0 "rovinata/statica")
+
+**Contesto:** Dopo D012 l'utente riportava ancora: texture "totalmente rovinata" (muddy/dark, colori presenti ma sbagliati), "nessuna animazione" (player frozen in pose statica), "zoom di difficile gestione e malfunzionante" (mouse cursor visibile, zoom troppo sensibile). Screenshot confermava: humanoide caricato con texture muddy, pose rigida, camera terza persona OK ma zoom problematico.
+
+**Diagnosi (@explorer exp-6 + @observer obs-1 + @librarian lib-1):**
+- **Texture muddy**: `rig_final.py` caricava basecolor da `ProtagonistaRig_M2M_*_basecolor.jpg` ma NON impostava esplicitamente sRGB. In Godot 4.7 il basecolor deve essere sRGB o appare muddy/dark (color space mismatch). Normal/rm erano già Non-Color (corretto).
+- **Animazione assente**: `animation_tree_setup.gd` aveva `assert(animation_player_node != null)` (linea 42) → se `animation_player_node` non era impostato prima di `tree._ready()`, crash silenzioso o tree non costruito. Inoltre Godot 4.7 richiede `tree_root = null` prima di riassegnare il tree a runtime per registrare la nuova struttura. `player.gd` non impostava `tree.animation_player_node` prima di `model.add_child(tree)`.
+- **Zoom**: `zoom_speed=1.0` (1m per scroll, troppo coarse) + mouse non catturato (`Input.MOUSE_MODE_CAPTURED` mancante) → cursor visibile e zoom "malfunzionante".
+
+**Decisione:**
+- (1) `rig_final.py`: basecolor ora forzato `sRGB` (`img.colorspace_settings.name = 'sRGB'`). GLB `chr_player_rigged_anim.glb` re-esportato (3.6MB) con colorspace corretto.
+- (2) `animation_tree_setup.gd`: rimosso `assert` (ora `push_error` + `return null` se null), aggiunto `tree_root = null` prima di riassegnare (workaround Godot 4.7), fix 2 warning `add_blend_point` con nomi espliciti.
+- (3) `camera_controller.gd`: `zoom_speed` 1.0→0.5 (smoother).
+- (4) `player.gd._ready()`: `Input.mouse_mode = Input.MOUSE_MODE_CAPTURED` (cursor nascosto/catturato).
+
+**Rationale:** Il basecolor deve essere sRGB per PBR corretto in Godot 4.7. L'AnimationTree richiede `tree_root=null` + reassign per registrare il tree a runtime. Lo zoom smoother + mouse capture migliorano usabilità.
+
+**Trade-off:** nessuno. Camera shake preservato.
+
+**Reversibilità:** Alta (script + re-export GLB rigenerabile).
+
+**Verifica:** headless `test_player_diag.gd` → ANIMTREE active=true, 9 anim caricate, nessun SCRIPT ERROR. Blender pipeline conferma colorspace corretto (basecolor→sRGB, normal/rm→Non-Color). `test_camera_pos.gd` → OFFSET.z=6.0, nessun SCRIPT ERROR.
+
 
 **Verifica:** Blender headless (`verify_anim.py`) → ARMATURE 66 ossa, HAS_WEIGHTS=True, 6 NLA tracks. Godot headless → Skeleton3D 66 ossa, AnimationPlayer 6 anim, AnimationTree `active=true`.
 

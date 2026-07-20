@@ -12,7 +12,7 @@ extends Node3D
 @export var wall_avoidance_enabled: bool = true
 @export var min_distance: float = 2.0
 @export var max_distance: float = 12.0
-@export var zoom_speed: float = 1.0
+@export var zoom_speed: float = 0.5
 
 # --- Internal ---
 var camera: Camera3D

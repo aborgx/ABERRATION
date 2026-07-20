@@ -327,6 +327,25 @@ func calculate_speed() -> float:
   → **NON rimuovere**: le azioni input `zoom_in`/`zoom_out` in project.godot. Se rimosse → zoom non funziona.
   → **Introdotto**: 2026-07-20 (zoom camera, D012)
 
+- **Caso**: Texture player appaiono "rovinata/muddy/dark" in Godot nonostante il GLB abbia materiali PBR.
+  → **Comportamento**: `rig_final.py` caricava basecolor da `ProtagonistaRig_M2M_*_basecolor.jpg` ma NON impostava esplicitamente sRGB. In Godot 4.7 il basecolor deve essere sRGB o appare muddy/dark (color space mismatch). Normal/rm erano già Non-Color (corretto).
+  → **Fix (2026-07-20, D013)**: `rig_final.py` forza `img.colorspace_settings.name = 'sRGB'` su basecolor. GLB `chr_player_rigged_anim.glb` re-esportato (3.6MB) con colorspace corretto. Verificato Blender pipeline: basecolor→sRGB, normal/rm→Non-Color.
+  → **NON rimuovere**: il `colorspace_settings.name = 'sRGB'` su basecolor in `rig_final.py`. Se rimosso → texture muddy di nuovo.
+  → **Introdotto**: 2026-07-20 (fix texture PBR, D013)
+
+- **Caso**: Animazioni non partono in editor F5 nonostante GLB abbia AnimationPlayer + 6 anim (attack/death/idle/jump/run/walk).
+  → **Comportamento**: `animation_tree_setup.gd` aveva `assert(animation_player_node != null)` (linea 42) → se `animation_player_node` non era impostato prima di `tree._ready()`, crash silenzioso o tree non costruito. Inoltre Godot 4.7 richiede `tree_root = null` prima di riassegnare il tree a runtime per registrare la nuova struttura. `player.gd` non impostava `tree.animation_player_node` prima di `model.add_child(tree)`.
+  → **Fix (2026-07-20, D013)**: `animation_tree_setup.gd` rimosso `assert` (ora `push_error` + `return null` se null), aggiunto `tree_root = null` prima di riassegnare (workaround Godot 4.7), fix 2 warning `add_blend_point` con nomi espliciti. Verificato headless: ANIMTREE active=true, 9 anim caricate, nessun SCRIPT ERROR.
+  → **NON rimuovere**: il `tree_root = null` prima di riassegnare il tree in `animation_tree_setup.gd`. Se rimosso → tree non si registra a runtime → no animazione.
+  → **Introdotto**: 2026-07-20 (fix animazione runtime, D013)
+
+- **Caso**: Zoom "di difficile gestione e malfunzionante" + mouse cursor visibile in-game.
+  → **Comportamento**: `zoom_speed=1.0` (1m per scroll, troppo coarse) + mouse non catturato (`Input.MOUSE_MODE_CAPTURED` mancante) → cursor visibile e zoom poco fluido.
+  → **Fix (2026-07-20, D013)**: `camera_controller.gd` `zoom_speed` 1.0→0.5 (smoother). `player.gd._ready()` aggiunge `Input.mouse_mode = Input.MOUSE_MODE_CAPTURED` (cursor nascosto/catturato). Verificato headless: OFFSET.z=6.0, nessun SCRIPT ERROR.
+  → **NON rimuovere**: il `Input.mouse_mode = Input.MOUSE_MODE_CAPTURED` in `player.gd._ready()`. Se rimosso → cursor visibile di nuovo.
+  → **Introdotto**: 2026-07-20 (zoom smoothing + mouse capture, D013)
+af13
+
 **API runtime attuale:**
 | Nome | Input | Output | Side Effect | Dipendenze |
 |------|-------|--------|-------------|------------|

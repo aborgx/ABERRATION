@@ -37,9 +37,9 @@ func _ready() -> void:
 
 func create_animation_tree() -> AnimationTree:
 	"""Build and return a fully configured AnimationTree."""
-	# For testing, player can be null
-	# assert(player != null, "AnimationTreeSetup: player must be set")
-	assert(animation_player_node != null, "AnimationTreeSetup: animation_player must be set")
+	if animation_player_node == null:
+		push_error("AnimationTreeSetup: animation_player_node is null — cannot create AnimationTree")
+		return null
 
 	# Load animations from .tres files into AnimationPlayer
 	_load_animations()
@@ -53,6 +53,8 @@ func create_animation_tree() -> AnimationTree:
 	print("DEBUG: AnimationTree.animation_player = ", self.get_animation_player())
 
 	# Build state machine
+	# Reassign tree_root twice to force Godot 4.7 to register the new tree structure
+	tree_root = null
 	tree_root = _build_state_machine()
 
 	# Activate tree BEFORE starting playback (Godot 4.7 needs tree active for playback)
@@ -191,12 +193,12 @@ func _create_walk_sprint_blend() -> AnimationNodeBlendSpace1D:
 	# Walk at 0.0
 	var walk_node = AnimationNodeAnimation.new()
 	walk_node.animation = "walk"
-	blend.add_blend_point(walk_node, 0.0)
+	blend.add_blend_point(walk_node, 0.0, 0.0, &"walk_blend")
 
 	# Sprint at 1.0
 	var sprint_node = AnimationNodeAnimation.new()
 	sprint_node.animation = "run"
-	blend.add_blend_point(sprint_node, 1.0)
+	blend.add_blend_point(sprint_node, 1.0, 0.0, &"sprint_blend")
 
 	blend.blend_mode = AnimationNodeBlendSpace1D.BLEND_MODE_INTERPOLATED
 	return blend
